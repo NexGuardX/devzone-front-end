@@ -1,0 +1,36 @@
+{
+  "root": true,
+  "settings": {},
+  "env": {
+    "browser": true, // Enables browser globals like window and document
+    "amd": true, // Enables require() and define() as global variables as per the amd spec.
+    "node": true, // Enables Node.js global variables and Node.js scoping.
+    "jest/globals": true,
+    "es2021": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020, // Use the latest ecmascript standard
+    "sourceType": "module", // Allows using import/export statements
+    "ecmaFeatures": {
+      "jsx": true // Enable JSX since we're using React
+    }
+  },
+  "extends": [
+    "airbnb",
+    "prettier",
+    "plugin:testing-library/react",
+    "plugin:jest/recommended"
+  ],
+  "plugins": ["prettier", "react", "react-hooks", "testing-library", "jest"],
+  "rules": {
+    "import/prefer-default-export": "warn", // Prefer default export if module exports a single name
+    "import/no-unresolved": "error", // Ensure import file/module that can be resolved
+    "no-console": "warn", // Disallow use of console
+    "no-undefined": "error", // Disallow the use of undefined as an identifier
+    "no-unused-vars": "warn", // Disallow unused variables
+    "prettier/prettier": ["warn", {}, { "usePrettierrc": true }], // Use .prettierrc file as source
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }], // To allow importing .jsx files
+    "react/jsx-uses-vars": "error", // Disallow variables used in JSX to be incorrectly marked as unused (no-unused-vars dependency)
+    "react/react-in-jsx-scope": "off" // Disallow missing React when using JSX
+  }
+}
