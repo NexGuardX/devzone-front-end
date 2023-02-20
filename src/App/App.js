@@ -1,5 +1,7 @@
 import { Outlet, Route, Routes } from 'react-router-dom';
+import Login from '../components/Login';
 import SideBar from '../components/SideBar';
+import SignUp from '../components/SignUp';
 import './App.css';
 
 function App() {
@@ -8,8 +10,22 @@ function App() {
       <div>NAVBAR</div>
       <Routes>
         <Route path="/" element={<div>HOME</div>} />
-        <Route path="/login" element={<div>LOGIN</div>} />
-        <Route path="/signup" element={<div>SIGNUP</div>} />
+        <Route
+          path="/login"
+          element={
+            <div>
+              <Login />
+            </div>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <div>
+              <SignUp />
+            </div>
+          }
+        />
         <Route
           path="/app"
           element={
