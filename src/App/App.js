@@ -1,4 +1,5 @@
 import { Outlet, Route, Routes } from 'react-router-dom';
+import SideBar from '../components/SideBar';
 import './App.css';
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
           path="/app"
           element={
             <div>
-              SIDEBAR
+              <SideBar />
               <Outlet />
             </div>
           }
