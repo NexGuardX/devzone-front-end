@@ -1,10 +1,22 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Editor from '../MonacoEditor/MonacoEditor';
 import ConsoleOutput from './ConsoleOutput/ConsoleOutput';
 
 export default function PlaygroundJs() {
   const [code, setCode] = useState('// Hello');
+  const [codeToExecute, setCodeToExecute] = useState('');
+
+  // Delay execution of Code to let user finish typing
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setCodeToExecute(code);
+    }, 600);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [code]);
+
   return (
     <Flex
       flexDirection={{ base: 'column', md: 'row' }}
@@ -16,7 +28,7 @@ export default function PlaygroundJs() {
       </Box>
 
       <Box flexGrow="1" bg="gray">
-        <ConsoleOutput code={code} />
+        <ConsoleOutput code={codeToExecute} />
       </Box>
     </Flex>
   );

@@ -3,6 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 import './style.scss';
 
+/**
+ * React Component that executes javascript code in a sandboxed iframe
+ * and displays console outputs
+ * CODE => IFRAME =>
+ * @param {object} props - Component props
+ * @param {string} code - Code to execute
+ * @returns {JSX.elements} React Component
+ */
 function ConsoleOutput({ code }) {
   const outputRef = useRef(null);
   const [consoleLog, setConsoleLog] = useState([]);
@@ -14,6 +22,7 @@ function ConsoleOutput({ code }) {
     }
     if (e.data?.error || e.data.error === null) {
       setConsoleError(e.data?.error);
+      if (e.data?.error) setConsoleLog([]);
     }
   };
 
