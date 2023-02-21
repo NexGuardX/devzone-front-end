@@ -1,6 +1,9 @@
+import { Box, Flex } from '@chakra-ui/react';
 import { Outlet, Route, Routes } from 'react-router-dom';
+import Login from '../components/Login';
+import SideBar from '../components/SideBar';
+import SignUp from '../components/SignUp';
 import NavBar from '../components/NavBar';
-
 import './App.css';
 
 function App() {
@@ -9,15 +12,31 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<div>HOME</div>} />
-        <Route path="/login" element={<div>LOGIN</div>} />
-        <Route path="/signup" element={<div>SIGNUP</div>} />
+        <Route
+          path="/login"
+          element={
+            <div>
+              <Login />
+            </div>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <div>
+              <SignUp />
+            </div>
+          }
+        />
         <Route
           path="/app"
           element={
-            <div>
-              SIDEBAR
-              <Outlet />
-            </div>
+            <Flex>
+              <SideBar />
+              <Box flexGrow="1">
+                <Outlet />
+              </Box>
+            </Flex>
           }
         >
           <Route index element={<div>WELCOME APP(NEWS)</div>} />
