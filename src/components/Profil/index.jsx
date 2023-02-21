@@ -1,13 +1,9 @@
-import { Container, Image } from '@chakra-ui/react';
+import { Center } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 function Profil() {
   const user = useSelector((state) => state.user);
-  return (
-    <Container>
-      <Image src={user.avatar} alt={user.username} />
-    </Container>
-  );
+  return <Center w="full" border="3px solid black" flexDirection="column" />;
 }
 
 export default Profil;
