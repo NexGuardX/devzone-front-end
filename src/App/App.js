@@ -1,4 +1,5 @@
 import { Outlet, Route, Routes } from 'react-router-dom';
+import PlaygroundJs from '../components/PlaygroundJs/PlaygroundJs';
 import './App.css';
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
           <Route index element={<div>WELCOME APP(NEWS)</div>} />
           <Route path="news" element={<div>NEWS</div>} />
           <Route path="search" element={<div>SEARCH</div>} />
-          <Route path="playground" element={<div>PLAYGROUND</div>} />
+          <Route path="playground" element={<PlaygroundJs />} />
         </Route>
       </Routes>
     </div>
