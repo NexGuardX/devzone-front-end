@@ -3,12 +3,13 @@ import { Outlet, Route, Routes } from 'react-router-dom';
 import Login from '../components/Login';
 import SideBar from '../components/SideBar';
 import SignUp from '../components/SignUp';
+import NavBar from '../components/NavBar';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <div>NAVBAR</div>
+      <NavBar />
       <Routes>
         <Route path="/" element={<div>HOME</div>} />
         <Route
