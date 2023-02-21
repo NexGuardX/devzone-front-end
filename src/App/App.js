@@ -1,4 +1,5 @@
 import { Outlet, Route, Routes } from 'react-router-dom';
+import Home from '../components/Home/Home';
 import './App.css';
 
 function App() {
@@ -6,7 +7,7 @@ function App() {
     <div className="App">
       <div>NAVBAR</div>
       <Routes>
-        <Route path="/" element={<div>HOME</div>} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<div>LOGIN</div>} />
         <Route path="/signup" element={<div>SIGNUP</div>} />
         <Route
