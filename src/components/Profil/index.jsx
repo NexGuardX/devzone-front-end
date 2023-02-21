@@ -1,15 +1,14 @@
-import { Box, Heading, IconButton, Img } from '@chakra-ui/react';
+import { Box, Flex, Heading, IconButton, Img } from '@chakra-ui/react';
 import { RxClipboardCopy } from 'react-icons/rx';
 import { useSelector } from 'react-redux';
 import Description from './Description';
+import ToolSelector from './ToolSelector';
 
 function Profil() {
   const user = useSelector((state) => state.user);
-  const tools = useSelector((state) => state.tools);
-
-  console.log(tools);
+  const tools = useSelector((state) => state.tools.tools);
   return (
-    <Box>
+    <Box textAlign="center">
       <Heading as="h1" margin="1.5rem">
         PROFILE
       </Heading>
@@ -30,11 +29,11 @@ function Profil() {
       </Heading>
 
       <Description user={user} />
-
-      {
-        // Faire un map des tools
-      }
-      {/* <ToolSelector /> */}
+      <Flex flexDirection="column">
+        {tools.map((tool) => (
+          <ToolSelector key={tool.id} tool={tool} userTools={user.tools} />
+        ))}
+      </Flex>
     </Box>
   );
 }
