@@ -1,5 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { Outlet, Route, Routes } from 'react-router-dom';
+import Home from '../components/Home/Home';
 import Login from '../components/Login';
 import SideBar from '../components/SideBar';
 import SignUp from '../components/SignUp';
@@ -11,7 +12,9 @@ function App() {
     <div className="App">
       <NavBar />
       <Routes>
-        <Route path="/" element={<div>HOME</div>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<div>LOGIN</div>} />
+        <Route path="/signup" element={<div>SIGNUP</div>} />
         <Route
           path="/login"
           element={
