@@ -1,6 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 import Editor from '../MonacoEditor/MonacoEditor';
+import ConsoleOutput from './ConsoleOutput/ConsoleOutput';
 
 export default function PlaygroundJs() {
   const [code, setCode] = useState('// Hello');
@@ -15,7 +16,7 @@ export default function PlaygroundJs() {
       </Box>
 
       <Box flexGrow="1" bg="gray">
-        OUTPUT
+        <ConsoleOutput code={code} />
       </Box>
     </Flex>
   );
