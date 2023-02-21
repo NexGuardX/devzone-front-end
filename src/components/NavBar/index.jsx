@@ -11,17 +11,21 @@ import {
   MenuList,
 } from '@chakra-ui/react';
 import { RxHamburgerMenu, RxPerson } from 'react-icons/rx';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import logo from '../../assets/images/devzone.png';
+import logodevzone from '../../assets/images/devzone.png';
+import logodz from '../../assets/images/logo-dz.png';
 
 function NavBar() {
+  const user = useSelector((state) => state.user.username);
+
   return (
     <Flex justifyContent="space-between">
       <Menu>
         <MenuButton
           as={IconButton}
           aria-label="Menu application"
-          display={{ base: 'block', lg: 'none' }}
+          display={{ base: 'block', md: 'none' }}
           w="100%"
           h="70px"
         >
@@ -51,56 +55,71 @@ function NavBar() {
 
       {/* DESTKOP & GRAND ECRAN */}
       <Menu>
-        <Button w="100%" h="70px" display={{ base: 'none', lg: 'block' }}>
+        <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
           <NavLink to="/">HOME</NavLink>
         </Button>
-        <Button w="100%" h="70px" display={{ base: 'none', lg: 'block' }}>
+        <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
           <NavLink to="/app">APP</NavLink>
         </Button>
       </Menu>
 
       <Button w="100%" h="70px">
         <NavLink to="/app">
-          <Img src={logo} h="70px" />
+          <Img src={logodevzone} h="70px" display={{ base: 'none', md: 'block' }} />
+          <Img src={logodz} h="70px" display={{ base: 'block', md: 'none' }} />
         </NavLink>
       </Button>
 
       {/* MOBILE & TABLETTE */}
-      <Menu>
-        <MenuButton
-          as={IconButton}
-          aria-label="Menu application"
-          display={{ base: 'block', lg: 'none' }}
-          w="100%"
-          h="70px"
-        >
-          <Center>
-            <RxPerson size="2rem" />
-          </Center>
-        </MenuButton>
-        <MenuList>
-          <MenuItem>
-            <NavLink to="/">DevZone</NavLink>
-          </MenuItem>
-          <MenuItem>
-            <NavLink to="/login">LOGIN</NavLink>
-          </MenuItem>
-          <MenuItem>
-            <NavLink to="/signup">SIGNUP</NavLink>
-          </MenuItem>
-          <CloseButton />
-        </MenuList>
-      </Menu>
+
+      {user ? (
+        <Button w="100%" h="70px" display={{ base: 'block', md: 'none' }}>
+          <NavLink to="/profil">Welcome {user} !</NavLink>
+        </Button>
+      ) : (
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label="Menu application"
+            display={{ base: 'block', md: 'none' }}
+            w="100%"
+            h="70px"
+          >
+            <Center>
+              <RxPerson size="2rem" />
+            </Center>
+          </MenuButton>
+          <MenuList>
+            <MenuItem>
+              <NavLink to="/app">DevZone</NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink to="/login">LOGIN</NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink to="/signup">SIGNUP</NavLink>
+            </MenuItem>
+            <CloseButton />
+          </MenuList>
+        </Menu>
+      )}
 
       {/* DESTKOP & GRAND ECRAN */}
-      <Menu>
-        <Button w="100%" h="70px" display={{ base: 'none', lg: 'block' }}>
-          <NavLink to="/login">LOGIN</NavLink>
+
+      {user ? (
+        <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
+          <NavLink to="/profil">Welcome {user} !</NavLink>
         </Button>
-        <Button w="100%" h="70px" display={{ base: 'none', lg: 'block' }}>
-          <NavLink to="/signup">SIGNUP</NavLink>
-        </Button>
-      </Menu>
+      ) : (
+        <Menu>
+          <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
+            <NavLink to="/login">LOGIN</NavLink>
+          </Button>
+          <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
+            <NavLink to="/signup">SIGNUP</NavLink>
+          </Button>
+        </Menu>
+      )}
     </Flex>
   );
 }
