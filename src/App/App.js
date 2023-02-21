@@ -1,3 +1,4 @@
+import { Box, Flex } from '@chakra-ui/react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import Login from '../components/Login';
 import SideBar from '../components/SideBar';
@@ -29,10 +30,12 @@ function App() {
         <Route
           path="/app"
           element={
-            <div>
+            <Flex>
               <SideBar />
-              <Outlet />
-            </div>
+              <Box flexGrow="1">
+                <Outlet />
+              </Box>
+            </Flex>
           }
         >
           <Route index element={<div>WELCOME APP(NEWS)</div>} />

@@ -1,26 +1,31 @@
-import { Box, LinkBox, LinkOverlay, SimpleGrid } from '@chakra-ui/react';
-
-import './style.scss';
+import { Button, Wrap, WrapItem } from '@chakra-ui/react';
+import { NavLink } from 'react-router-dom';
 
 function SideBar() {
   return (
-    <SimpleGrid className="sideBar" flexDirection="column" spacing="8" p="10" textAlign="center">
-      <LinkBox>
-        <Box boxShadow="lg" p="6" rounded="md" bg="white">
-          <LinkOverlay href="#">News</LinkOverlay>
-        </Box>
-      </LinkBox>
-      <LinkBox>
-        <Box boxShadow="lg" p="6" rounded="md" bg="white">
-          <LinkOverlay href="#">Search</LinkOverlay>
-        </Box>
-      </LinkBox>
-      <LinkBox>
-        <Box boxShadow="lg" p="6" rounded="md" bg="white">
-          <LinkOverlay href="#">PlayGround</LinkOverlay>
-        </Box>
-      </LinkBox>
-    </SimpleGrid>
+    <Wrap spacing="6" direction="column" display={{ base: 'none', md: 'block' }} p="10">
+      <WrapItem>
+        <NavLink to="/app/news">
+          <Button justifyContent="start" w="150px">
+            NEWS
+          </Button>
+        </NavLink>
+      </WrapItem>
+      <WrapItem>
+        <NavLink w="130px" to="/app/search">
+          <Button justifyContent="start" w="150px">
+            SEARCH
+          </Button>
+        </NavLink>
+      </WrapItem>
+      <WrapItem>
+        <NavLink to="/app/playground">
+          <Button justifyContent="start" w="150px">
+            PLAYGROUND
+          </Button>
+        </NavLink>
+      </WrapItem>
+    </Wrap>
   );
 }
 

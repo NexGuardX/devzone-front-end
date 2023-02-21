@@ -1,6 +1,4 @@
 /* eslint-disable no-shadow */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-// eslint-disable-next-line import/no-unresolved
 
 import {
   Box,
@@ -12,14 +10,14 @@ import {
   HStack,
   Input,
   InputGroup,
-  InputRightElement,
-  Link,
-  Stack,
+  InputRightElement, Stack,
   Text,
+  // eslint-disable-next-line prettier/prettier
   useColorModeValue
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
+import { NavLink } from 'react-router-dom';
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -40,18 +38,10 @@ export default function SignUp() {
         <Box rounded="lg" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
           <Stack spacing={4}>
             <HStack>
-              <Box>
-                <FormControl id="firstName">
-                  <FormLabel>First Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-              <Box>
-                <FormControl id="lastName">
-                  <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
+              <FormControl id="pseudo">
+                <FormLabel>Pseudo</FormLabel>
+                <Input type="text" />
+              </FormControl>
             </HStack>
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
@@ -66,7 +56,7 @@ export default function SignUp() {
                     variant="ghost"
                     onClick={() => setShowPassword((showPassword) => !showPassword)}
                   >
-                    {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
+                    {showPassword ? <IoEyeOutline size="2rem" /> : <IoEyeOffOutline size="2rem" />}
                   </Button>
                 </InputRightElement>
               </InputGroup>
@@ -87,9 +77,9 @@ export default function SignUp() {
             <Stack pt={6}>
               <Text align="center">
                 Already a user?{' '}
-                <Link color="blue.400" href="../Login">
+                <NavLink color="blue.400" to="/login">
                   Login
-                </Link>
+                </NavLink>
               </Text>
             </Stack>
           </Stack>
