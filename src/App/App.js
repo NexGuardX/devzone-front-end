@@ -1,4 +1,5 @@
 import { Outlet, Route, Routes } from 'react-router-dom';
+import Profil from '../components/Profil';
 import './App.css';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
         <Route path="/" element={<div>HOME</div>} />
         <Route path="/login" element={<div>LOGIN</div>} />
         <Route path="/signup" element={<div>SIGNUP</div>} />
+        <Route path="/profil" element={<Profil />} />
         <Route
           path="/app"
           element={
