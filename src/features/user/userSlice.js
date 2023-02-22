@@ -20,6 +20,24 @@ export const userSlice = createSlice({
     setUsername: (state, action) => {
       state.username = action.payload;
     },
+    setUserInformations: (state, action) => {
+      state = action.payload;
+    },
+    setLastname: (state, action) => {
+      state.lastname = action.payload;
+    },
+    setFirstname: (state, action) => {
+      state.firstname = action.payload;
+    },
+    setWebsite: (state, action) => {
+      state.website = action.payload;
+    },
+    setEmail: (state, action) => {
+      state.email = action.payload;
+    },
+    setDescription: (state, action) => {
+      state.description = action.payload;
+    },
     setToolsUser: (state, action) => {
       state.tools = action.payload;
     },
@@ -30,4 +48,14 @@ export const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { setUsername, setToolsUser, removeToolsUser } = userSlice.actions;
+export const {
+  setUsername,
+  setToolsUser,
+  removeToolsUser,
+  setLastname,
+  setFirstname,
+  setWebsite,
+  setEmail,
+  setDescription,
+  setUserInformations,
+} = userSlice.actions;
