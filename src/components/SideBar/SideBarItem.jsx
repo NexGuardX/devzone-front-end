@@ -16,7 +16,7 @@ export default function SideBarItem({ icon, text, to }) {
 }
 
 SideBarItem.propTypes = {
-  icon: PropTypes.node.isRequired,
+  icon: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
 };

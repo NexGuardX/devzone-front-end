@@ -6,13 +6,14 @@ import {
   FormLabel,
   Heading,
   Input,
+  Spinner,
   Textarea,
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import { useEffect, useRef, useState } from 'react';
 import { GrSend } from 'react-icons/gr';
+import Reaptcha from 'reaptcha';
 
 const { REACT_APP_RECAPTCHA_V2_KEY } = process.env;
 const initContactForm = () => ({
@@ -23,9 +24,16 @@ const initContactForm = () => ({
 
 export default function Contact() {
   const [form, setForm] = useState(initContactForm);
-  const [captcha, setCaptcha] = useState(false);
+  const [captcha, setCaptcha] = useState(0);
   const formRef = useRef();
+  const focusRef = useRef();
+  const captchaRef = useRef();
   const toast = useToast();
+
+  // Focus on first form input at first render of component
+  useEffect(() => {
+    focusRef.current.focus();
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -43,7 +51,12 @@ export default function Contact() {
         isClosable: true,
       });
     }
+    // Reset Form
     setForm(initContactForm());
+
+    // Reset Captcha
+    captchaRef.current.reset();
+
     return toast({
       title: 'TODO...',
       description: 'Your message has (not) been sent yet',
@@ -65,7 +78,13 @@ export default function Contact() {
             <Heading as="h1">Contact us</Heading>
             <FormControl isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" name="email" value={form?.email} onChange={handleChange} />
+              <Input
+                ref={focusRef}
+                type="email"
+                name="email"
+                value={form?.email}
+                onChange={handleChange}
+              />
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Subject</FormLabel>
@@ -80,7 +99,21 @@ export default function Contact() {
                 onChange={handleChange}
               />
             </FormControl>
-            <ReCAPTCHA sitekey={REACT_APP_RECAPTCHA_V2_KEY} onChange={handleCaptcha} />,
+            <Reaptcha
+              sitekey={REACT_APP_RECAPTCHA_V2_KEY}
+              ref={captchaRef}
+              onVerify={handleCaptcha}
+              onLoad={() => setCaptcha(null)}
+            />
+            {captcha === 0 && (
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+            )}
             <Button rightIcon={<GrSend />} type="submit">
               Send
             </Button>
