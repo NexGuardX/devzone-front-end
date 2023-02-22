@@ -15,12 +15,7 @@
       "jsx": true // Enable JSX since we're using React
     }
   },
-  "extends": [
-    "airbnb",
-    "prettier",
-    "plugin:testing-library/react",
-    "plugin:jest/recommended"
-  ],
+  "extends": ["airbnb", "prettier", "plugin:testing-library/react", "plugin:jest/recommended"],
   "plugins": ["prettier", "react", "react-hooks", "testing-library", "jest"],
   "rules": {
     "import/prefer-default-export": "warn", // Prefer default export if module exports a single name
