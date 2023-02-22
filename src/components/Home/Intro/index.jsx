@@ -13,7 +13,7 @@ export default function Intro() {
       justifyContent={{ base: 'center', md: 'space-around' }}
       alignItems="center"
       mb="2rem"
-      minH="80vh"
+      minH="80dvh"
     >
       <Image maxWidth="350px" objectFit="cover" src={logo} alt="logo" />
       <Box textAlign={{ base: 'center', md: 'left' }}>

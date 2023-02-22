@@ -10,7 +10,7 @@ import {
   Input,
   Link,
   Stack,
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 export default function Login() {

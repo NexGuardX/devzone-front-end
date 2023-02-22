@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import Intro from './Intro/Intro';
+import Intro from './Intro';
 
 export default function Home() {
   return (

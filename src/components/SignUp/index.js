@@ -10,10 +10,11 @@ import {
   HStack,
   Input,
   InputGroup,
-  InputRightElement, Stack,
+  InputRightElement,
+  Stack,
   Text,
   // eslint-disable-next-line prettier/prettier
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
