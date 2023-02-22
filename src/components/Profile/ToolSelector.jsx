@@ -9,33 +9,13 @@ function ToolSelector({ tool, userTools }) {
 
   const findTools = userTools.find((userTool) => userTool === tool.id);
 
-  // if (findTools.length === 0) {
-  //   console.log('findTools is empty');
-  // } else {
-  //   console.log('findTools has', findTools.length);
-  // }
-
-  // const handleRemoveTool = () => {
-  //   // je filtre les Tools désactivé pour enlever du state celui que l'utilisateur active
-  //   const newTools = userTools.filter((userTool) => userTool !== tool.id);
-  //   dispatch(removeToolsUser(newTools));
-  // };
-
-  // const handleAddTool = () => {
-  //   // J'ajoute le tool au state pour le désactiver
-  //   // const newTools = userTools.push(tool.id);
-  //   console.log('userTools', userTools);
-  //   console.log('tool.id', tool.id);
-  //   // console.log('newTools', newTools);
-  //   dispatch(setToolsUser(tool.id));
-  // };
-
   const handleSwitchChange = () => {
     if (findTools) {
+      // if the tool is found in the user's state, filter makes new array without the selected tool
       const newTools = userTools.filter((userTool) => userTool !== tool.id);
       dispatch(removeToolsUser(newTools));
     } else if (!findTools) {
-      console.log('ajoute le tool', tool.id);
+      // if tool is not in the user's state, add it
       const newTools = [...userTools, tool.id];
       dispatch(setToolsUser(newTools));
     }
@@ -47,8 +27,9 @@ function ToolSelector({ tool, userTools }) {
       p="0.5rem 2rem"
       marginX="1rem"
       borderBottom="1px solid #ddd"
+      w={{ base: '100%', md: '60%' }}
     >
-      <Img src={tool.logo} w="30px" />
+      <Img src={tool.logo} w={{ base: '30px', md: '40px' }} />
       <FormLabel value={tool.id}>{tool.name}</FormLabel>
       {findTools ? (
         <Switch onChange={handleSwitchChange} value={tool.id} isInvalid />
