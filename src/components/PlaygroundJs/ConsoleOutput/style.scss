@@ -1,0 +1,40 @@
+.console-output {
+  color: white;
+  float: left;
+  overflow-wrap: break-word;
+  white-space: normal;
+  overflow-y: scroll;
+  width: 100%;
+  height: 100%;
+  font-family: 'Courier New', monospace;
+  padding: 10px;
+  pre {
+    font: inherit;
+    white-space: pre-wrap;
+  }
+  &__run {
+    display: none;
+  }
+  &__type {
+    color: #d72ed2;
+    font-weight: bold;
+  }
+  &__error {
+    color: red;
+  }
+  &__log--message {
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid #ddd2;
+  }
+  &__log--date {
+    padding: 4px 1rem 0 0;
+    color: #56bac4;
+    font-size: 0.7em;
+  }
+}
+
+.console-output {
+  background-color: #222;
+  right: 0;
+}
