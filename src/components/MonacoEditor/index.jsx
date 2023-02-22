@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
 import Editor from '@monaco-editor/react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 export default function MonacoEditor({ language, code, setCode }) {
   const handleEditorChange = (codeValue) => {
@@ -21,8 +20,13 @@ export default function MonacoEditor({ language, code, setCode }) {
   );
 }
 
-// MonacoEditor.propTypes = {
-//   language: PropTypes.string.isRequired,
-//   code: PropTypes.string,
-//   setCode: PropTypes.func,
-// };
+MonacoEditor.propTypes = {
+  language: PropTypes.string.isRequired,
+  code: PropTypes.string,
+  setCode: PropTypes.func,
+};
+
+MonacoEditor.defaultProps = {
+  code: '',
+  setCode: () => null,
+};
