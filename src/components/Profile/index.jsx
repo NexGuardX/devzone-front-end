@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import Description from './Description';
 import ToolSelector from './ToolSelector';
 
-function Profil() {
+function Profile() {
   const user = useSelector((state) => state.user);
   const tools = useSelector((state) => state.tools.tools);
   return (
@@ -38,4 +38,4 @@ function Profil() {
   );
 }
 
-export default Profil;
+export default Profile;

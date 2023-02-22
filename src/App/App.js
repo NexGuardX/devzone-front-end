@@ -4,7 +4,7 @@ import Home from '../components/Home';
 import Login from '../components/Login';
 import NavBar from '../components/NavBar';
 import PlaygroundJs from '../components/PlaygroundJs';
-import Profil from '../components/Profil';
+import Profile from '../components/Profile';
 import SideBar from '../components/SideBar';
 import SignUp from '../components/SignUp';
 import './App.css';
@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<div>LOGIN</div>} />
         <Route path="/signup" element={<div>SIGNUP</div>} />
-        <Route path="/profil" element={<Profil />} />
+        <Route path="/profile" element={<Profile />} />
         <Route
           path="/login"
           element={

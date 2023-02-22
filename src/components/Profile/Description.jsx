@@ -28,7 +28,13 @@ function Description({ user }) {
 }
 
 Description.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    firstname: PropTypes.string,
+    lastname: PropTypes.string,
+    website: PropTypes.string,
+    description: PropTypes.string,
+  }).isRequired,
 };
 
 export default Description;

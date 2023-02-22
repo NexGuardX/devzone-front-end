@@ -26,8 +26,11 @@ export const userSlice = createSlice({
     removeToolsUser: (state, action) => {
       state.tools = action.payload;
     },
+    setEmail: (state, action) => {
+      state.email = action.payload;
+    },
   },
 });
 
 export default userSlice.reducer;
-export const { setUsername, setToolsUser, removeToolsUser } = userSlice.actions;
+export const { setUsername, setToolsUser, removeToolsUser, setEmail } = userSlice.actions;

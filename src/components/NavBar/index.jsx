@@ -75,7 +75,7 @@ function NavBar() {
 
       {user ? (
         <Button minW="100px" w="100%" h="70px" display={{ base: 'block', md: 'none' }}>
-          <NavLink to="/profil">{user}</NavLink>
+          <NavLink to="/profile">{user}</NavLink>
         </Button>
       ) : (
         <Menu>
@@ -109,7 +109,7 @@ function NavBar() {
 
       {user ? (
         <Button minW="300px" w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
-          <NavLink to="/profil">Welcome {user} !</NavLink>
+          <NavLink to="/profile">Welcome {user} !</NavLink>
         </Button>
       ) : (
         <Menu>
