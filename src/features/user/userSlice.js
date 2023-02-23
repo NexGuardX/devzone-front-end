@@ -2,15 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  username: 'jojoLesBiscotos',
-  avatar: 'https://i.pinimg.com/originals/97/00/74/9700742a4a213d0f181f7d31fcd63caf.jpg',
-  lastname: 'Kujo',
-  firstname: 'Jotaro',
-  website: 'https://jjba.fandom.com/fr/wiki/Jotaro_Kujo',
-  description:
-    'Jotaro is introduced as a rough delinquent, but he has a gentle heart, and is loyal to those he likes.',
-  email: 'kujo.jotaro@stardust.com',
-  tools: [],
+  username: '',
 };
 
 export const userSlice = createSlice({
@@ -46,6 +38,7 @@ export const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
+
 export const {
   setUsername,
   setToolsUser,
@@ -57,3 +50,17 @@ export const {
   setDescription,
   logout,
 } = userSlice.actions;
+
+export const { setUsername } = userSlice.actions;
+
+const thunkLogin =
+  ({ email, password }) =>
+  (dispatch) => {
+    console.log('thunkLogin  email : ', email);
+    console.log('thunkLogin  password : ', password);
+    console.log('thunkLogin  FETCH USER LOGIN : ');
+    const username = email;
+    dispatch(setUsername(username));
+  };
+export { thunkLogin };
+
