@@ -1,19 +1,38 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   Box,
-  Button,
-  Checkbox,
-  Flex,
+  Button, Flex,
   FormControl,
   FormLabel,
   Heading,
   Input,
-  Link,
   Stack,
-  useColorModeValue,
+  // eslint-disable-next-line prettier/prettier
+  useColorModeValue
 } from '@chakra-ui/react';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { thunkLogin } from '../../features/user/userSlice';
 
-export default function Login() {
+function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(thunkLogin({ email, password }));
+
+    setEmail('');
+    setPassword('');
+    navigate('/app');
+  };
+  const handleEmailInput = (e) => setEmail(e.target.value);
+
+  const handlePasswordInput = (e) => setPassword(e.target.value);
+
   return (
     <Flex
       minH="100vh"
@@ -26,25 +45,23 @@ export default function Login() {
           <Heading fontSize="4xl">Sign in to your account</Heading>
         </Stack>
         <Box rounded="lg" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
-          <Stack spacing={4}>
-            <FormControl id="email">
+          <form onSubmit={handleSubmit} spacing={4}>
+            <FormControl isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input type="email" onChange={handleEmailInput} />
             </FormControl>
-            <FormControl id="password">
+            <FormControl isRequired>
               <FormLabel>Password</FormLabel>
-              <Input type="password" />
+              <Input type="password" onChange={handlePasswordInput} />
             </FormControl>
             <Stack spacing={10}>
               <Stack
                 direction={{ base: 'column', sm: 'row' }}
                 align="start"
                 justify="space-between"
-              >
-                <Checkbox>Remember me</Checkbox>
-                <Link color="blue.400">Forgot password?</Link>
-              </Stack>
+              />
               <Button
+                type="submit"
                 bg="blue.400"
                 color="white"
                 _hover={{
@@ -54,9 +71,11 @@ export default function Login() {
                 Sign in
               </Button>
             </Stack>
-          </Stack>
+          </form>
         </Box>
       </Stack>
     </Flex>
   );
 }
+
+export default Login;
