@@ -1,8 +1,11 @@
 import {
   Box,
   Button,
+  FormControl,
+  FormLabel,
   Heading,
   Img,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -16,7 +19,13 @@ import { useRef, useState } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { RxClipboardCopy } from 'react-icons/rx';
 import { useDispatch } from 'react-redux';
-import { setUserInformations } from '../../../features/user/userSlice';
+import {
+  setDescription,
+  setEmail,
+  setFirstname,
+  setLastname,
+  setWebsite,
+} from '../../../features/user/userSlice';
 import Description from './Description';
 import './style.scss';
 
@@ -30,15 +39,15 @@ function UserInformations({ user }) {
   const handleChange = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
-  console.log(form);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(setUserInformations({ ...form }));
-    // dispatch(setFirstname(event.target[0].value));
-    // dispatch(setLastname(event.target[1].value));
-    // dispatch(setWebsite(event.target[2].value));
-    // dispatch(setEmail(event.target[3].value));
-    // dispatch(setDescription(event.target[4].value));
+    dispatch(setFirstname(event.target[0].value));
+    dispatch(setLastname(event.target[1].value));
+    dispatch(setWebsite(event.target[2].value));
+    dispatch(setEmail(event.target[3].value));
+    dispatch(setDescription(event.target[4].value));
+    onClose();
     console.log(event);
   };
 
@@ -64,85 +73,93 @@ function UserInformations({ user }) {
       </Heading>
       <Description user={user} />
 
-      {/* EditModal */}
       <Button onClick={onOpen}>
         Edit Profile <AiOutlineEdit size="1.3rem" />
       </Button>
 
+      {/* EditModal */}
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Edit your profil</ModalHeader>
+          <ModalHeader>Edit your profile</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <form onSubmit={handleSubmit} className="modal-form">
-              <label className="modal-form-label" htmlFor="firstname">
-                First name
-                <input
-                  id="firstname"
-                  onChange={handleChange}
-                  ref={initialRef}
-                  type="text"
-                  name="firstname"
-                  defaultValue={user.firstname}
-                  placeholder="First name"
-                />
-              </label>
+              <FormControl>
+                <FormLabel className="modal-form-label" htmlFor="firstname">
+                  First name
+                  <Input
+                    id="firstname"
+                    onChange={handleChange}
+                    ref={initialRef}
+                    type="text"
+                    name="firstname"
+                    defaultValue={user.firstname}
+                    placeholder="First name"
+                  />
+                </FormLabel>
+              </FormControl>
 
-              <label className="modal-form-label" htmlFor="lastname">
-                Last name
-                <input
-                  id="lastname"
-                  onChange={handleChange}
-                  type="text"
-                  name="lastname"
-                  defaultValue={user.lastname}
-                  placeholder="Last name"
-                />
-              </label>
+              <FormControl>
+                <FormLabel className="modal-form-label" htmlFor="lastname">
+                  Last name
+                  <Input
+                    id="lastname"
+                    onChange={handleChange}
+                    type="text"
+                    name="lastname"
+                    defaultValue={user.lastname}
+                    placeholder="Last name"
+                  />
+                </FormLabel>
+              </FormControl>
 
-              <label className="modal-form-label" htmlFor="website">
-                Website
-                <input
-                  id="website"
-                  onChange={handleChange}
-                  type="text"
-                  name="website"
-                  defaultValue={user.website}
-                  placeholder="Website"
-                />
-              </label>
+              <FormControl>
+                <FormLabel className="modal-form-label" htmlFor="website">
+                  Website
+                  <Input
+                    id="website"
+                    onChange={handleChange}
+                    type="text"
+                    name="website"
+                    defaultValue={user.website}
+                    placeholder="Website"
+                  />
+                </FormLabel>
+              </FormControl>
 
-              <label className="modal-form-label" htmlFor="email">
-                Email
-                <input
-                  id="email"
-                  onChange={handleChange}
-                  type="email"
-                  name="email"
-                  defaultValue={user.email}
-                  placeholder="Email"
-                />
-              </label>
+              <FormControl isRequired>
+                <FormLabel className="modal-form-label" htmlFor="email">
+                  Email
+                  <Input
+                    id="email"
+                    onChange={handleChange}
+                    type="email"
+                    name="email"
+                    defaultValue={user.email}
+                    placeholder="Email"
+                  />
+                </FormLabel>
+              </FormControl>
 
-              <label className="modal-form-label" htmlFor="description">
-                Description
-                <input
-                  id="description"
-                  onChange={handleChange}
-                  type="textarea"
-                  name="description"
-                  defaultValue={user.description}
-                  placeholder="Love coding..."
-                />
-              </label>
+              <FormControl>
+                <FormLabel className="modal-form-label" htmlFor="description">
+                  Description
+                  <Input
+                    id="description"
+                    onChange={handleChange}
+                    type="textarea"
+                    name="description"
+                    defaultValue={user.description}
+                    placeholder="Love coding..."
+                  />
+                </FormLabel>
+              </FormControl>
 
-              <button type="submit" onClick={onClose}>
-                Save
-              </button>
-              <button type="button" onClick={onClose}>
+              <Button type="submit">Save</Button>
+              <Button type="button" onClick={onClose}>
                 Cancel
-              </button>
+              </Button>
             </form>
           </ModalBody>
         </ModalContent>
