@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  username: 'jojoLesBiscotos',
+  username: '',
 };
 
 export const userSlice = createSlice({
@@ -17,3 +17,14 @@ export const userSlice = createSlice({
 
 export default userSlice.reducer;
 export const { setUsername } = userSlice.actions;
+
+const thunkLogin =
+  ({ email, password }) =>
+  (dispatch) => {
+    console.log('thunkLogin  email : ', email);
+    console.log('thunkLogin  password : ', password);
+    console.log('thunkLogin  FETCH USER LOGIN : ');
+    const username = email;
+    dispatch(setUsername(username));
+  };
+export { thunkLogin };

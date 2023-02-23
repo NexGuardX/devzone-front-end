@@ -1,8 +1,6 @@
 import {
   Box,
-  Button,
-  Checkbox,
-  Flex,
+  Button, Flex,
   FormControl,
   FormLabel,
   Heading,
@@ -13,27 +11,27 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { SetLogIn } from '../../features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
+import { thunkLogin } from '../../features/user/userSlice';
 
 function Login() {
   const [email, setEmail] = useState('');
-  const [pwd, setPwd] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const userData = { email, pwd };
-    dispatch(SetLogIn(userData));
+    dispatch(thunkLogin({ email, password }));
+
     setEmail('');
-    setPwd('');
-    navigate('/');
+    setPassword('');
+    navigate('/app');
   };
   const handleEmailInput = (e) => setEmail(e.target.value);
 
-  const handlePwdInput = (e) => setPwd(e.target.value);
+  const handlePasswordInput = (e) => setPassword(e.target.value);
 
   return (
     <Flex
@@ -54,17 +52,14 @@ function Login() {
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Password</FormLabel>
-              <Input type="password" onChange={handlePwdInput} />
+              <Input type="password" onChange={handlePasswordInput} />
             </FormControl>
             <Stack spacing={10}>
               <Stack
                 direction={{ base: 'column', sm: 'row' }}
                 align="start"
                 justify="space-between"
-              >
-                <Checkbox>Remember me</Checkbox>
-                <NavLink color="blue.400">Forgot password?</NavLink>
-              </Stack>
+              />
               <Button
                 type="submit"
                 bg="blue.400"
