@@ -1,4 +1,4 @@
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading, HStack, Text } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { BsBoxArrowRight } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
@@ -6,9 +6,19 @@ import { Link } from 'react-router-dom';
 function Description({ user }) {
   return (
     <Box margin="0.8rem" textAlign="left">
-      <Heading as="h3" fontSize="1.5rem" m="0.3rem">
-        {user.firstname} {user.lastname}
-      </Heading>
+      <HStack>
+        <Text fontSize="1rem">Firstname: </Text>{' '}
+        <Heading as="h3" fontSize="1.2rem" fontWeight="400" m="0.3rem">
+          {user.firstname}
+        </Heading>
+      </HStack>
+      <HStack>
+        <Text>Lastname: </Text>{' '}
+        <Heading as="h3" fontSize="1.2rem" fontWeight="400" m="0.3rem">
+          {user.lastname}
+        </Heading>
+      </HStack>
+
       <Box m="0.3rem">
         <Link to={user.website} target="_blank">
           <Flex

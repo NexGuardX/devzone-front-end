@@ -12,6 +12,8 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Stack,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
@@ -38,6 +40,7 @@ function UserInformations({ user }) {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
 
+  // TODO: Factoriser le handleSubmit et le userSlice
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(setFirstname(event.target[0].value));
@@ -69,9 +72,11 @@ function UserInformations({ user }) {
         border="3px solid black"
         src={user.avatar}
       />
-      <Heading marginTop="0.5rem" as="h2">
-        {user.username}
-      </Heading>
+      <Stack marginTop="0.5rem">
+        <Text>Pseudo</Text>
+        <Heading as="h2">{user.username}</Heading>
+      </Stack>
+
       <Description user={user} />
 
       <Button onClick={onOpen}>
@@ -129,7 +134,7 @@ function UserInformations({ user }) {
                 </FormLabel>
               </FormControl>
 
-              <FormControl isRequired>
+              <FormControl>
                 <FormLabel className="modal-form-label" htmlFor="email">
                   Email
                   <Input
