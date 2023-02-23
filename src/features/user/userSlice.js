@@ -10,7 +10,7 @@ const initialState = {
   description:
     'Jotaro is introduced as a rough delinquent, but he has a gentle heart, and is loyal to those he likes.',
   email: 'kujo.jotaro@stardust.com',
-  tools: [1, 3],
+  tools: [],
 };
 
 export const userSlice = createSlice({
@@ -19,9 +19,6 @@ export const userSlice = createSlice({
   reducers: {
     setUsername: (state, action) => {
       state.username = action.payload;
-    },
-    setUserInformations: (state, action) => {
-      state = action.payload;
     },
     setLastname: (state, action) => {
       state.lastname = action.payload;
@@ -44,6 +41,7 @@ export const userSlice = createSlice({
     removeToolsUser: (state, action) => {
       state.tools = action.payload;
     },
+    logout: () => ({}),
   },
 });
 
@@ -57,5 +55,5 @@ export const {
   setWebsite,
   setEmail,
   setDescription,
-  setUserInformations,
+  logout,
 } = userSlice.actions;

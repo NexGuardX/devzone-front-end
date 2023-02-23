@@ -5,7 +5,7 @@ import { removeToolsUser, setToolsUser } from '../../features/user/userSlice';
 
 function ToolSelector({ tool, userTools }) {
   const dispatch = useDispatch();
-  // je cherche si l'utilisateur a des tools désactivé
+  // je cherche si l'utilisateur a des tools activé
 
   const findTools = userTools.find((userTool) => userTool === tool.id);
 
@@ -32,9 +32,9 @@ function ToolSelector({ tool, userTools }) {
       <Img src={tool.logo} w={{ base: '30px', md: '40px' }} />
       <FormLabel value={tool.id}>{tool.name}</FormLabel>
       {findTools ? (
-        <Switch onChange={handleSwitchChange} value={tool.id} isInvalid />
-      ) : (
         <Switch onChange={handleSwitchChange} value={tool.id} defaultChecked />
+      ) : (
+        <Switch onChange={handleSwitchChange} value={tool.id} isInvalid />
       )}
     </Flex>
   );

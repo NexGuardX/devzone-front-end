@@ -11,13 +11,20 @@ import {
   MenuList,
 } from '@chakra-ui/react';
 import { RxHamburgerMenu, RxPerson } from 'react-icons/rx';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import logodevzoneblack from '../../assets/images/devzoneblack.png';
 import logodz from '../../assets/images/logo-dz.png';
+import { logout } from '../../features/user/userSlice';
 
 function NavBar() {
   const user = useSelector((state) => state.user.username);
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    window.location.replace('/');
+    dispatch(logout());
+  };
 
   return (
     <Flex justifyContent="space-between">
@@ -74,9 +81,24 @@ function NavBar() {
       {/* MOBILE & TABLETTE */}
 
       {user ? (
-        <Button minW="100px" w="100%" h="70px" display={{ base: 'block', md: 'none' }}>
-          <NavLink to="/profile">{user}</NavLink>
-        </Button>
+        <Menu>
+          <MenuButton
+            aria-label="User menu"
+            display={{ base: 'block', md: 'none' }}
+            w="100%"
+            h="70px"
+          >
+            <Center>{user}</Center>
+          </MenuButton>
+          <MenuList>
+            <MenuItem>
+              <NavLink to="/profile">Profile</NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink to="/logout">LogOut</NavLink>
+            </MenuItem>
+          </MenuList>
+        </Menu>
       ) : (
         <Menu>
           <MenuButton
@@ -108,9 +130,23 @@ function NavBar() {
       {/* DESTKOP & GRAND ECRAN */}
 
       {user ? (
-        <Button minW="300px" w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
-          <NavLink to="/profile">Welcome {user} !</NavLink>
-        </Button>
+        <Menu>
+          <MenuButton
+            aria-label="User menu"
+            minW="300px"
+            w="100%"
+            h="70px"
+            display={{ base: 'none', md: 'block' }}
+          >
+            <Center>Welcome {user} !</Center>
+          </MenuButton>
+          <MenuList>
+            <MenuItem>
+              <NavLink to="/profile">Profile</NavLink>
+            </MenuItem>
+            <MenuItem onClick={handleClick}>LogOut</MenuItem>
+          </MenuList>
+        </Menu>
       ) : (
         <Menu>
           <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>

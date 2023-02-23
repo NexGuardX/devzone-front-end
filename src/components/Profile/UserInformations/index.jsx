@@ -17,7 +17,6 @@ import {
 import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
-import { RxClipboardCopy } from 'react-icons/rx';
 import { useDispatch } from 'react-redux';
 import {
   setDescription,
@@ -27,7 +26,6 @@ import {
   setWebsite,
 } from '../../../features/user/userSlice';
 import Description from './Description';
-import './style.scss';
 
 function UserInformations({ user }) {
   const dispatch = useDispatch();
@@ -48,12 +46,18 @@ function UserInformations({ user }) {
     dispatch(setEmail(event.target[3].value));
     dispatch(setDescription(event.target[4].value));
     onClose();
-    console.log(event);
   };
 
   return (
-    <Box margin="1rem" w={{ base: '100%', md: '300px', lg: '400px' }}>
-      <Heading as="h1" margin="1.5rem">
+    <Box
+      margin="1rem"
+      w={{ base: '100%', md: '300px', lg: '400px' }}
+      p={{ base: 'none', lg: '1.5rem' }}
+      paddingTop="0"
+      border="1px solid #ddd"
+      borderRadius="15px"
+    >
+      <Heading as="h1" margin="1.5rem" marginTop="0">
         PROFILE
       </Heading>
 
@@ -67,9 +71,6 @@ function UserInformations({ user }) {
       />
       <Heading marginTop="0.5rem" as="h2">
         {user.username}
-        <Button marginLeft="0.3rem" p="0">
-          <RxClipboardCopy size="1.3rem" />
-        </Button>
       </Heading>
       <Description user={user} />
 
@@ -138,20 +139,6 @@ function UserInformations({ user }) {
                     name="email"
                     defaultValue={user.email}
                     placeholder="Email"
-                  />
-                </FormLabel>
-              </FormControl>
-
-              <FormControl>
-                <FormLabel className="modal-form-label" htmlFor="description">
-                  Description
-                  <Input
-                    id="description"
-                    onChange={handleChange}
-                    type="textarea"
-                    name="description"
-                    defaultValue={user.description}
-                    placeholder="Love coding..."
                   />
                 </FormLabel>
               </FormControl>
