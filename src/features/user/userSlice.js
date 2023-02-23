@@ -51,8 +51,6 @@ export const {
   logout,
 } = userSlice.actions;
 
-export const { setUsername } = userSlice.actions;
-
 const thunkLogin =
   ({ email, password }) =>
   (dispatch) => {
@@ -63,4 +61,3 @@ const thunkLogin =
     dispatch(setUsername(username));
   };
 export { thunkLogin };
-
