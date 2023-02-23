@@ -5,6 +5,7 @@ import Home from '../components/Home';
 import Login from '../components/Login';
 import NavBar from '../components/NavBar';
 import PlaygroundJs from '../components/PlaygroundJs';
+import Profile from '../components/Profile';
 import SideBar from '../components/SideBar';
 import SignUp from '../components/SignUp';
 import './App.css';
@@ -15,6 +16,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
         <Route
           path="/login"
           element={
@@ -30,22 +32,6 @@ function App() {
 
         <Route path="/contact" element={<Contact />} />
 
-        <Route
-          path="/login"
-          element={
-            <div>
-              <Login />
-            </div>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <div>
-              <SignUp />
-            </div>
-          }
-        />
         <Route
           path="/app"
           element={

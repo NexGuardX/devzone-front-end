@@ -12,10 +12,45 @@ export const userSlice = createSlice({
     setUsername: (state, action) => {
       state.username = action.payload;
     },
+    setLastname: (state, action) => {
+      state.lastname = action.payload;
+    },
+    setFirstname: (state, action) => {
+      state.firstname = action.payload;
+    },
+    setWebsite: (state, action) => {
+      state.website = action.payload;
+    },
+    setEmail: (state, action) => {
+      state.email = action.payload;
+    },
+    setDescription: (state, action) => {
+      state.description = action.payload;
+    },
+    setToolsUser: (state, action) => {
+      state.tools = action.payload;
+    },
+    removeToolsUser: (state, action) => {
+      state.tools = action.payload;
+    },
+    logout: () => ({}),
   },
 });
 
 export default userSlice.reducer;
+
+export const {
+  setUsername,
+  setToolsUser,
+  removeToolsUser,
+  setLastname,
+  setFirstname,
+  setWebsite,
+  setEmail,
+  setDescription,
+  logout,
+} = userSlice.actions;
+
 export const { setUsername } = userSlice.actions;
 
 const thunkLogin =
@@ -28,3 +63,4 @@ const thunkLogin =
     dispatch(setUsername(username));
   };
 export { thunkLogin };
+
