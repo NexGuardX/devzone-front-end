@@ -3,6 +3,10 @@ import { BsBoxArrowInRight } from 'react-icons/bs';
 import { NavLink } from 'react-router-dom';
 import logo from '../../../assets/images/logo-dz.png';
 
+/**
+ * React Component : Home Page Introduction
+ * @returns {JSX.elements} React Component
+ */
 export default function Intro() {
   return (
     <Flex
@@ -18,13 +22,11 @@ export default function Intro() {
       <Image maxWidth="350px" objectFit="cover" src={logo} alt="logo" />
       <Box textAlign={{ base: 'center', md: 'left' }}>
         <Heading as="h1">
-          <Text fontSize="3rem">
-            <Box display="inline" color="#d73d79">
-              dev
-            </Box>
-            <Box display="inline" color="#56bac4">
-              zone
-            </Box>
+          <Text display="inline" fontSize="3rem" color="#d73d79">
+            dev
+          </Text>
+          <Text display="inline" fontSize="3rem" color="#56bac4">
+            zone
           </Text>
         </Heading>
         <Heading as="h2">for Developers</Heading>
