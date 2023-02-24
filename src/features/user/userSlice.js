@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -33,6 +34,9 @@ export const userSlice = createSlice({
     removeToolsUser: (state, action) => {
       state.tools = action.payload;
     },
+    setSignupForm: (state, action) => {
+      state.SignupForm = action.payload;
+    },
     logout: () => ({}),
   },
 });
@@ -40,6 +44,7 @@ export const userSlice = createSlice({
 export default userSlice.reducer;
 
 export const {
+  setSignupForm,
   setUsername,
   setToolsUser,
   removeToolsUser,
@@ -51,16 +56,20 @@ export const {
   logout,
 } = userSlice.actions;
 
-export const { setUsername } = userSlice.actions;
-
-const thunkLogin =
+export const thunkLogin =
   ({ email, password }) =>
-  (dispatch) => {
-    console.log('thunkLogin  email : ', email);
-    console.log('thunkLogin  password : ', password);
-    console.log('thunkLogin  FETCH USER LOGIN : ');
-    const username = email;
-    dispatch(setUsername(username));
-  };
-export { thunkLogin };
+    (dispatch) => {
+      console.log('thunkLogin  email : ', email);
+      console.log('thunkLogin  password : ', password);
+      console.log('thunkLogin  FETCH USER LOGIN : ');
+      const username = email;
+      dispatch(setUsername(username));
+    };
+
+export const thunkSignup =
+  ({ username, email, password, confirmedPassword }) =>
+    (dispatch) => {
+      const SignupForm = { username, email, password, confirmedPassword };
+      dispatch(setSignupForm(SignupForm));
+    };
 
