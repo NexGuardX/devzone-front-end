@@ -1,24 +1,43 @@
-import { Box, Button, Card, Image } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  Divider,
+  Heading,
+  Image,
+  SimpleGrid,
+  Text,
+} from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
+import { HiOutlineExternalLink } from 'react-icons/hi';
 
 const { REACT_APP_APIEXT_URL } = process.env;
 
 const RSS_LIST = [
   'https://www.freecodecamp.org/news/rss',
-  'https://www.youtube.com/feeds/videos.xml?channel_id=UCFbNIlppjAuEX4znoulh0Cw',
+  'https://www.youtube.com/feeds/videos.xml?channel_id=UCFbNIlppjAuEX4znoulh0Cw', // WebDevSimplified
+  'https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA', // Fireship
 ];
-
-const parseFetchedData = (dataArray) =>
-  dataArray.map((data) => ({
-    title: data.title,
-    date: data?.published || data?.pubDate,
-    image:
-      (data['media:content'] && data['media:content']['@_url']) ||
-      (data['media:group'] &&
-        data['media:group']['media:thumbnail'] &&
-        data['media:group']['media:thumbnail']['@_url']),
-    link: data.link,
-  }));
+// TODO : loading
+// TODO : Origin icon + name
+// TODO : Type of article
+// TODO : comment
+// TODO : jsdoc
+const parseAndSortFetchedData = (dataArray) =>
+  dataArray
+    .map((data) => ({
+      title: data.title,
+      date: data?.published || data?.pubDate,
+      image:
+        (data['media:content'] && data['media:content']['@_url']) ||
+        (data['media:group'] &&
+          data['media:group']['media:thumbnail'] &&
+          data['media:group']['media:thumbnail']['@_url']),
+      link: data.link,
+    }))
+    .sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
 
 export default function News() {
   const [fetchResult, setFetchResult] = useState([]);
@@ -49,23 +68,31 @@ export default function News() {
   }, []);
 
   return (
-    <Box>
-      <div>
-        {parseFetchedData(fetchResult).map((item) => (
-          <Card key={item.date} maxW="sm" border="1px solid" p="8px" mb="3">
-            <Image maxW="300px" src={item.image} />
-            <p>{item.date}</p>
-            <p>{item.title}</p>
-            <p>
-              <Button>
+    <Box p="2rem">
+      <Heading as="h1" pb="2rem">
+        News
+      </Heading>
+      <SimpleGrid minChildWidth="320px" gap="2rem">
+        {parseAndSortFetchedData(fetchResult).map((item) => (
+          <Card key={item.date} border="1px solid" p="0.5rem" mb="3">
+            <CardBody>
+              <Image src={item.image} h="220px" w="100%" objectFit="cover" />
+              <Text>{item.date}</Text>
+              <Heading as="h2" fontSize="md">
+                {item.title}
+              </Heading>
+            </CardBody>
+            <Divider />
+            <CardFooter>
+              <Button rightIcon={<HiOutlineExternalLink />}>
                 <a href={item.link} target="_blank" rel="noreferrer">
                   Link
                 </a>
               </Button>
-            </p>
+            </CardFooter>
           </Card>
         ))}
-      </div>
+      </SimpleGrid>
     </Box>
   );
 }

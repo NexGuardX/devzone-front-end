@@ -33,7 +33,7 @@ function App() {
             </Flex>
           }
         >
-          <Route index element={<div>WELCOME APP(NEWS)</div>} />
+          <Route index element={<News />} />
           <Route path="news" element={<News />} />
           <Route path="search" element={<div>SEARCH</div>} />
           <Route path="playground-js" element={<PlaygroundJs />} />
