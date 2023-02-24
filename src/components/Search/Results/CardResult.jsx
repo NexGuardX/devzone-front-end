@@ -1,13 +1,32 @@
-import { Card, CardBody, Image } from '@chakra-ui/react';
+import { Button, Card, CardBody, Tag, Text } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-function CardResult() {
+function CardResult({ result }) {
+  const { tags, title, link } = result;
   return (
-    <Card w="300px">
+    <Card>
       <CardBody>
-        <Image src="https://www.logo.wine/a/logo/Stack_Overflow/Stack_Overflow-Logo.wine.svg" />
+        <Text>{title}</Text>
+        {tags.map((tag) => (
+          <Tag key={tag}>{tag}</Tag>
+        ))}
+        <Button>
+          <Link to={link} target="_blank">
+            Go
+          </Link>
+        </Button>
       </CardBody>
     </Card>
   );
 }
+
+CardResult.propTypes = {
+  result: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    link: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default CardResult;

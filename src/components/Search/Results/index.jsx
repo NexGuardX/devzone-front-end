@@ -1,14 +1,15 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 import CardResult from './CardResult';
 
 function Results() {
+  const results = useSelector((state) => state.tools.results);
   return (
     <Box>
-      <Text>Vous avez 3 résultats</Text>
-      <Flex>
-        <CardResult />
-        <CardResult />
-        <CardResult />
+      <Flex flexDirection="column">
+        {results.map((result) => (
+          <CardResult key={result.question_id} result={result} />
+        ))}
       </Flex>
     </Box>
   );
