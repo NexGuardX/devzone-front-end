@@ -7,10 +7,17 @@ import {
   RiSearchLine,
 } from 'react-icons/ri';
 import { SiJavascript } from 'react-icons/si';
+import { useDispatch } from 'react-redux';
+import { setOpenModal } from '../../features/search/searchSlice';
 import SideBarItem from './SideBarItem';
 import SideBarTitle from './SideBarTitle';
 
 function SideBar() {
+  const dispatch = useDispatch();
+  const handleSearchModal = () => {
+    dispatch(setOpenModal(true));
+  };
+
   return (
     <Flex
       display={{ base: 'none', md: 'flex' }}
@@ -24,7 +31,12 @@ function SideBar() {
       {/* Upper sidebar menu */}
       <VStack align="left">
         <SideBarItem icon={RiNewspaperLine} text="News" to="/app/news" />
-        <SideBarItem icon={RiSearchLine} text="Search" to="/app/search" />
+        <SideBarItem
+          openSearchModal={handleSearchModal}
+          icon={RiSearchLine}
+          text="Search"
+          to="/app/search"
+        />
         <SideBarTitle text="Playground" />
         <SideBarItem icon={SiJavascript} text="Javascript" to="/app/playground-js" />
         <SideBarItem icon={RiHtml5Line} text="HTML" to="/app/playground-html" />

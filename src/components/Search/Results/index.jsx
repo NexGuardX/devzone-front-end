@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import CardResult from './CardResult';
 
 function Results() {
-  const results = useSelector((state) => state.tools.results);
+  const results = useSelector((state) => state.search.results);
   return (
     <Box>
       <Flex flexDirection="column">
