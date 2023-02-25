@@ -58,12 +58,21 @@ export const {
 
 const thunkLogin =
   ({ email, password }) =>
-  (dispatch) => {
+  async (dispatch) => {
+    try {
+      const response = await axios.post('http://localhost:5050/login', {
+        email,
+        password,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
     console.log('thunkLogin  email : ', email);
     console.log('thunkLogin  password : ', password);
     console.log('thunkLogin  FETCH USER LOGIN : ');
-    const username = email;
-    dispatch(setUsername(username));
+    // const username = email;
+    // dispatch(setUsername(username));
   };
 export { thunkLogin };
 
