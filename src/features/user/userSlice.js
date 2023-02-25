@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const initialState = {
   username: '',
@@ -33,6 +34,9 @@ export const userSlice = createSlice({
     removeToolsUser: (state, action) => {
       state.tools = action.payload;
     },
+    setSignupForm: (state, action) => {
+      state.SignupForm = action.payload;
+    },
     logout: () => ({}),
   },
 });
@@ -40,6 +44,7 @@ export const userSlice = createSlice({
 export default userSlice.reducer;
 
 export const {
+  setSignupForm,
   setUsername,
   setToolsUser,
   removeToolsUser,
@@ -50,8 +55,6 @@ export const {
   setDescription,
   logout,
 } = userSlice.actions;
-
-export const { setUsername } = userSlice.actions;
 
 const thunkLogin =
   ({ email, password }) =>
@@ -64,3 +67,20 @@ const thunkLogin =
   };
 export { thunkLogin };
 
+export const thunkSignup =
+  ({ username, email, password, confirmedPassword }) =>
+  async (dispatch) => {
+    const SignupForm = { username, email, password, confirmedPassword };
+    dispatch(setSignupForm(SignupForm));
+    try {
+      const response = await axios.post('http://localhost:5050/signup', {
+        username,
+        email,
+        password,
+        confirmedPassword,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };

@@ -1,0 +1,19 @@
+
+### TEST ROUTE SIGNUP
+POST http://localhost:5050/signup HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "a",
+    "email": "a@a.a",
+    "password": "a"
+}
+
+### TEST ROUTE LOGIN
+POST http://localhost:5050/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "a@a.a",
+    "password": "a"
+}
