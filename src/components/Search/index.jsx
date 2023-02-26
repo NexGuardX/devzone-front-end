@@ -27,7 +27,6 @@ function Search() {
   };
 
   useEffect(() => {
-    console.log(isModalOpen);
     if (isModalOpen) {
       onOpen();
       dispatch(setOpenModal(false));
@@ -49,7 +48,13 @@ function Search() {
         <ModalContent maxW="70%">
           <form onSubmit={makeSearch}>
             <FormControl>
-              <Input fontSize="2rem" padding="3rem" type="text" onChange={handleChangeInput} />
+              <Input
+                fontSize="2.5rem"
+                padding="2rem"
+                type="text"
+                variant="unstyled"
+                onChange={handleChangeInput}
+              />
             </FormControl>
             <Button type="submit" fontSize="1.5rem">
               <VscSearch padding="0.3rem" /> Stack Overflow

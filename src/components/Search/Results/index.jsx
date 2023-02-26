@@ -10,12 +10,12 @@ function Results() {
     <Box>
       <Flex flexDirection="column">
         {results.length > 0 ? (
-          <Alert status="success" variant="left-accent">
+          <Alert status="success" variant="left-accent" marginTop="1rem" width="100%">
             <AlertIcon />
             There are {numberOfresults} for your search : &quot; {searchValue} &quot;
           </Alert>
         ) : (
-          <Alert status="warning" margin="0.5rem">
+          <Alert status="warning" variant="left-accent" marginTop="1rem" width="100%">
             <AlertIcon />
             There are no results for your search : &quot; {searchValue} &quot;
           </Alert>

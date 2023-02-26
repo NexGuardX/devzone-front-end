@@ -12,17 +12,18 @@ import {
 } from '@chakra-ui/react';
 import { RxHamburgerMenu, RxPerson } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logodevzoneblack from '../../assets/images/devzoneblack.png';
 import logodz from '../../assets/images/logo-dz.png';
 import { logout } from '../../features/user/userSlice';
 
 function NavBar() {
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user.username);
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    window.location.replace('/');
+    navigate('/');
     dispatch(logout());
   };
 
