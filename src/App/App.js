@@ -6,6 +6,7 @@ import Login from '../components/Login';
 import NavBar from '../components/NavBar';
 import PlaygroundJs from '../components/PlaygroundJs';
 import Profile from '../components/Profile';
+import Search from '../components/Search';
 import SideBar from '../components/SideBar';
 import SignUp from '../components/SignUp';
 import './App.css';
@@ -35,7 +36,7 @@ function App() {
         >
           <Route index element={<div>WELCOME APP(NEWS)</div>} />
           <Route path="news" element={<div>NEWS</div>} />
-          <Route path="search" element={<div>SEARCH</div>} />
+          <Route path="search" element={<Search />} />
           <Route path="playground-js" element={<PlaygroundJs />} />
           <Route path="playground-html" element={<div>Playground HTML</div>} />
         </Route>
