@@ -27,6 +27,9 @@ function SideBar() {
       pe={{ base: '1rem', lg: '3rem' }}
       py="2rem"
       borderRight="1px solid gray"
+      position="sticky"
+      top="70px"
+      height="calc(100vh - 70px)"
     >
       {/* Upper sidebar menu */}
       <VStack align="left">

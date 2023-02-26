@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function CardResult({ result }) {
   const { tags, title, link } = result;
   return (
-    <Card>
+    <Card margin="0.5rem">
       <CardBody>
         <Text>{title}</Text>
         {tags.map((tag) => (

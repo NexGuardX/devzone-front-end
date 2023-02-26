@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from 'react';
 import { VscSearch } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
-import { setOpenModal, thunkSOFSearch } from '../../features/search/searchSlice';
+import { setOpenModal, setSearch, thunkSOFSearch } from '../../features/search/searchSlice';
 import Results from './Results';
 
 function Search() {
@@ -38,6 +38,7 @@ function Search() {
     event.preventDefault();
     onClose();
     dispatch(setOpenModal(false));
+    dispatch(setSearch(searchValue));
     dispatch(thunkSOFSearch(searchValue));
   };
 

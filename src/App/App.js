@@ -26,7 +26,7 @@ function App() {
         <Route
           path="/app"
           element={
-            <Flex minH="calc(100dvh - 70px)">
+            <Flex minH="calc(100vh - 70px)">
               <SideBar />
               <Box flexGrow="1">
                 <Outlet />
