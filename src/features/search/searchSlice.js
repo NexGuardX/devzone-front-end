@@ -45,7 +45,6 @@ const thunkSOFSearch = (searchValue) => async (dispatch) => {
     );
     dispatch(setResults(response.data.items));
     dispatch(setNumberOfResults(response.data.total));
-    console.log(response.data);
   } catch (error) {
     console.log(error);
   }
@@ -56,7 +55,7 @@ const thunkNPMSearch = (searchValue) => async (dispatch) => {
   try {
     const response = await axios.get(`https://api.npms.io/v2/search?q=${searchValue}`);
     dispatch(setResults(response.data.results));
-    console.log(response.data.results);
+    dispatch(setNumberOfResults(response.data.total));
   } catch (error) {
     console.log(error);
   }

@@ -2,28 +2,38 @@ import {
   Button,
   Card,
   CardBody,
-  CardFooter,
   Divider,
   Heading,
+  HStack,
   Image,
   Stack,
   Tag,
   Text,
 } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
+import { AiOutlineStar } from 'react-icons/ai';
+import { FaGithub, FaNpm } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 function NPMCardResult({ result }) {
   const { description, keywords, links, name } = result;
 
   return (
-    <Card maxW="350px" margin="auto" height="500px">
-      <CardBody>
+    <Card width="350px" margin="auto" height="500px">
+      <HStack padding="0.5rem" justifyContent="space-evenly">
         <Image
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/2560px-Npm-logo.svg.png"
-          alt={name}
-          borderRadius="lg"
+          alt="NPM"
+          width="50px"
         />
+        <Text fontSize="1rem">Node Package Manager</Text>
+        <Button>
+          <AiOutlineStar />
+        </Button>
+      </HStack>
+      <Divider />
+
+      <CardBody>
         <Stack mt="6" spacing="3">
           <Heading size="md">{name}</Heading>
           <Text>{description}</Text>
@@ -37,17 +47,21 @@ function NPMCardResult({ result }) {
           : null}
       </CardBody>
       <Divider />
-      <CardFooter>
+      <HStack justifyContent="space-evenly">
         <Link to={links.npm} target="_blank">
-          <Button margin="0.5rem">NPM</Button>
+          <Button margin="0.5rem">
+            <FaNpm size="2rem" />
+          </Button>
         </Link>
         <Link to={links.homepage} target="_blank">
           <Button margin="0.5rem">Home</Button>
         </Link>
         <Link to={links.repository} target="_blank">
-          <Button margin="0.5rem">Repository</Button>
+          <Button margin="0.5rem">
+            <FaGithub size="1.6rem" />
+          </Button>
         </Link>
-      </CardFooter>
+      </HStack>
     </Card>
   );
 }
