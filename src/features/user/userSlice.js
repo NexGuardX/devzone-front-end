@@ -64,15 +64,14 @@ const thunkLogin =
         email,
         password,
       });
-      console.log(response);
+      dispatch(setFirstname(response.data.user.firstname));
+      dispatch(setLastname(response.data.user.lastname));
+      dispatch(setEmail(response.data.user.email));
+      dispatch(setUsername(response.data.user.username));
+      console.log(response.data.user);
     } catch (error) {
       console.log(error);
     }
-    console.log('thunkLogin  email : ', email);
-    console.log('thunkLogin  password : ', password);
-    console.log('thunkLogin  FETCH USER LOGIN : ');
-    // const username = email;
-    // dispatch(setUsername(username));
   };
 export { thunkLogin };
 

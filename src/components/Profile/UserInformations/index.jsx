@@ -47,7 +47,6 @@ function UserInformations({ user }) {
     dispatch(setLastname(event.target[1].value));
     dispatch(setWebsite(event.target[2].value));
     dispatch(setEmail(event.target[3].value));
-    dispatch(setDescription(event.target[4].value));
     onClose();
   };
 

@@ -4,9 +4,9 @@ POST http://localhost:5050/signup HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "aaa",
-    "email": "aaa@aaa.aaa",
-    "password": "aaa"
+    "username": "flo",
+    "email": "fline@gmail.com",
+    "password": "flo"
 }
 
 ### TEST ROUTE LOGIN
@@ -14,8 +14,8 @@ POST http://localhost:5050/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "aaa@aaa.aaa",
-    "password": "aaa"
+    "email": "fline@gmail.com",
+    "password": "flo"
 }
 
 ### TEST ROUTE TOOLS
