@@ -7,6 +7,7 @@ import NavBar from '../components/NavBar';
 import News from '../components/News';
 import PlaygroundJs from '../components/PlaygroundJs';
 import Profile from '../components/Profile';
+import Search from '../components/Search';
 import SideBar from '../components/SideBar';
 import SignUp from '../components/SignUp';
 import './App.css';
@@ -24,6 +25,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+
         <Route path="/contact" element={<Contact />} />
 
         <Route
@@ -39,7 +41,7 @@ function App() {
         >
           <Route index element={<News />} />
           <Route path="news" element={<News />} />
-          <Route path="search" element={<div>SEARCH</div>} />
+          <Route path="search" element={<Search />} />
           <Route path="playground-js" element={<PlaygroundJs />} />
           <Route path="playground-html" element={<div>Playground HTML</div>} />
         </Route>

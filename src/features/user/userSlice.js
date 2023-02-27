@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const initialState = {
   username: '',
@@ -33,6 +34,9 @@ export const userSlice = createSlice({
     removeToolsUser: (state, action) => {
       state.tools = action.payload;
     },
+    setSignupForm: (state, action) => {
+      state.SignupForm = action.payload;
+    },
     logout: () => ({}),
   },
 });
@@ -40,6 +44,7 @@ export const userSlice = createSlice({
 export default userSlice.reducer;
 
 export const {
+  setSignupForm,
   setUsername,
   setToolsUser,
   removeToolsUser,
@@ -53,11 +58,37 @@ export const {
 
 const thunkLogin =
   ({ email, password }) =>
-  (dispatch) => {
-    console.log('thunkLogin  email : ', email);
-    console.log('thunkLogin  password : ', password);
-    console.log('thunkLogin  FETCH USER LOGIN : ');
-    const username = email;
-    dispatch(setUsername(username));
+  async (dispatch) => {
+    try {
+      const response = await axios.post('http://localhost:5050/login', {
+        email,
+        password,
+      });
+      dispatch(setFirstname(response.data.user.firstname));
+      dispatch(setLastname(response.data.user.lastname));
+      dispatch(setEmail(response.data.user.email));
+      dispatch(setUsername(response.data.user.username));
+      console.log(response.data.user);
+    } catch (error) {
+      console.log(error);
+    }
   };
 export { thunkLogin };
+
+export const thunkSignup =
+  ({ username, email, password, confirmedPassword }) =>
+  async (dispatch) => {
+    const SignupForm = { username, email, password, confirmedPassword };
+    dispatch(setSignupForm(SignupForm));
+    try {
+      const response = await axios.post('http://localhost:5050/signup', {
+        username,
+        email,
+        password,
+        confirmedPassword,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
