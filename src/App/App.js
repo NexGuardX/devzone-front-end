@@ -11,6 +11,10 @@ import SideBar from '../components/SideBar';
 import SignUp from '../components/SignUp';
 import './App.css';
 
+/**
+ * Main Appliccation React Component
+ * @returns {JSX.elements} React Component
+ */
 function App() {
   return (
     <div className="App">
@@ -25,9 +29,9 @@ function App() {
         <Route
           path="/app"
           element={
-            <Flex minH="calc(100dvh - 70px)">
+            <Flex minH="calc(100dvh - 70px)" maxH="calc(100dvh - 70px)">
               <SideBar />
-              <Box flexGrow="1">
+              <Box flexGrow="1" overflowY="scroll">
                 <Outlet />
               </Box>
             </Flex>

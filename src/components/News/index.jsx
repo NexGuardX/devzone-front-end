@@ -1,31 +1,16 @@
-import {
-  AspectRatio,
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Divider,
-  Flex,
-  Heading,
-  HStack,
-  IconButton,
-  Image,
-  SimpleGrid,
-  Skeleton,
-  SkeletonCircle,
-  SkeletonText,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
-import { BsStar } from 'react-icons/bs';
-import { HiOutlineExternalLink } from 'react-icons/hi';
-import youtubeLogo from '../../assets/images/youtube.png';
+import NewsCards from './NewsCards';
+import NewsSkeleton from './NewsSkeleton';
+import { parseAndSortFetchedData } from './parseRss';
 
 const { REACT_APP_APIEXT_URL } = process.env;
+
+/**
+ * RSS Feeds
+ * - create a feed on rss.app (to generate a feed with all important datas including image)
+ * - add the generated feed to the list
+ */
 
 const RSS_LIST = [
   'https://www.freecodecamp.org/news/rss',
@@ -35,45 +20,28 @@ const RSS_LIST = [
   'https://rss.app/feeds/XXKIuLS9Zof1Hf1R.xml', // sitepoint
   'https://rss.app/feeds/5O5NpvuF9es9Ne6W.xml', // smashingmagazine.com
   'https://rss.app/feeds/XwYF0hX2DMrNhzog.xml', // web.dev
-  'https://www.youtube.com/feeds/videos.xml?channel_id=UCFbNIlppjAuEX4znoulh0Cw', // WebDevSimplified
+  'https://www.youtube.com/feeds/videos.xml?channel_id=UClb90NQQcskPUGDIXsQEz5Q', // developped by Ed
   'https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA', // Fireship
+  'https://www.youtube.com/feeds/videos.xml?channel_id=UCbRP3c757lWg9M-U7TyEkXA', // theo t2.gg
+  'https://www.youtube.com/feeds/videos.xml?channel_id=UCFbNIlppjAuEX4znoulh0Cw', // WebDevSimplified
 ];
-// TODO : loading
-// TODO : Type of article
-// TODO : comment
-// TODO : jsdoc
 
-const getAuthorFromEntry = (entry) => entry['dc:creator'] || entry.author.name;
-const getImageFromEntry = (entry) =>
-  (entry['media:content'] && entry['media:content']['@_url']) ||
-  (entry['media:group'] &&
-    entry['media:group']['media:thumbnail'] &&
-    entry['media:group']['media:thumbnail']['@_url']) ||
-  entry?.enclosure['@_url'];
-
-const getDateFromEntry = (entry) =>
-  Date.parse(entry?.published || entry?.pubDate || entry?.lastBuildDate);
-
-const parseAndSortFetchedData = (entries) =>
-  entries
-    .map((entry) => ({
-      author: getAuthorFromEntry(entry),
-      title: entry.title,
-      date: getDateFromEntry(entry),
-      image: getImageFromEntry(entry),
-      link: entry.link,
-      logo: entry.logo,
-    }))
-    .sort((a, b) => b.date - a.date);
-
+/**
+ * React Component that Displays News Page
+ * @returns {JSX.elements} React Component
+ */
 export default function News() {
   const [fetchResult, setFetchResult] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // list of Fetched url (in order to don't fetch already fetched data)
   const fetched = useRef([]);
 
+  // First render Execution
   useEffect(() => {
     const promises = [];
 
+    // Fetch all Rss in parallel
     RSS_LIST.forEach((rss) => {
       // Fetch only rss that not alredy fetched
       if (!fetched.current.includes(rss)) {
@@ -82,6 +50,7 @@ export default function News() {
       }
     });
 
+    // Wait all fetch promises end
     Promise.all(promises).then((values) => {
       values.map((value) =>
         value
@@ -98,13 +67,13 @@ export default function News() {
             })
           )
           .finally(() => {
-            console.log('loaded', isLoaded);
             setIsLoaded(true);
           })
       );
     });
   }, []);
 
+  // Transform entries
   const entries = parseAndSortFetchedData(fetchResult);
 
   return (
@@ -114,60 +83,8 @@ export default function News() {
       </Heading>
 
       <SimpleGrid minChildWidth="320px" gap="2rem">
-        {Array(6)
-          .fill(0)
-          .map((skeleton, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <VStack display={isLoaded && 'none'} key={index}>
-              <SkeletonCircle isLoaded={isLoaded} size="10" fadeDuration={1} />
-              <Skeleton height="200px" isLoaded={isLoaded} fadeDuration={1} />
-              <SkeletonText
-                isLoaded={isLoaded}
-                mt="4"
-                noOfLines={4}
-                spacing="4"
-                skeletonHeight="3"
-                fadeDuration={1}
-              />
-            </VStack>
-          ))}
-        {entries.map((item) => (
-          <Card key={item.title} border="1px solid" p="0.5rem" mb="3">
-            <CardHeader>
-              <Flex justifyContent="space-between">
-                <Box>
-                  <HStack>
-                    <Avatar size="sm" name={item.author} src={item.logo || youtubeLogo} />
-                    <Text fontWeight="bold">{item.author}</Text>
-                  </HStack>
-                </Box>
-                <IconButton variant="ghost" icon={<BsStar />} />
-              </Flex>
-            </CardHeader>
-            <CardBody>
-              <VStack align="stretch">
-                <AspectRatio maxW="400px" ratio={16 / 9}>
-                  <Image src={item.image} />
-                </AspectRatio>
-
-                <Heading as="h2" fontSize="md">
-                  {item.title}
-                </Heading>
-              </VStack>
-              <Text textAlign="left" fontSize="xs">
-                {new Date(item.date).toLocaleString().replace(',', '').split(' ').join(' - ')}
-              </Text>
-            </CardBody>
-            <Divider />
-            <CardFooter>
-              <Flex width="100%" justifyContent="flex-end">
-                <a href={item.link} target="_blank" rel="noreferrer">
-                  <Button rightIcon={<HiOutlineExternalLink />}>Show More</Button>
-                </a>
-              </Flex>
-            </CardFooter>
-          </Card>
-        ))}
+        <NewsSkeleton isLoaded={isLoaded} />
+        <NewsCards entries={entries} />
       </SimpleGrid>
     </Box>
   );
