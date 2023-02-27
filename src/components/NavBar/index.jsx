@@ -28,7 +28,7 @@ function NavBar() {
   };
 
   return (
-    <Flex justifyContent="space-between" position="sticky" top="0" width="100%" zIndex="3">
+    <Flex justifyContent="space-between">
       <Flex width="100%" justifyContent="space-between">
         <Menu>
           <MenuButton
