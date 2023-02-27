@@ -2,8 +2,9 @@ import { Button, Card, CardBody, Tag, Text } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function CardResult({ result }) {
+function SOFCardResult({ result }) {
   const { tags, title, link } = result;
+
   return (
     <Card margin="0.5rem">
       <CardBody>
@@ -21,7 +22,7 @@ function CardResult({ result }) {
   );
 }
 
-CardResult.propTypes = {
+SOFCardResult.propTypes = {
   result: PropTypes.shape({
     title: PropTypes.string.isRequired,
     tags: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -29,4 +30,4 @@ CardResult.propTypes = {
   }).isRequired,
 };
 
-export default CardResult;
+export default SOFCardResult;

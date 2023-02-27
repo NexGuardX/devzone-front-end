@@ -7,6 +7,7 @@ const initialState = {
   search: '',
   results: [],
   isOpen: false,
+  searchTools: '',
 };
 
 export const searchSlice = createSlice({
@@ -25,12 +26,16 @@ export const searchSlice = createSlice({
     setNumberOfResults: (state, action) => {
       state.numberOfresults = action.payload;
     },
+    setSearchTools: (state, action) => {
+      state.searchTools = action.payload;
+    },
   },
 });
 
 export default searchSlice.reducer;
 
-export const { setResults, setOpenModal, setSearch, setNumberOfResults } = searchSlice.actions;
+export const { setResults, setOpenModal, setSearchTools, setSearch, setNumberOfResults } =
+  searchSlice.actions;
 
 const thunkSOFSearch = (searchValue) => async (dispatch) => {
   dispatch(setResults([]));
@@ -46,4 +51,15 @@ const thunkSOFSearch = (searchValue) => async (dispatch) => {
   }
 };
 
-export { thunkSOFSearch };
+const thunkNPMSearch = (searchValue) => async (dispatch) => {
+  dispatch(setResults([]));
+  try {
+    const response = await axios.get(`https://api.npms.io/v2/search?q=${searchValue}`);
+    dispatch(setResults(response.data.results));
+    console.log(response.data.results);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { thunkSOFSearch, thunkNPMSearch };
