@@ -15,7 +15,8 @@ export const getImageFromEntry = (entry) =>
   (entry['media:group'] &&
     entry['media:group']['media:thumbnail'] &&
     entry['media:group']['media:thumbnail']['@_url']) ||
-  entry?.enclosure['@_url'];
+  (entry?.enclosure && entry?.enclosure['@_url']) ||
+  null;
 
 /**
  * Description
@@ -26,7 +27,7 @@ export const getDateFromEntry = (entry) =>
   Date.parse(entry?.published || entry?.pubDate || entry?.lastBuildDate);
 
 /**
- * parse RSS entries and return array of objects with needed keys
+ * Parse RSS entries and return sorted array of objects (with image not null) with needed keys
  * @param {array} entries to parse
  * @returns {array} sorted array with selected and transformed entries
  */
@@ -41,4 +42,5 @@ export const parseAndSortFetchedData = (entries) =>
       logo: entry.logo,
       isVideo: !!entry.link.match('youtube.com'),
     }))
+    .filter((entry) => entry.image)
     .sort((a, b) => b.date - a.date);
