@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   CardBody,
@@ -16,7 +17,7 @@ import { FaGithub, FaNpm } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 function NPMCardResult({ result }) {
-  const { description, keywords, links, name } = result;
+  const { description, keywords, links, name, version } = result;
 
   return (
     <Card width="350px" margin="auto" height="500px">
@@ -34,17 +35,20 @@ function NPMCardResult({ result }) {
       <Divider />
 
       <CardBody>
-        <Stack mt="6" spacing="3">
+        <Stack mt="6" spacing="3" minHeight="180px">
           <Heading size="md">{name}</Heading>
           <Text>{description}</Text>
+          <Text>Version : {version}</Text>
         </Stack>
-        {keywords
-          ? keywords.map((keyword) => (
-              <Tag key={keyword} margin="0.3rem">
-                {keyword}
-              </Tag>
-            ))
-          : null}
+        <Box maxH="110px" overflowY="auto">
+          {keywords
+            ? keywords.map((keyword) => (
+                <Tag key={keyword} margin="0.3rem">
+                  {keyword}
+                </Tag>
+              ))
+            : null}
+        </Box>
       </CardBody>
       <Divider />
       <HStack justifyContent="space-evenly">
@@ -76,6 +80,7 @@ NPMCardResult.propTypes = {
       repository: PropTypes.string,
     }),
     name: PropTypes.string,
+    version: PropTypes.string.isRequired,
   }),
 };
 

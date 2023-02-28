@@ -38,7 +38,6 @@ export const { setResults, setOpenModal, setSearchTools, setSearch, setNumberOfR
   searchSlice.actions;
 
 const thunkSOFSearch = (searchValue) => async (dispatch) => {
-  dispatch(setResults([]));
   try {
     const response = await axios.get(
       `https://api.stackexchange.com/2.3/search/advanced?order=desc&sort=votes&accepted=True&title=${searchValue}&site=stackoverflow&filter=!6Wfm_gUEKNo4Q`
@@ -51,14 +50,25 @@ const thunkSOFSearch = (searchValue) => async (dispatch) => {
 };
 
 const thunkNPMSearch = (searchValue) => async (dispatch) => {
-  dispatch(setResults([]));
   try {
     const response = await axios.get(`https://api.npms.io/v2/search?q=${searchValue}`);
     dispatch(setResults(response.data.results));
     dispatch(setNumberOfResults(response.data.total));
+    console.log(response.data);
   } catch (error) {
     console.log(error);
   }
 };
 
-export { thunkSOFSearch, thunkNPMSearch };
+const thunkGHSearch = (searchValue) => async (dispatch) => {
+  try {
+    const response = await axios.get(`https://api.github.com/search/repositories?q=${searchValue}`);
+    dispatch(setNumberOfResults(response.data.total_count));
+    dispatch(setResults(response.data.items));
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { thunkSOFSearch, thunkNPMSearch, thunkGHSearch };

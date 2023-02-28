@@ -1,5 +1,6 @@
 import { Alert, AlertIcon, Box, Flex } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
+import GHCardResult from './GHCardResult';
 import NPMCardResult from './NPMCardResult';
 import SOFCardResult from './SOFCardResult';
 
@@ -10,15 +11,24 @@ function Results() {
   const searchValue = useSelector((state) => state.search.search);
   const numberOfresults = useSelector((state) => state.search.numberOfresults);
 
+  // create ID with date and random number for key
   function randomID() {
     return new Date() * Math.random();
   }
+  console.log(results);
+
+  // Choose which card will be rendered according to the tool
   function switchRender(tool) {
     switch (tool) {
       case 'SOF':
         return results.map((result) => <SOFCardResult key={randomID()} result={result} />);
+
       case 'NPM':
         return results.map((result) => <NPMCardResult key={randomID()} result={result.package} />);
+
+      case 'GH':
+        return results.map((result) => <GHCardResult key={result.id} result={result} />);
+
       default:
         return null;
     }
