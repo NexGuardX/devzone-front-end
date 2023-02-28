@@ -22,6 +22,7 @@
     "react-scripts": "5.0.1",
     "reaptcha": "^1.12.1",
     "sass": "^1.58.2",
+    "split-pane-react": "^0.1.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
