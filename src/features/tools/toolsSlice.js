@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -16,6 +17,11 @@ const initialState = {
       id: 3,
       name: 'News',
       logo: 'https://cdn-icons-png.flaticon.com/512/21/21601.png',
+    },
+    {
+      id: 4,
+      name: 'Stack Overflow',
+      logo: 'https://www.logo.wine/a/logo/Stack_Overflow/Stack_Overflow-Logo.wine.svg',
     },
   ],
 };
