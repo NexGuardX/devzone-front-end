@@ -37,7 +37,7 @@ export default function PlaygroundJs() {
   return (
     <Flex style={{ ...layoutCSS }}>
       <Hide above="md">
-        {/* SplitePane to resize the panel  */}
+        {/* SplitePane to resize the panels  */}
         <SplitPane split="horizontal" sizes={sizes} onChange={setSizes}>
           <Pane minSize="10%" maxSize="90%">
             <Box style={{ ...layoutCSS }}>
