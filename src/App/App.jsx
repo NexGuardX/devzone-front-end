@@ -4,6 +4,8 @@ import Contact from '../components/Contact/index';
 import Home from '../components/Home';
 import Login from '../components/Login';
 import NavBar from '../components/NavBar';
+import News from '../components/News';
+import PlaygroundHtml from '../components/PlaygroundHtml/index';
 import PlaygroundJs from '../components/PlaygroundJs';
 import Profile from '../components/Profile';
 import Search from '../components/Search';
@@ -11,6 +13,10 @@ import SideBar from '../components/SideBar';
 import SignUp from '../components/SignUp';
 import './App.css';
 
+/**
+ * Main Appliccation React Component
+ * @returns {JSX.elements} React Component
+ */
 function App() {
   return (
     <div className="App">
@@ -26,19 +32,19 @@ function App() {
         <Route
           path="/app"
           element={
-            <Flex minH="calc(100vh - 70px)">
+            <Flex minH="calc(100dvh - 70px)" maxH="calc(100dvh - 70px)">
               <SideBar />
-              <Box flexGrow="1">
+              <Box flexGrow="1" overflowY="auto">
                 <Outlet />
               </Box>
             </Flex>
           }
         >
-          <Route index element={<div>WELCOME APP(NEWS)</div>} />
-          <Route path="news" element={<div>NEWS</div>} />
+          <Route index element={<News />} />
+          <Route path="news" element={<News />} />
           <Route path="search" element={<Search />} />
           <Route path="playground-js" element={<PlaygroundJs />} />
-          <Route path="playground-html" element={<div>Playground HTML</div>} />
+          <Route path="playground-html" element={<PlaygroundHtml />} />
         </Route>
       </Routes>
     </div>
