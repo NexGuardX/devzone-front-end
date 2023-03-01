@@ -2,7 +2,7 @@ import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 import NewsCards from './NewsCards';
 import NewsSkeleton from './NewsSkeleton';
-import { parseAndSortFetchedData } from './parseRss';
+import { getEntriesFromRssJson, parseAndSortFetchedData } from './parseRss';
 
 const { REACT_APP_APIEXT_URL } = process.env;
 
@@ -11,7 +11,6 @@ const { REACT_APP_APIEXT_URL } = process.env;
  * - create a feed on rss.app (to generate a feed with all important datas including image)
  * - add the generated feed to the list
  */
-
 const RSS_LIST = [
   'https://www.freecodecamp.org/news/rss',
   'https://rss.app/feeds/rlIgUQu1yZMkJPSr.xml', // CSS tricks
@@ -20,6 +19,7 @@ const RSS_LIST = [
   'https://rss.app/feeds/XXKIuLS9Zof1Hf1R.xml', // sitepoint
   'https://rss.app/feeds/5O5NpvuF9es9Ne6W.xml', // smashingmagazine.com
   'https://rss.app/feeds/XwYF0hX2DMrNhzog.xml', // web.dev
+  'https://www.youtube.com/feeds/videos.xml?channel_id=UCY38RvRIxYODO4penyxUwTg', // https://www.youtube.com/@DaveGrayTeachesCode
   'https://www.youtube.com/feeds/videos.xml?channel_id=UClb90NQQcskPUGDIXsQEz5Q', // developped by Ed
   'https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA', // Fireship
   'https://www.youtube.com/feeds/videos.xml?channel_id=UCbRP3c757lWg9M-U7TyEkXA', // theo t2.gg
@@ -50,25 +50,24 @@ export default function News() {
       }
     });
 
-    // Wait all fetch promises end
-    Promise.all(promises).then((values) => {
-      values.map((value) =>
-        value
-          .json()
-          .then((json) =>
-            setFetchResult((r) => {
-              // eslint-disable-next-line no-shadow
-              let items = json?.entry || json?.item;
-              items = items.map((item) => ({
-                ...item,
-                logo: json?.image?.url,
-              }));
-              return [...r, ...items];
+    // Treat all fetch promises end
+    // - if status !== 200 => do nothing
+    // - if status === 200 => treat fetch result to keep all items (unique) and add them to result state
+    Promise.allSettled(promises).then((promisesResults) => {
+      promisesResults.forEach(
+        (promiseResult) =>
+          promiseResult.value.status === 200 &&
+          promiseResult.value
+            .json()
+            .then((json) =>
+              setFetchResult((prevFetchResult) => {
+                const entries = getEntriesFromRssJson(json);
+                return [...prevFetchResult, ...entries];
+              })
+            )
+            .finally(() => {
+              setIsLoaded(true);
             })
-          )
-          .finally(() => {
-            setIsLoaded(true);
-          })
       );
     });
   }, []);

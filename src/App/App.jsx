@@ -4,8 +4,8 @@ import Contact from '../components/Contact/index';
 import Home from '../components/Home';
 import Login from '../components/Login';
 import NavBar from '../components/NavBar';
-import Simple from '../components/NavBar/test';
 import News from '../components/News';
+import PlaygroundHtml from '../components/PlaygroundHtml/index';
 import PlaygroundJs from '../components/PlaygroundJs';
 import Profile from '../components/Profile';
 import Search from '../components/Search';
@@ -20,7 +20,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <Simple />
+      <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
@@ -44,6 +44,7 @@ function App() {
           <Route path="news" element={<News />} />
           <Route path="search" element={<Search />} />
           <Route path="playground-js" element={<PlaygroundJs />} />
+          <Route path="playground-html" element={<PlaygroundHtml />} />
         </Route>
       </Routes>
     </div>
