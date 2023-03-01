@@ -1,4 +1,22 @@
 /**
+ * Extract entries (unique by title) from json (fetch)
+ * @param {object} json Retrieved from fetch
+ * @returns {array} Entries
+ */
+export const getEntriesFromRssJson = (json) => {
+  let entries = json?.entry || json?.item;
+  entries = entries
+    .map((entry) => ({
+      ...entry,
+      logo: json?.image?.url,
+    }))
+    .filter(
+      (entry, index, array) => array.findIndex((item) => item.title === entry.title) === index
+    );
+  return entries;
+};
+
+/**
  * Description
  * @param {object} entry Entry object with author key to find
  * @returns {string} author
