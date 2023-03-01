@@ -34,7 +34,7 @@ function App() {
           element={
             <Flex minH="calc(100dvh - 70px)" maxH="calc(100dvh - 70px)">
               <SideBar />
-              <Box flexGrow="1" overflowY="scroll">
+              <Box flexGrow="1" overflowY="auto">
                 <Outlet />
               </Box>
             </Flex>
