@@ -1,5 +1,6 @@
 import { Alert, AlertIcon, Box, Flex } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
+import ResultSkeleton from '../ResultSkeleton';
 import GHCardResult from './GHCardResult';
 import NPMCardResult from './NPMCardResult';
 import SOFCardResult from './SOFCardResult';
@@ -10,6 +11,7 @@ function Results() {
 
   const searchValue = useSelector((state) => state.search.search);
   const numberOfresults = useSelector((state) => state.search.numberOfresults);
+  const isLoaded = useSelector((state) => state.search.isLoaded);
 
   // create ID with date and random number for key
   function randomID() {
@@ -48,6 +50,8 @@ function Results() {
             There are no results for your search : &quot; {searchValue} &quot;
           </Alert>
         )}
+
+        <ResultSkeleton isLoaded={isLoaded} />
         {switchRender(searchTool)}
       </Flex>
     </Box>

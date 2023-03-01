@@ -7,6 +7,7 @@ const initialState = {
   search: '',
   results: [],
   isOpen: false,
+  isLoaded: false,
   searchTools: '',
 };
 
@@ -29,13 +30,22 @@ export const searchSlice = createSlice({
     setSearchTools: (state, action) => {
       state.searchTools = action.payload;
     },
+    setIsLoaded: (state, action) => {
+      state.isLoaded = action.payload;
+    },
   },
 });
 
 export default searchSlice.reducer;
 
-export const { setResults, setOpenModal, setSearchTools, setSearch, setNumberOfResults } =
-  searchSlice.actions;
+export const {
+  setResults,
+  setOpenModal,
+  setSearchTools,
+  setSearch,
+  setNumberOfResults,
+  setIsLoaded,
+} = searchSlice.actions;
 
 const thunkSOFSearch = (searchValue) => async (dispatch) => {
   try {
@@ -44,6 +54,7 @@ const thunkSOFSearch = (searchValue) => async (dispatch) => {
     );
     dispatch(setResults(response.data.items));
     dispatch(setNumberOfResults(response.data.total));
+    dispatch(setIsLoaded(true));
   } catch (error) {
     console.log(error);
   }
@@ -54,6 +65,7 @@ const thunkNPMSearch = (searchValue) => async (dispatch) => {
     const response = await axios.get(`https://api.npms.io/v2/search?q=${searchValue}`);
     dispatch(setResults(response.data.results));
     dispatch(setNumberOfResults(response.data.total));
+    dispatch(setIsLoaded(true));
     console.log(response.data);
   } catch (error) {
     console.log(error);
@@ -65,6 +77,7 @@ const thunkGHSearch = (searchValue) => async (dispatch) => {
     const response = await axios.get(`https://api.github.com/search/repositories?q=${searchValue}`);
     dispatch(setNumberOfResults(response.data.total_count));
     dispatch(setResults(response.data.items));
+    dispatch(setIsLoaded(true));
     console.log(response.data);
   } catch (error) {
     console.log(error);

@@ -16,6 +16,7 @@ import { VscSearch } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+  setIsLoaded,
   setOpenModal,
   setResults,
   setSearch,
@@ -42,6 +43,7 @@ function Search() {
   const makeSearch = (event) => {
     event.preventDefault();
     dispatch(setSearch(searchValue));
+    dispatch(setIsLoaded(false));
     onClose();
     dispatch(setOpenModal(false));
     if (searchTools === 'SOF') {
