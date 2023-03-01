@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const initialState = {
-  username: 'zazoo',
+  username: 'Ben',
 };
 
 export const userSlice = createSlice({

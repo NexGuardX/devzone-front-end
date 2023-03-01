@@ -41,6 +41,7 @@ function NavBar() {
       borderStyle="solid"
       borderColor={useColorModeValue('gray.200', 'gray.900')}
       align="center"
+      h="70px"
     >
       {/* MOBILE & TABLETTE ---- BurgerMenu */}
 
@@ -58,29 +59,32 @@ function NavBar() {
             </Center>
           </MenuButton>
           <MenuList>
-            <MenuItem>
-              <NavLink to="/">Home</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/app/news">News</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/app/search">Search</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/app/playground-js">Javascript</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/app/playground-html">HTML</NavLink>
-            </MenuItem>
+            <NavLink to="/">
+              <MenuItem>Home</MenuItem>
+            </NavLink>
+            <NavLink to="/app/news">
+              <MenuItem>News</MenuItem>
+            </NavLink>
+            <NavLink to="/app/search">
+              <MenuItem>Search</MenuItem>
+            </NavLink>
+            <NavLink to="/app/playground-js">
+              <MenuItem>Javascript</MenuItem>
+            </NavLink>
+            <NavLink to="/app/playground-html">
+              <MenuItem>HTML</MenuItem>
+            </NavLink>
+            <NavLink to="/contact">
+              <MenuItem>Contact</MenuItem>
+            </NavLink>
           </MenuList>
         </Menu>
       </Flex>
 
       {/* DESTKOP & GRAND ECRAN --- BurgerMenu */}
 
-      <Flex width="100%" justifyContent="flex-start">
-        <NavLink to="/app" display={{ base: 'left', md: 'center' }}>
+      <Flex width="100%" alignContent="flex-start">
+        <NavLink to="/">
           <Img src={logodevzoneblack} h="60px" display={{ base: 'none', md: 'block' }} />
           <Img src={logodz} h="60px" display={{ base: 'block', md: 'none' }} />
         </NavLink>
@@ -91,20 +95,23 @@ function NavBar() {
       {user ? (
         <Menu>
           <MenuButton
-            aria-label="User menu"
             display={{ base: 'block', md: 'none' }}
-            w="100%"
-            h="70px"
+            mx={6}
+            as={IconButton}
+            rounded="full"
+            variant="link"
+            cursor="pointer"
+            minW={0}
           >
-            <Center>{user}</Center>
+            <Avatar size="md" name={user} src="" />
           </MenuButton>
           <MenuList>
-            <MenuItem>
-              <NavLink to="/profile">Profile</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/logout">LogOut</NavLink>
-            </MenuItem>
+            <NavLink to="/profile">
+              <MenuItem>Profile</MenuItem>
+            </NavLink>
+            <NavLink>
+              <MenuItem onClick={handleClick}>LogOut</MenuItem>
+            </NavLink>
           </MenuList>
         </Menu>
       ) : (
@@ -119,12 +126,12 @@ function NavBar() {
             </Center>
           </MenuButton>
           <MenuList>
-            <MenuItem>
-              <NavLink to="/login">Sign in</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/signup">Sign up</NavLink>
-            </MenuItem>
+            <NavLink to="/login">
+              <MenuItem>Sign in</MenuItem>
+            </NavLink>
+            <NavLink to="/signup">
+              <MenuItem>Sign up</MenuItem>
+            </NavLink>
           </MenuList>
         </Menu>
       )}
@@ -134,24 +141,22 @@ function NavBar() {
       {user ? (
         <Menu>
           <MenuButton
-            as={Button}
+            display={{ base: 'none', md: 'block' }}
+            mx={6}
+            as={IconButton}
             rounded="full"
             variant="link"
-            cursor="pointer"
             minW={0}
-            display={{ base: 'none', md: 'block' }}
           >
-            <Avatar
-              size="md"
-              src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-            />
-            {/* Welcome {user} */}
+            <Avatar size="md" name={user} src="" />
           </MenuButton>
           <MenuList>
-            <MenuItem>
-              <NavLink to="/profile">Profile</NavLink>
-            </MenuItem>
-            <MenuItem onClick={handleClick}>LogOut</MenuItem>
+            <NavLink to="/profile">
+              <MenuItem>Profile</MenuItem>
+            </NavLink>
+            <NavLink>
+              <MenuItem onClick={handleClick}>LogOut</MenuItem>
+            </NavLink>
           </MenuList>
         </Menu>
       ) : (
@@ -162,22 +167,25 @@ function NavBar() {
             fontSize="sm"
             fontWeight={400}
             variant="link"
+            color="white"
           >
             <NavLink to="/login">Sign In</NavLink>
           </Button>
-          <Button
-            as="a"
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize="sm"
-            fontWeight={600}
-            color="white"
-            bg="pink.400"
-            _hover={{
-              bg: 'pink.300',
-            }}
-          >
-            <NavLink to="/signup">Sign Up</NavLink>
-          </Button>
+          <NavLink to="/signup">
+            <Button
+              as="a"
+              display={{ base: 'none', md: 'inline-flex' }}
+              fontSize="sm"
+              fontWeight={600}
+              color="white"
+              bg="pink.400"
+              _hover={{
+                bg: 'pink.300',
+              }}
+            >
+              Sign Up
+            </Button>
+          </NavLink>
         </Stack>
       )}
     </Flex>
