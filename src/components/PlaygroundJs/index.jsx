@@ -1,4 +1,4 @@
-import { Box, Flex, Hide, Show } from '@chakra-ui/react';
+import { Box, Hide, Show } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import SplitPane, { Pane } from 'split-pane-react';
 import 'split-pane-react/esm/themes/default.css';
@@ -22,7 +22,7 @@ export default function PlaygroundJs() {
     height: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
   };
   // Delay execution of Code to let user finish typing
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function PlaygroundJs() {
   }, [code]);
 
   return (
-    <Flex style={{ ...layoutCSS }}>
+    <>
       <Hide above="md">
         <SplitPane split="horizontal" sizes={sizes} onChange={setSizes}>
           <Pane minSize="10%" maxSize="90%">
@@ -57,11 +57,11 @@ export default function PlaygroundJs() {
             </Box>
           </Pane>
 
-          <Box style={{ ...layoutCSS }} bg="gray">
+          <Box flexGrow="1" style={{ ...layoutCSS }} bg="gray">
             <ConsoleOutput code={codeToExecute} />
           </Box>
         </SplitPane>
       </Show>
-    </Flex>
+    </>
   );
 }

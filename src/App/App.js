@@ -4,6 +4,7 @@ import Contact from '../components/Contact/index';
 import Home from '../components/Home';
 import Login from '../components/Login';
 import NavBar from '../components/NavBar';
+import Simple from '../components/NavBar/test';
 import News from '../components/News';
 import PlaygroundJs from '../components/PlaygroundJs';
 import Profile from '../components/Profile';
@@ -19,7 +20,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <NavBar />
+      <Simple />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
@@ -33,7 +34,7 @@ function App() {
           element={
             <Flex minH="calc(100dvh - 70px)" maxH="calc(100dvh - 70px)">
               <SideBar />
-              <Box flexGrow="1" overflowY="scroll">
+              <Box flexGrow="1" overflowY="auto">
                 <Outlet />
               </Box>
             </Flex>
@@ -43,7 +44,6 @@ function App() {
           <Route path="news" element={<News />} />
           <Route path="search" element={<Search />} />
           <Route path="playground-js" element={<PlaygroundJs />} />
-          <Route path="playground-html" element={<div>Playground HTML</div>} />
         </Route>
       </Routes>
     </div>

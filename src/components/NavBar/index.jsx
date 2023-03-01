@@ -9,6 +9,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Stack,
 } from '@chakra-ui/react';
 import { RxHamburgerMenu, RxPerson } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
@@ -149,14 +150,34 @@ function NavBar() {
           </MenuList>
         </Menu>
       ) : (
-        <Menu>
-          <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
-            <NavLink to="/login">LOGIN</NavLink>
+        <Stack flex={{ base: 1, md: 0 }} justify="flex-end" direction="row" spacing={6}>
+          <Button as="a" fontSize="sm" fontWeight={400} variant="link" href="#">
+            Sign In
           </Button>
-          <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
-            <NavLink to="/signup">SIGNUP</NavLink>
+          <Button
+            as="a"
+            display={{ base: 'none', md: 'inline-flex' }}
+            fontSize="sm"
+            fontWeight={600}
+            color="white"
+            bg="pink.400"
+            href="#"
+            _hover={{
+              bg: 'pink.300',
+            }}
+          >
+            Sign Up
           </Button>
-        </Menu>
+        </Stack>
+
+        // <Menu>
+        //   <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
+        //     <NavLink to="/login">LOGIN</NavLink>
+        //   </Button>
+        //   <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
+        //     <NavLink to="/signup">SIGNUP</NavLink>
+        //   </Button>
+        // </Menu>
       )}
     </Flex>
   );
