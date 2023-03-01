@@ -15,7 +15,7 @@ import { FaExpandAlt } from 'react-icons/fa';
 import { SiCsswizardry, SiHtml5, SiJavascript } from 'react-icons/si';
 import useLocalStorage from '../../common/hooks/useLocalStorage';
 import Editor from '../MonacoEditor';
-import { generateIframe } from './generateIframe';
+import { generateIframeHtml } from './generateIframe';
 
 const getHtmlCode = () => `<h1>Hello Devzone</h1>
 <button>Click</button>
@@ -132,11 +132,7 @@ export default function PlaygroundHtml() {
           <Box width="100%" height="45%">
             {titleResult}
             <Box border="1px solid lightgray" height="100%">
-              <iframe
-                sandbox="allow-scripts allow-modals"
-                title="result"
-                srcDoc={generateIframe(codeHtml, codeCss, codeJs)}
-              />
+              {generateIframeHtml(codeHtml, codeCss, codeJs)}
             </Box>
           </Box>
         </Tabs>
@@ -177,11 +173,7 @@ export default function PlaygroundHtml() {
         <Box width="100%" height="50%">
           {titleResult}
           <Box border="1px solid lightgray" height="100%">
-            <iframe
-              sandbox="allow-scripts allow-modals"
-              title="result"
-              srcDoc={generateIframe(codeHtml, codeCss, codeJs)}
-            />
+            {generateIframeHtml(codeHtml, codeCss, codeJs)}
           </Box>
         </Box>
       </Flex>
