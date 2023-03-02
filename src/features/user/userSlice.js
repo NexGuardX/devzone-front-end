@@ -13,6 +13,9 @@ export const userSlice = createSlice({
     setUsername: (state, action) => {
       state.username = action.payload;
     },
+    setId: (state, action) => {
+      state.id = action.payload;
+    },
     setLastname: (state, action) => {
       state.lastname = action.payload;
     },
@@ -37,6 +40,15 @@ export const userSlice = createSlice({
     setSignupForm: (state, action) => {
       state.SignupForm = action.payload;
     },
+    setUserInfos: (state, action) => {
+      Object.entries(action.payload).forEach(([key, value]) => {
+        state[key] = value;
+      });
+    },
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
+
     logout: () => ({}),
   },
 });
@@ -44,30 +56,40 @@ export const userSlice = createSlice({
 export default userSlice.reducer;
 
 export const {
+  removeToolsUser,
   setSignupForm,
   setUsername,
   setToolsUser,
-  removeToolsUser,
   setLastname,
   setFirstname,
+  setId,
   setWebsite,
   setEmail,
   setDescription,
+  setUserInfos,
+  setToken,
   logout,
 } = userSlice.actions;
 
+const { REACT_APP_API_URL } = process.env;
+
 const thunkLogin =
-  ({ email, password }) =>
+  ({ username, email, password }) =>
   async (dispatch) => {
     try {
-      const response = await axios.post('http://localhost:5050/login', {
+      const response = await axios.post(`${REACT_APP_API_URL}/login`, {
         email,
+        username,
         password,
       });
-      dispatch(setFirstname(response.data.user.firstname));
-      dispatch(setLastname(response.data.user.lastname));
-      dispatch(setEmail(response.data.user.email));
-      dispatch(setUsername(response.data.user.username));
+      console.log('⏩ ~ response:', response.data);
+      // dispatch(setFirstname(response.data.user.firstname));
+      // dispatch(setLastname(response.data.user.lastname));
+      // dispatch(setEmail(response.data.user.email));
+      // dispatch(setUsername(response.data.user.username));
+      dispatch(setUserInfos(response.data.user));
+      dispatch(setToken(response.data.token.accessToken));
+
       console.log(response.data.user);
     } catch (error) {
       console.log(error);
@@ -81,7 +103,7 @@ export const thunkSignup =
     const SignupForm = { username, email, password, confirmedPassword };
     dispatch(setSignupForm(SignupForm));
     try {
-      const response = await axios.post('http://localhost:5050/signup', {
+      const response = await axios.post(`${REACT_APP_API_URL}/signup`, {
         username,
         email,
         password,

@@ -19,7 +19,7 @@ export default function SideBarItem({ toolId, icon, text, to, openSearchModal })
 }
 
 SideBarItem.propTypes = {
-  toolId: PropTypes.number.isRequired,
+  toolId: PropTypes.number,
   icon: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
@@ -28,4 +28,5 @@ SideBarItem.propTypes = {
 
 SideBarItem.defaultProps = {
   openSearchModal: null,
+  toolId: null,
 };

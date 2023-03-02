@@ -1,4 +1,6 @@
 import { Flex, VStack } from '@chakra-ui/react';
+import { Fragment } from 'react';
+import { BsStar } from 'react-icons/bs';
 import {
   RiHomeSmileLine,
   RiHtml5Line,
@@ -47,11 +49,13 @@ function SideBar() {
     >
       {/* Upper sidebar menu */}
       <VStack align="left">
+        <SideBarItem icon={BsStar} text="Bookmarks" to="/app/bookmarks" />
         {categories.map((category) => (
-          <>
+          <Fragment key={category.name}>
             <SideBarTitle text={category.name} />
             {category.tools.map((tool) => (
               <SideBarItem
+                key={tool.id}
                 icon={toolsMap[tool.link.toLocaleLowerCase().split('/').reverse()[0]]?.icon}
                 text={tool.name}
                 to={tool.link}
@@ -61,7 +65,7 @@ function SideBar() {
                 }
               />
             ))}
-          </>
+          </Fragment>
         ))}
       </VStack>
       {/* Bottom sidebar menu */}
