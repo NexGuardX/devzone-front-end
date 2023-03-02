@@ -61,7 +61,7 @@ export default function News() {
             .json()
             .then((json) =>
               setFetchResult((prevFetchResult) => {
-                const entries = getEntriesFromRssJson(json);
+                const entries = getEntriesFromRssJson(json.data);
                 return [...prevFetchResult, ...entries];
               })
             )
