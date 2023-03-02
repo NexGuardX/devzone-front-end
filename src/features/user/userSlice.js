@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+// eslint-disable-next-line import/no-named-as-default-member
+import authHeader from '../../common/helpers/authHeader';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -36,9 +38,6 @@ export const userSlice = createSlice({
     setToolsUser: (state, action) => {
       state.tools = action.payload;
     },
-    setToken: (state, action) => {
-      state.token = action.payload;
-    },
     removeToolsUser: (state, action) => {
       state.tools = action.payload;
     },
@@ -61,7 +60,6 @@ export const {
   setWebsite,
   setEmail,
   setId,
-  setToken,
   setDescription,
   logout,
 } = userSlice.actions;
@@ -74,12 +72,15 @@ const thunkLogin =
         email,
         password,
       });
+      // saving id and token in the localstorage to persist the connection
+      localStorage.setItem('userToken', JSON.stringify(response.data.token.accessToken));
+      localStorage.setItem('userId', response.data.user.id);
+
       dispatch(setId(response.data.user.id));
       dispatch(setFirstname(response.data.user.firstname));
       dispatch(setLastname(response.data.user.lastname));
       dispatch(setEmail(response.data.user.email));
       dispatch(setUsername(response.data.user.username));
-      dispatch(setToken(response.data.token.accessToken));
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -116,13 +117,33 @@ export const thunkUpdateProfil = (form, id) => async (dispatch) => {
       website,
       password,
     });
+
     dispatch(setFirstname(response.data.user.firstname));
     dispatch(setLastname(response.data.user.lastname));
     dispatch(setEmail(response.data.user.email));
     dispatch(setUsername(response.data.user.username));
-    dispatch(setWebsite(response.data.website));
+    dispatch(setWebsite(response.data.user.website));
+
     console.log(response);
   } catch (error) {
     console.log(error);
   }
 };
+
+export const thunkGetUser =
+  ({ userId }) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.get(`${REACT_APP_API_URL}/user/${userId}`, {
+        headers: authHeader(),
+      });
+      dispatch(setUsername(response.data.username));
+      dispatch(setEmail(response.data.email));
+      dispatch(setFirstname(response.data.firstname));
+      dispatch(setLastname(response.data.lastname));
+      dispatch(setWebsite(response.data.website));
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };

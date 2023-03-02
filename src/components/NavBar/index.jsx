@@ -24,6 +24,9 @@ function NavBar() {
 
   const handleClick = () => {
     navigate('/');
+    // remove accessToken & userId from localstorage
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userId');
     dispatch(logout());
   };
 

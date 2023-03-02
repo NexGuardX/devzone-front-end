@@ -29,10 +29,13 @@ Content-Type: application/json
 
 {
     "firstname": "Floriane",
-    "lastname": "PERUCCHINI",
+    "lastname": "PERUCCHINI"
 }
 
 ### 
 
 GET http://localhost:4000/api/rss?url=https://www.freecodecamp.org/news/rss HTTP/1.1
 
+### TEST ROUTE GET USER 
+GET http://localhost:8080/user/6 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJmbG9mbG8iLCJpYXQiOjE2Nzc3OTI5NDksImV4cCI6MTY3Nzc5NjU0OSwic3ViIjoiNiJ9.MKnbsDU0gXbgQYOUuw-j6qhGwXKzlsFWYgb9S3x-_DM

@@ -1,13 +1,14 @@
 import {
   Box,
-  Button, Flex,
+  Button,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
   Input,
   Stack,
   // eslint-disable-next-line prettier/prettier
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -17,6 +18,7 @@ import { thunkLogin } from '../../features/user/userSlice';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
