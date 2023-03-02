@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 import { BsStar } from 'react-icons/bs';
 import { FaPlay } from 'react-icons/fa';
 import { HiOutlineExternalLink } from 'react-icons/hi';
+import { useSelector } from 'react-redux';
 import youtubeLogo from '../../assets/images/youtube.png';
 
 /**
@@ -25,6 +26,10 @@ import youtubeLogo from '../../assets/images/youtube.png';
  * @returns {JSX.elements} React Component
  */
 export default function NewsCards({ entries }) {
+  const toolId = useSelector((state) => state.bookmarks.currentToolId);
+  const handleBookmark = () => {
+    console.log('⏩ ~ handleBookmark ~ handleBookmark:', toolId);
+  };
   return (
     <>
       {entries.map((item) => (
@@ -73,7 +78,7 @@ export default function NewsCards({ entries }) {
                 <Text fontWeight="bold">{item.author}</Text>
               </HStack>
             </Box>
-            <IconButton variant="ghost" icon={<BsStar />} />
+            <IconButton variant="ghost" icon={<BsStar />} onClick={handleBookmark} />
           </Flex>
         </Card>
       ))}
