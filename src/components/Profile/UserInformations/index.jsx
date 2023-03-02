@@ -21,11 +21,12 @@ import { useRef, useState } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import {
-  setDescription,
   setEmail,
   setFirstname,
   setLastname,
+  setUsername,
   setWebsite,
+  thunkUpdateProfil,
 } from '../../../features/user/userSlice';
 import Description from './Description';
 
@@ -43,10 +44,13 @@ function UserInformations({ user }) {
   // TODO: Factoriser le handleSubmit et le userSlice
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(setFirstname(event.target[0].value));
-    dispatch(setLastname(event.target[1].value));
-    dispatch(setWebsite(event.target[2].value));
-    dispatch(setEmail(event.target[3].value));
+    const id = event.target[0].value;
+    dispatch(thunkUpdateProfil(form, id));
+    dispatch(setUsername(event.target[1].value));
+    dispatch(setFirstname(event.target[2].value));
+    dispatch(setLastname(event.target[3].value));
+    dispatch(setWebsite(event.target[4].value));
+    dispatch(setEmail(event.target[5].value));
     onClose();
   };
 
@@ -90,6 +94,25 @@ function UserInformations({ user }) {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <form onSubmit={handleSubmit} className="modal-form">
+              <FormControl>
+                <Input type="hidden" name="id" value={user.id} />
+              </FormControl>
+
+              <FormControl>
+                <FormLabel className="modal-form-label" htmlFor="username">
+                  Username
+                  <Input
+                    id="username"
+                    onChange={handleChange}
+                    ref={initialRef}
+                    type="text"
+                    name="username"
+                    defaultValue={user.username}
+                    placeholder="Username"
+                  />
+                </FormLabel>
+              </FormControl>
+
               <FormControl>
                 <FormLabel className="modal-form-label" htmlFor="firstname">
                   First name
@@ -147,6 +170,19 @@ function UserInformations({ user }) {
                 </FormLabel>
               </FormControl>
 
+              <FormControl>
+                <FormLabel className="modal-form-label" htmlFor="website">
+                  Password
+                  <Input
+                    id="password"
+                    onChange={handleChange}
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                  />
+                </FormLabel>
+              </FormControl>
+
               <Button type="submit">Save</Button>
               <Button type="button" onClick={onClose}>
                 Cancel
@@ -160,6 +196,7 @@ function UserInformations({ user }) {
 }
 UserInformations.propTypes = {
   user: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     avatar: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
     firstname: PropTypes.string,
