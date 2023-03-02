@@ -1,5 +1,6 @@
 import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import NewsCards from './NewsCards';
 import NewsSkeleton from './NewsSkeleton';
 import { getEntriesFromRssJson, parseAndSortFetchedData } from './parseRss';
@@ -31,6 +32,8 @@ const RSS_LIST = [
  * @returns {JSX.elements} React Component
  */
 export default function News() {
+  const location = useLocation();
+  const { toolId } = location.state;
   const [fetchResult, setFetchResult] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 

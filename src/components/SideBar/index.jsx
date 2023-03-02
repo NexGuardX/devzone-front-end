@@ -8,6 +8,7 @@ import {
 } from 'react-icons/ri';
 import { SiJavascript } from 'react-icons/si';
 import { useDispatch } from 'react-redux';
+import { categories } from '../../common/data/categories';
 import { setOpenModal } from '../../features/search/searchSlice';
 import SideBarItem from './SideBarItem';
 import SideBarTitle from './SideBarTitle';
@@ -16,6 +17,22 @@ function SideBar() {
   const dispatch = useDispatch();
   const handleSearchModal = () => {
     dispatch(setOpenModal(true));
+  };
+
+  const toolsMap = {
+    news: {
+      icon: RiNewspaperLine,
+    },
+    search: {
+      icon: RiSearchLine,
+      openSearchModal: handleSearchModal,
+    },
+    'playground-js': {
+      icon: SiJavascript,
+    },
+    'playground-html': {
+      icon: RiHtml5Line,
+    },
   };
 
   return (
@@ -30,16 +47,22 @@ function SideBar() {
     >
       {/* Upper sidebar menu */}
       <VStack align="left">
-        <SideBarItem icon={RiNewspaperLine} text="News" to="/app/news" />
-        <SideBarItem
-          openSearchModal={handleSearchModal}
-          icon={RiSearchLine}
-          text="Search"
-          to="/app/search"
-        />
-        <SideBarTitle text="Playground" />
-        <SideBarItem icon={SiJavascript} text="Javascript" to="/app/playground-js" />
-        <SideBarItem icon={RiHtml5Line} text="HTML" to="/app/playground-html" />
+        {categories.map((category) => (
+          <>
+            <SideBarTitle text={category.name} />
+            {category.tools.map((tool) => (
+              <SideBarItem
+                icon={toolsMap[tool.link.toLocaleLowerCase().split('/').reverse()[0]]?.icon}
+                text={tool.name}
+                to={tool.link}
+                toolId={tool.id}
+                openSearchModal={
+                  toolsMap[tool.link.toLocaleLowerCase().split('/').reverse()[0]]?.openSearchModal
+                }
+              />
+            ))}
+          </>
+        ))}
       </VStack>
       {/* Bottom sidebar menu */}
       <VStack align="left">
