@@ -16,7 +16,7 @@ app.get('/api/rss', async (req, res, next) => {
     const feed = await extract(url, {
       normalization: false,
     });
-    return res.json(feed);
+    return res.json({ data: feed });
   } catch (error) {
     return res.status(400).json({ url });
   }
