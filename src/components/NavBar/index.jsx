@@ -143,7 +143,6 @@ function NavBar() {
           <MenuButton
             display={{ base: 'none', md: 'block' }}
             mx={6}
-            as={IconButton}
             rounded="full"
             variant="link"
             minW={0}

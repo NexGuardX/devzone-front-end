@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const initialState = {
-  username: 'Ben',
+  username: 'zed',
 };
 
 export const userSlice = createSlice({
@@ -28,8 +28,14 @@ export const userSlice = createSlice({
     setDescription: (state, action) => {
       state.description = action.payload;
     },
+    setId: (state, action) => {
+      state.id = action.payload;
+    },
     setToolsUser: (state, action) => {
       state.tools = action.payload;
+    },
+    setToken: (state, action) => {
+      state.token = action.payload;
     },
     removeToolsUser: (state, action) => {
       state.tools = action.payload;
@@ -52,6 +58,8 @@ export const {
   setFirstname,
   setWebsite,
   setEmail,
+  setId,
+  setToken,
   setDescription,
   logout,
 } = userSlice.actions;
@@ -60,15 +68,17 @@ const thunkLogin =
   ({ email, password }) =>
     async (dispatch) => {
       try {
-        const response = await axios.post('http://localhost:5050/login', {
+        const response = await axios.post(`http://localhost:8080/login`, {
           email,
           password,
         });
+        dispatch(setId(response.data.user.id));
         dispatch(setFirstname(response.data.user.firstname));
         dispatch(setLastname(response.data.user.lastname));
         dispatch(setEmail(response.data.user.email));
         dispatch(setUsername(response.data.user.username));
-        console.log(response.data.user);
+        dispatch(setToken(response.data.token.accessToken));
+        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -81,7 +91,7 @@ export const thunkSignup =
       const SignupForm = { username, email, password, confirmedPassword };
       dispatch(setSignupForm(SignupForm));
       try {
-        const response = await axios.post('http://localhost:5050/signup', {
+        const response = await axios.post(`http://localhost:8080/signup`, {
           username,
           email,
           password,

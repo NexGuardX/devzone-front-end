@@ -1,6 +1,7 @@
 import {
   Box,
-  Button, Flex,
+  Button,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
@@ -27,7 +28,7 @@ function Login() {
 
     setEmail('');
     setPassword('');
-    navigate('/app');
+    navigate('/');
   };
   const handleEmailInput = (e) => setEmail(e.target.value);
 
