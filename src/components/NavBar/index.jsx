@@ -3,15 +3,18 @@ import {
   Center,
   Avatar,
   Flex,
+  Box,
   IconButton,
   Img,
   Menu,
   MenuButton,
   MenuItem,
+  Spacer,
   MenuList,
   useColorModeValue,
-  Stack,
+  HStack,
 } from '@chakra-ui/react';
+import { BsBoxArrowInRight } from 'react-icons/bs';
 import { RxHamburgerMenu, RxPerson } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -33,6 +36,8 @@ function NavBar() {
 
   return (
     <Flex
+      position="sticky"
+      top="0"
       bg={useColorModeValue('blue.900', 'blue.800')}
       minH="60px"
       py={{ base: 2 }}
@@ -44,8 +49,7 @@ function NavBar() {
       h="70px"
     >
       {/* MOBILE & TABLETTE ---- BurgerMenu */}
-
-      <Flex width="100%" justifyContent="flex-start">
+      <Box>
         <Menu>
           <MenuButton
             as={IconButton}
@@ -79,24 +83,28 @@ function NavBar() {
             </NavLink>
           </MenuList>
         </Menu>
-      </Flex>
+      </Box>
 
       {/* DESTKOP & GRAND ECRAN --- BurgerMenu */}
-
-      <Flex width="100%" alignContent="flex-start">
-        <NavLink to="/">
-          <Img src={logodevzoneblack} h="60px" display={{ base: 'none', md: 'block' }} />
-          <Img src={logodz} h="60px" display={{ base: 'block', md: 'none' }} />
+      <Box display={{ base: 'none', md: 'block' }}>
+        <NavLink to="/app">
+          <Button bg="gray.400" rightIcon={<BsBoxArrowInRight />}>
+            App
+          </Button>
         </NavLink>
-      </Flex>
+      </Box>
+      <Spacer />
+      <NavLink to="/">
+        <Img src={logodevzoneblack} h="60px" display={{ base: 'none', md: 'block' }} />
+        <Img src={logodz} h="60px" display={{ base: 'block', md: 'none' }} />
+      </NavLink>
 
+      <Spacer />
       {/* MOBILE & TABLETTE -  Profile */}
-
       {user ? (
         <Menu>
           <MenuButton
             display={{ base: 'block', md: 'none' }}
-            mx={6}
             as={IconButton}
             rounded="full"
             variant="link"
@@ -115,7 +123,7 @@ function NavBar() {
           </MenuList>
         </Menu>
       ) : (
-        <Menu>
+        <Menu p="2">
           <MenuButton
             as={IconButton}
             aria-label="Menu application"
@@ -135,18 +143,11 @@ function NavBar() {
           </MenuList>
         </Menu>
       )}
-
       {/* DESTKOP & GRAND ECRAN --- Profile */}
 
       {user ? (
         <Menu>
-          <MenuButton
-            display={{ base: 'none', md: 'block' }}
-            mx={6}
-            rounded="full"
-            variant="link"
-            minW={0}
-          >
+          <MenuButton display={{ base: 'none', md: 'block' }} rounded="full" variant="link">
             <Avatar size="md" name={user} src="" />
           </MenuButton>
           <MenuList>
@@ -159,7 +160,7 @@ function NavBar() {
           </MenuList>
         </Menu>
       ) : (
-        <Stack flex={{ base: 1, md: 0 }} justify="flex-end" direction="row" spacing={6}>
+        <HStack spacing={6}>
           <Button
             as="a"
             display={{ base: 'none', md: 'inline-flex' }}
@@ -185,7 +186,7 @@ function NavBar() {
               Sign Up
             </Button>
           </NavLink>
-        </Stack>
+        </HStack>
       )}
     </Flex>
   );
