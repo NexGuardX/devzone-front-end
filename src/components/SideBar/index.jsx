@@ -23,7 +23,6 @@ function SideBar() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('USEEFFECT sidebar');
     dispatch(thunkFetchSidebarCategoriesAndTools());
   }, [username]);
 

@@ -35,6 +35,9 @@ export const userSlice = createSlice({
     setToolsUser: (state, action) => {
       state.tools = action.payload;
     },
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
     removeToolsUser: (state, action) => {
       state.tools = action.payload;
     },
@@ -46,9 +49,7 @@ export const userSlice = createSlice({
         state[key] = value;
       });
     },
-    setToken: (state, action) => {
-      state.token = action.payload;
-    },
+
     setSidebarCategoriesAndTools: (state, action) => {
       state.sidebarCategoriesAndTools = action.payload;
     },
@@ -78,7 +79,7 @@ export const {
 
 const { REACT_APP_API_URL } = process.env;
 
-const thunkLogin =
+export const thunkLogin =
   ({ username, email, password }) =>
   async (dispatch) => {
     try {
@@ -87,16 +88,12 @@ const thunkLogin =
         username,
         password,
       });
-
       dispatch(setUserInfos(response.data.user));
       dispatch(setToken(response.data.token.accessToken));
-
-      console.log(response.data.user);
     } catch (error) {
       console.log(error);
     }
   };
-export { thunkLogin };
 
 export const thunkSignup =
   ({ username, email, password, confirmedPassword }) =>
