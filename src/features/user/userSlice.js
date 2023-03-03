@@ -1,9 +1,10 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { categories, userCategories } from '../../common/data/categories';
 
 const initialState = {
-  username: '',
+  sidebarCategoriesAndTools: [],
 };
 
 export const userSlice = createSlice({
@@ -48,8 +49,11 @@ export const userSlice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
     },
+    setSidebarCategoriesAndTools: (state, action) => {
+      state.sidebarCategoriesAndTools = action.payload;
+    },
 
-    logout: () => ({}),
+    logout: () => initialState,
   },
 });
 
@@ -68,6 +72,7 @@ export const {
   setDescription,
   setUserInfos,
   setToken,
+  setSidebarCategoriesAndTools,
   logout,
 } = userSlice.actions;
 
@@ -82,11 +87,7 @@ const thunkLogin =
         username,
         password,
       });
-      console.log('⏩ ~ response:', response.data);
-      // dispatch(setFirstname(response.data.user.firstname));
-      // dispatch(setLastname(response.data.user.lastname));
-      // dispatch(setEmail(response.data.user.email));
-      // dispatch(setUsername(response.data.user.username));
+
       dispatch(setUserInfos(response.data.user));
       dispatch(setToken(response.data.token.accessToken));
 
@@ -109,8 +110,32 @@ export const thunkSignup =
         password,
         confirmedPassword,
       });
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
+
+export const thunkFetchSidebarCategoriesAndTools = () => async (dispatch, getState) => {
+  const { username } = getState().user;
+  if (!username) {
+    console.log('SIDEBAR CLASSIC');
+    try {
+      // const response = await axios(`${REACT_APP_API_URL}/categories`);
+      // const categories = response.data;
+      dispatch(setSidebarCategoriesAndTools(categories));
+    } catch (error) {
+      console.error(error);
+    }
+    return;
+  }
+
+  // if not login
+  try {
+    // eslint-disable-next-line consistent-return
+    // const response = await axios(`${REACT_APP_API_URL}/categories/userID`);
+    // const categories = response.data;
+    dispatch(setSidebarCategoriesAndTools(userCategories));
+  } catch (error) {
+    console.error(error);
+  }
+};

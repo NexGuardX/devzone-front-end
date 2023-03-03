@@ -1,5 +1,5 @@
 import { Flex, VStack } from '@chakra-ui/react';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { BsStar } from 'react-icons/bs';
 import {
   RiHomeSmileLine,
@@ -9,14 +9,24 @@ import {
   RiSearchLine,
 } from 'react-icons/ri';
 import { SiJavascript } from 'react-icons/si';
-import { useDispatch } from 'react-redux';
-import { categories } from '../../common/data/categories';
+import { useDispatch, useSelector } from 'react-redux';
 import { setOpenModal } from '../../features/search/searchSlice';
+import { thunkFetchSidebarCategoriesAndTools } from '../../features/user/userSlice';
 import SideBarItem from './SideBarItem';
 import SideBarTitle from './SideBarTitle';
 
+const { REACT_APP_API_URL } = process.env;
+
 function SideBar() {
+  const username = useSelector((state) => state.user.username);
+  const categoriesAndTools = useSelector((state) => state.user.sidebarCategoriesAndTools);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log('USEEFFECT sidebar');
+    dispatch(thunkFetchSidebarCategoriesAndTools());
+  }, [username]);
+
   const handleSearchModal = () => {
     dispatch(setOpenModal(true));
   };
@@ -49,8 +59,8 @@ function SideBar() {
     >
       {/* Upper sidebar menu */}
       <VStack align="left">
-        <SideBarItem icon={BsStar} text="Bookmarks" to="/app/bookmarks" />
-        {categories.map((category) => (
+        {username ? <SideBarItem icon={BsStar} text="Bookmarks" to="/app/bookmarks" /> : null}
+        {categoriesAndTools.map((category) => (
           <Fragment key={category.name}>
             <SideBarTitle text={category.name} />
             {category.tools.map((tool) => (
