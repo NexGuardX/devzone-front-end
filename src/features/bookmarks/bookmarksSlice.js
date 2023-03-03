@@ -16,11 +16,14 @@ export const bookmarksSlice = createSlice({
     setCurrentToolId: (state, action) => {
       state.currentToolId = action.payload;
     },
+    setList: (state, action) => {
+      state.list = action.payload;
+    },
   },
 });
 
 export default bookmarksSlice.reducer;
-export const { setCurrentToolId } = bookmarksSlice.actions;
+export const { setCurrentToolId, setList } = bookmarksSlice.actions;
 
 export const thunkBookmark = (data) => async (dispatch, getState) => {
   const { token } = getState().user;
@@ -33,4 +36,34 @@ export const thunkBookmark = (data) => async (dispatch, getState) => {
     data,
   });
   console.log('⏩ ~ response:', response);
+};
+
+export const thunkDeleteBookmark = (id) => async (dispatch, getState) => {
+  // TODO Handle ERRORS + try catch
+  // TODO Add Image link
+  // TODO add tool name/tag
+  const { token } = getState().user;
+  const { list } = getState().bookmarks;
+  const response = await axios({
+    config: {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+    method: 'DELETE',
+    url: `${REACT_APP_API_URL}/bookmark/${id}`,
+  });
+  dispatch(setList(list.filter((item) => item.id !== id)));
+};
+
+export const thunkFetchUserBookmarks = () => async (dispatch, getState) => {
+  const { id } = getState().user;
+  const { token } = getState().user;
+  const response = await axios({
+    config: {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+    method: 'GET',
+    url: `${REACT_APP_API_URL}/bookmarks/user/${id}`,
+  });
+  console.log('⏩ ~ response:', response);
+  dispatch(setList(response.data));
 };

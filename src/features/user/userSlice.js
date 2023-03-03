@@ -115,7 +115,6 @@ export const thunkSignup =
 export const thunkFetchSidebarCategoriesAndTools = () => async (dispatch, getState) => {
   const { username } = getState().user;
   if (!username) {
-    console.log('SIDEBAR CLASSIC');
     try {
       // const response = await axios(`${REACT_APP_API_URL}/categories`);
       // const categories = response.data;
