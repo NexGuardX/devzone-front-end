@@ -10,10 +10,10 @@ function NotFoundPage() {
           404
         </Text>
         <Img src={Delorean} alt="Dolorean" />
-        <Text color="gray" fontSize="2xl">
+        <Text color="gray" fontSize="2xl" textAlign="center">
           I GUESS YOU AREN&apos;T READY FOR THAT PAGE YET...{' '}
         </Text>
-        <Text color="gray" fontSize="2xl">
+        <Text color="gray" fontSize="2xl" textAlign="center">
           BUT YOUR KIDS ARE GONNA LOVE IT.{' '}
         </Text>
         <NavLink to="/">
