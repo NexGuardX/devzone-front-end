@@ -1,25 +1,25 @@
 import {
+  Avatar,
+  Box,
   Button,
   Center,
-  Avatar,
   Flex,
-  Box,
+  HStack,
   IconButton,
   Img,
   Menu,
   MenuButton,
   MenuItem,
-  Spacer,
   MenuList,
+  Spacer,
   useColorModeValue,
-  HStack,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 import { BsBoxArrowInRight } from 'react-icons/bs';
+import { GrClose } from 'react-icons/gr';
 import { RxHamburgerMenu, RxPerson } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { GrClose } from 'react-icons/gr';
 import logodevzoneblack from '../../assets/images/devzoneblack.png';
 import logodz from '../../assets/images/logo-dz.png';
 import { logout } from '../../features/user/userSlice';
@@ -36,8 +36,7 @@ function NavBar() {
 
   return (
     <Flex
-      position="sticky"
-      top="0"
+      width="100%"
       bg={useColorModeValue('blue.900', 'blue.800')}
       minH="60px"
       py={{ base: 2 }}
@@ -59,7 +58,7 @@ function NavBar() {
             onClick={() => setBurgerMenu((burgerMenu) => !burgerMenu)}
           >
             <Center>
-              {burgerMenu ? <RxHamburgerMenu size="2rem" /> : <GrClose size="2rem" />}
+              {burgerMenu ? <GrClose size="2rem" /> : <RxHamburgerMenu size="2rem" />}
             </Center>
           </MenuButton>
           <MenuList>
