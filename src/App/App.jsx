@@ -5,6 +5,7 @@ import Home from '../components/Home';
 import Login from '../components/Login';
 import NavBar from '../components/NavBar';
 import News from '../components/News';
+import NotFoundPage from '../components/NotFoundPage/index';
 import PlaygroundHtml from '../components/PlaygroundHtml/index';
 import PlaygroundJs from '../components/PlaygroundJs';
 import Profile from '../components/Profile';
@@ -46,6 +47,8 @@ function App() {
           <Route path="playground-js" element={<PlaygroundJs />} />
           <Route path="playground-html" element={<PlaygroundHtml />} />
         </Route>
+
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );
