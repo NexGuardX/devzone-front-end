@@ -1,25 +1,32 @@
 import { Flex, Heading } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { BsGear } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import { thunkGetUser } from '../../features/user/userSlice';
-import ToolSelector from './ToolSelector';
+import { useNavigate } from 'react-router-dom';
+import { thunkCategoriesWithTools } from '../../features/tools/toolsSlice';
+import { thunkGetUserCategories } from '../../features/user/userSlice';
+import CategoryItem from './CategoryItem';
 import UserInformations from './UserInformations';
 
 function Profile() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userId = localStorage.getItem('userId');
-  console.log(userId);
 
   const user = useSelector((state) => state.user);
-  const tools = useSelector((state) => state.tools.tools);
+  // const tools = useSelector((state) => state.tools.tools);
 
-  if (userId) {
-    dispatch(thunkGetUser({ userId }));
-  } else {
-    // if no userID is registered in localStorage, we redirect to the login page
-    return <Navigate to="/login" />;
-  }
+  const userCategories = useSelector((state) => state.user.tools);
+  dispatch(thunkGetUserCategories());
+
+  const categoriesWithTools = useSelector((state) => state.tools.categories);
+  dispatch(thunkCategoriesWithTools());
+  useEffect(() => {
+    if (userId === null) {
+      // if no userID is registered in localStorage, we redirect to the login page
+      navigate('/login');
+    }
+  }, [categoriesWithTools, userCategories]);
 
   return (
     <Flex textAlign="center" flexDirection={{ base: 'column', md: 'row' }}>
@@ -39,10 +46,13 @@ function Profile() {
             My tools
           </Heading>
         </Flex>
-
-        {tools.map((tool) => (
-          <ToolSelector key={tool.id} tool={tool} userTools={user.tools} />
+        {categoriesWithTools.map((category) => (
+          <CategoryItem key={category.id} category={category} userCategories={userCategories} />
         ))}
+
+        {/* {tools.map((tool) => (
+          <ToolSelector key={tool.id} tool={tool} userTools={user.tools} />
+        ))} */}
       </Flex>
     </Flex>
   );

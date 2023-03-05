@@ -22,6 +22,12 @@ function NavBar() {
   const user = useSelector((state) => state.user.username);
   const dispatch = useDispatch();
 
+  const userId = localStorage.getItem('userId');
+
+  if (userId) {
+    // dispatch(thunkGetUser({ userId }));
+  }
+
   const handleClick = () => {
     navigate('/');
     // remove accessToken & userId from localstorage

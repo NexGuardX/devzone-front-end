@@ -20,6 +20,7 @@ import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
+import profilePicture from '../../../assets/images/4500_3_04.jpg';
 import {
   setEmail,
   setFirstname,
@@ -73,7 +74,7 @@ function UserInformations({ user }) {
         maxW="300px"
         rounded="full"
         border="3px solid black"
-        src={user.avatar}
+        src={profilePicture}
       />
       <Stack marginTop="0.5rem">
         <Text>Pseudo</Text>
@@ -197,13 +198,12 @@ function UserInformations({ user }) {
 UserInformations.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    avatar: PropTypes.string.isRequired,
+    avatar: PropTypes.string,
     username: PropTypes.string.isRequired,
     firstname: PropTypes.string,
     lastname: PropTypes.string,
     email: PropTypes.string,
     website: PropTypes.string,
-    description: PropTypes.string,
   }).isRequired,
 };
 export default UserInformations;

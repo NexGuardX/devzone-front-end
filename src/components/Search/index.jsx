@@ -31,6 +31,7 @@ function Search() {
   const dispatch = useDispatch();
   const isModalOpen = useSelector((state) => state.search.isOpen);
   const searchTools = useSelector((state) => state.search.searchTools);
+  const isLoaded = useSelector((state) => state.search.isLoaded);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchValue, setSearchValue] = useState('');
 
@@ -145,8 +146,7 @@ function Search() {
           </form>
         </ModalContent>
       </Modal>
-
-      <Results />
+      {isLoaded ? <Results /> : null}
     </Flex>
   );
 }

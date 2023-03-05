@@ -1,34 +1,36 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
+import categories from '../../data/allTools';
+
+const { REACT_APP_API_URL } = process.env;
 
 const initialState = {
-  tools: [
-    {
-      id: 1,
-      name: 'NPM search',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/2560px-Npm-logo.svg.png',
-    },
-    {
-      id: 2,
-      name: 'Playground JS',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/800px-JavaScript-logo.png',
-    },
-    {
-      id: 3,
-      name: 'News',
-      logo: 'https://cdn-icons-png.flaticon.com/512/21/21601.png',
-    },
-    {
-      id: 4,
-      name: 'Stack Overflow',
-      logo: 'https://www.logo.wine/a/logo/Stack_Overflow/Stack_Overflow-Logo.wine.svg',
-    },
-  ],
+  tools: [],
 };
 
 export const toolsSlice = createSlice({
   name: 'tools',
   initialState,
+  reducers: {
+    setCategoriesWithTools: (state, action) => {
+      state.categories = action.payload;
+    },
+  },
 });
 
 export default toolsSlice.reducer;
+
+export const { setCategoriesWithTools } = toolsSlice.actions;
+
+export const thunkCategoriesWithTools = () => async (dispatch) => {
+  console.log(categories);
+  dispatch(setCategoriesWithTools(categories));
+  // try {
+  //   const response = await axios.get(`${REACT_APP_API_URL}/categories`);
+  //   dispatch(setCategoriesWithTools(response.data))
+
+  // } catch (error) {
+  //   console.log(error);
+
+  // }
+};
