@@ -15,9 +15,9 @@ import {
   // eslint-disable-next-line prettier/prettier
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { thunkSignup } from '../../features/user/userSlice';
 
@@ -34,6 +34,8 @@ export default function SignUp() {
   const handlePasswordInput = (e) => setPassword(e.target.value);
   const handleConfirmedPasswordInput = (e) => setConfirmedPassword(e.target.value);
 
+  const fetchResponse = useSelector((state) => state.user.response);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -44,14 +46,25 @@ export default function SignUp() {
       setIsError('Confirm password should match password');
       return;
     }
+
     dispatch(thunkSignup({ username, email, password, confirmedPassword }));
 
     setUsername('');
     setEmail('');
     setPassword('');
     setConfirmedPassword('');
-    navigate('/login');
   };
+
+  useEffect(() => {
+    if (fetchResponse === 201) {
+      navigate('/login', {
+        state: {
+          message:
+            'An email has been sent to you, click on the link and you will be able to connect',
+        },
+      });
+    }
+  }, [fetchResponse]);
 
   return (
     <Flex
@@ -67,6 +80,12 @@ export default function SignUp() {
           </Heading>
         </Stack>
         <Box rounded="lg" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
+          {fetchResponse !== 201 && (
+            <Text color="red" align="center">
+              {fetchResponse}
+            </Text>
+          )}
+
           <form onSubmit={handleSubmit} spacing={4}>
             <HStack>
               <FormControl isRequired>

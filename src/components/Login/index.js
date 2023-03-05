@@ -1,4 +1,5 @@
 import {
+  Text,
   Box,
   Button,
   Flex,
@@ -8,18 +9,18 @@ import {
   Input,
   Stack,
   // eslint-disable-next-line prettier/prettier
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { thunkLogin } from '../../features/user/userSlice';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
@@ -30,6 +31,7 @@ function Login() {
     setPassword('');
     navigate('/');
   };
+
   const handleEmailInput = (e) => setEmail(e.target.value);
 
   const handlePasswordInput = (e) => setPassword(e.target.value);
@@ -46,6 +48,12 @@ function Login() {
           <Heading fontSize="4xl">Sign in to your account</Heading>
         </Stack>
         <Box rounded="lg" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
+          {location.state?.message && (
+            <Text color="green" align="center">
+              {location.state?.message}
+            </Text>
+          )}
+
           <form onSubmit={handleSubmit} spacing={4}>
             <FormControl isRequired>
               <FormLabel>Email address</FormLabel>

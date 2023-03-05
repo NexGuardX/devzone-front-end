@@ -44,6 +44,9 @@ export const userSlice = createSlice({
       state.SignupForm = action.payload;
     },
     logout: () => ({}),
+    setFetchResponse: (state, action) => {
+      state.response = action.payload;
+    },
   },
 });
 
@@ -62,43 +65,44 @@ export const {
   setToken,
   setDescription,
   logout,
+  setFetchResponse,
 } = userSlice.actions;
 
 const thunkLogin =
   ({ email, password }) =>
-    async (dispatch) => {
-      try {
-        const response = await axios.post(`http://localhost:8080/login`, {
-          email,
-          password,
-        });
-        dispatch(setId(response.data.user.id));
-        dispatch(setFirstname(response.data.user.firstname));
-        dispatch(setLastname(response.data.user.lastname));
-        dispatch(setEmail(response.data.user.email));
-        dispatch(setUsername(response.data.user.username));
-        dispatch(setToken(response.data.token.accessToken));
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  async (dispatch) => {
+    try {
+      const response = await axios.post(`http://localhost:8080/login`, {
+        email,
+        password,
+      });
+      dispatch(setId(response.data.user.id));
+      dispatch(setFirstname(response.data.user.firstname));
+      dispatch(setLastname(response.data.user.lastname));
+      dispatch(setEmail(response.data.user.email));
+      dispatch(setUsername(response.data.user.username));
+      dispatch(setToken(response.data.token.accessToken));
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 export { thunkLogin };
 
 export const thunkSignup =
   ({ username, email, password, confirmedPassword }) =>
-    async (dispatch) => {
-      const SignupForm = { username, email, password, confirmedPassword };
-      dispatch(setSignupForm(SignupForm));
-      try {
-        const response = await axios.post(`http://localhost:8080/signup`, {
-          username,
-          email,
-          password,
-          confirmedPassword,
-        });
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  async (dispatch) => {
+    const SignupForm = { username, email, password, confirmedPassword };
+    dispatch(setSignupForm(SignupForm));
+    try {
+      const response = await axios.post(`http://localhost:8080/signup`, {
+        username,
+        email,
+        password,
+        confirmedPassword,
+      });
+      dispatch(setFetchResponse(response.status));
+    } catch (error) {
+      dispatch(setFetchResponse(error.response.data.message));
+    }
+  };
