@@ -82,9 +82,9 @@ const thunkLogin =
       dispatch(setEmail(response.data.user.email));
       dispatch(setUsername(response.data.user.username));
       dispatch(setToken(response.data.token.accessToken));
-      console.log(response.data);
+      dispatch(setFetchResponse(response.status));
     } catch (error) {
-      console.log(error);
+      dispatch(setFetchResponse(error.response.data));
     }
   };
 export { thunkLogin };
@@ -101,7 +101,7 @@ export const thunkSignup =
         password,
         confirmedPassword,
       });
-      dispatch(setFetchResponse(response.status));
+      dispatch(setFetchResponse(response.statusText));
     } catch (error) {
       dispatch(setFetchResponse(error.response.data.message));
     }

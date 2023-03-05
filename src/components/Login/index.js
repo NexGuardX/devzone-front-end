@@ -1,5 +1,4 @@
 import {
-  Text,
   Box,
   Button,
   Flex,
@@ -8,11 +7,12 @@ import {
   Heading,
   Input,
   Stack,
+  Text,
   // eslint-disable-next-line prettier/prettier
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { thunkLogin } from '../../features/user/userSlice';
 
@@ -23,14 +23,20 @@ function Login() {
   const location = useLocation();
   const dispatch = useDispatch();
 
+  const fetchResponse = useSelector((state) => state.user.response);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(thunkLogin({ email, password }));
-
-    setEmail('');
-    setPassword('');
-    navigate('/');
   };
+
+  useEffect(() => {
+    if (fetchResponse === 201) {
+      setEmail('');
+      setPassword('');
+      navigate('/');
+    }
+  }, [fetchResponse]);
 
   const handleEmailInput = (e) => setEmail(e.target.value);
 
@@ -51,6 +57,11 @@ function Login() {
           {location.state?.message && (
             <Text color="green" align="center">
               {location.state?.message}
+            </Text>
+          )}
+          {fetchResponse !== 'Created' && (
+            <Text color="red" align="center">
+              {fetchResponse}
             </Text>
           )}
 

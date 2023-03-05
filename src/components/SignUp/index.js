@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { thunkSignup } from '../../features/user/userSlice';
 
@@ -48,21 +48,20 @@ export default function SignUp() {
     }
 
     dispatch(thunkSignup({ username, email, password, confirmedPassword }));
-
-    setUsername('');
-    setEmail('');
-    setPassword('');
-    setConfirmedPassword('');
   };
 
   useEffect(() => {
-    if (fetchResponse === 201) {
+    if (fetchResponse === 'Created') {
       navigate('/login', {
         state: {
           message:
             'An email has been sent to you, click on the link and you will be able to connect',
         },
       });
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setConfirmedPassword('');
     }
   }, [fetchResponse]);
 
