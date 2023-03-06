@@ -1,4 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import Bookmarks from '../components/Bookmarks';
 import Contact from '../components/Contact/index';
@@ -13,6 +15,7 @@ import Profile from '../components/Profile';
 import Search from '../components/Search';
 import SideBar from '../components/SideBar';
 import SignUp from '../components/SignUp';
+import { thunkFetchUserBookmarks } from '../features/bookmarks/bookmarksSlice';
 import './App.css';
 
 /**
@@ -20,6 +23,15 @@ import './App.css';
  * @returns {JSX.elements} React Component
  */
 function App() {
+  const dispatch = useDispatch();
+  const username = useSelector((state) => state.user.username);
+
+  useEffect(() => {
+    if (username) {
+      dispatch(thunkFetchUserBookmarks());
+    }
+  }, [username]);
+
   return (
     <div className="App">
       <NavBar />

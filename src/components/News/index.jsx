@@ -1,5 +1,6 @@
-import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
+import { Box, SimpleGrid } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
+import PageTitle from '../PageTitle';
 import NewsCards from './NewsCards';
 import NewsSkeleton from './NewsSkeleton';
 import { getEntriesFromRssJson, parseAndSortFetchedData } from './parseRss';
@@ -9,12 +10,13 @@ const { REACT_APP_APIEXT_URL } = process.env;
 /**
  * RSS Feeds
  * - create a feed on rss.app (to generate a feed with all important datas including image)
- * - add the generated feed to the list
+ * - add the generated feed to the listimport PageTitle from '../PageTitle/PageTitle';
+
  */
 const RSS_LIST = [
   'https://dev.to/feed/',
   'https://www.freecodecamp.org/news/rss',
-  'https://morss.it/https://blog.logrocket.com/feedX/',
+  'https://morss.it/https://blog.logrocket.com/feed/',
   'https://www.smashingmagazine.com/feed/',
   // 'https://www.sitepoint.com/sitepoint.rss',
   // 'https://rss.app/feeds/rlIgUQu1yZMkJPSr.xml', // CSS tricks
@@ -27,6 +29,8 @@ const RSS_LIST = [
   'https://www.youtube.com/feeds/videos.xml?channel_id=UCbRP3c757lWg9M-U7TyEkXA', // theo t2.gg
   'https://www.youtube.com/feeds/videos.xml?channel_id=UCFbNIlppjAuEX4znoulh0Cw', // WebDevSimplified
 ];
+
+// TODO display error message when one feed is on error
 
 /**
  * React Component that Displays News Page
@@ -79,9 +83,7 @@ export default function News() {
 
   return (
     <Box p="2rem" maxW="1200px" margin="0 auto">
-      <Heading as="h1" pb="2rem">
-        News
-      </Heading>
+      <PageTitle text="News" />
 
       <SimpleGrid minChildWidth="320px" gap="2rem">
         <NewsSkeleton isLoaded={isLoaded} />

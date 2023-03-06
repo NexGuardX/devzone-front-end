@@ -15,25 +15,38 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import { BsStar } from 'react-icons/bs';
+import { BsStar, BsStarFill } from 'react-icons/bs';
 import { FaPlay } from 'react-icons/fa';
 import { HiOutlineExternalLink } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkAddBookmark } from '../../features/bookmarks/bookmarksSlice';
+import { getToolBookmarks, isBookmarked } from '../../common/helpers/bookmarks';
+import { thunkAddBookmark, thunkDeleteBookmark } from '../../features/bookmarks/bookmarksSlice';
 
 /**
  * React Component that Displays News Cards
  * @returns {JSX.elements} React Component
  */
 export default function NewsCards({ entries }) {
+  const dispatch = useDispatch();
   const toolId = useSelector((state) => state.bookmarks.currentToolId);
   const username = useSelector((state) => state.user.username);
   const userId = useSelector((state) => state.user.id);
-  const dispatch = useDispatch();
-  const handleClickBookmark = (item) => () => {
+  const bookmarksGroupedByTools = useSelector((state) => state.bookmarks.listGroupedByTools);
+
+  const handleClickStar = (item) => () => {
     const { title: name, link, image: imgLink } = item;
     dispatch(thunkAddBookmark({ name, link, imgLink, toolId, userId }));
   };
+
+  const handleClickUnstar = (link, bookmarkToolId) => () => {
+    // Get array of bookmarks for toolID
+    const toolBookmarks = getToolBookmarks(bookmarkToolId, bookmarksGroupedByTools);
+
+    // Find id to delete with link url
+    const bookmarkIdToDelete = toolBookmarks.find((bookmark) => bookmark.link === link).id;
+    dispatch(thunkDeleteBookmark(bookmarkIdToDelete));
+  };
+
   return (
     <>
       {entries.map((item) => (
@@ -83,7 +96,19 @@ export default function NewsCards({ entries }) {
               </HStack>
             </Box>
             {username ? (
-              <IconButton variant="ghost" icon={<BsStar />} onClick={handleClickBookmark(item)} />
+              <IconButton
+                variant="ghost"
+                icon={
+                  isBookmarked(item.link, toolId, bookmarksGroupedByTools) ? (
+                    <BsStarFill
+                      style={{ color: '#FDCC0D' }}
+                      onClick={handleClickUnstar(item.link, toolId)}
+                    />
+                  ) : (
+                    <BsStar onClick={handleClickStar(item)} />
+                  )
+                }
+              />
             ) : null}
           </Flex>
         </Card>
