@@ -7,7 +7,7 @@ const initialState = {
   search: '',
   results: [],
   isOpen: false,
-  isLoaded: false,
+  isLoaded: true,
   searchTools: '',
 };
 
@@ -56,7 +56,7 @@ const thunkSOFSearch = (searchValue) => async (dispatch) => {
     dispatch(setNumberOfResults(response.data.total));
     dispatch(setIsLoaded(true));
   } catch (error) {
-    console.log(error);
+    throw new Error();
   }
 };
 
@@ -66,9 +66,8 @@ const thunkNPMSearch = (searchValue) => async (dispatch) => {
     dispatch(setResults(response.data.results));
     dispatch(setNumberOfResults(response.data.total));
     dispatch(setIsLoaded(true));
-    console.log(response.data);
   } catch (error) {
-    console.log(error);
+    throw new Error();
   }
 };
 
@@ -78,9 +77,8 @@ const thunkGHSearch = (searchValue) => async (dispatch) => {
     dispatch(setNumberOfResults(response.data.total_count));
     dispatch(setResults(response.data.items));
     dispatch(setIsLoaded(true));
-    console.log(response.data);
   } catch (error) {
-    console.log(error);
+    throw new Error();
   }
 };
 

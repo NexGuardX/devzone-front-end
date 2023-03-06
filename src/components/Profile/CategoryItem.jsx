@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import { Heading, Text, VStack } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import ToolSelector from './ToolSelector';
@@ -30,13 +31,13 @@ CategoryItem.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
-    tools: PropTypes.arrayOf([PropTypes.object]).isRequired,
+    tools: PropTypes.array.isRequired,
   }).isRequired,
-  userCategories: PropTypes.arrayOf([PropTypes.object]),
+  userCategories: PropTypes.array,
 };
 
 CategoryItem.defaultProps = {
-  userCategories: [],
+  userCategories: [{}],
 };
 
 export default CategoryItem;

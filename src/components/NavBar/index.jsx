@@ -1,36 +1,45 @@
 import {
+  Avatar,
+  Box,
   Button,
   Center,
-  CloseButton,
   Flex,
+  HStack,
   IconButton,
   Img,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Spacer,
+  useColorModeValue,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { BsBoxArrowInRight } from 'react-icons/bs';
+import { GrClose } from 'react-icons/gr';
 import { RxHamburgerMenu, RxPerson } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import logodevzoneblack from '../../assets/images/devzoneblack.png';
 import logodz from '../../assets/images/logo-dz.png';
 import { logout, thunkGetUser } from '../../features/user/userSlice';
 
 function NavBar() {
-  const navigate = useNavigate();
   const user = useSelector((state) => state.user.username);
   const dispatch = useDispatch();
 
   const userId = localStorage.getItem('userId');
 
   // if userId in localstorage, find the user in db to maintain the connection
-  if (userId) {
-    dispatch(thunkGetUser({ userId }));
-  }
+  useEffect(() => {
+    if (userId) {
+      dispatch(thunkGetUser({ userId }));
+    }
+  }, [userId]);
+
+  const [burgerMenu, setBurgerMenu] = useState();
 
   const handleClick = () => {
-    navigate('/');
     // remove accessToken & userId from localstorage
     localStorage.removeItem('userToken');
     localStorage.removeItem('userId');
@@ -38,135 +47,158 @@ function NavBar() {
   };
 
   return (
-    <Flex justifyContent="space-between">
-      <Flex width="100%" justifyContent="space-between">
+    <Flex
+      position="sticky"
+      top="0"
+      bg={useColorModeValue('blue.900', 'blue.800')}
+      minH="60px"
+      py={{ base: 2 }}
+      px={{ base: 4 }}
+      borderBottom={1}
+      borderStyle="solid"
+      borderColor={useColorModeValue('gray.200', 'gray.900')}
+      align="center"
+      h="70px"
+    >
+      {/* MOBILE & TABLETTE ---- BurgerMenu */}
+      <Box>
         <Menu>
           <MenuButton
             as={IconButton}
             aria-label="Menu application"
             display={{ base: 'block', md: 'none' }}
-            w="100%"
-            h="70px"
+            // eslint-disable-next-line no-shadow
+            onClick={() => setBurgerMenu((burgerMenu) => !burgerMenu)}
           >
             <Center>
-              <RxHamburgerMenu size="2rem" />
+              {burgerMenu ? <RxHamburgerMenu size="2rem" /> : <GrClose size="2rem" />}
             </Center>
           </MenuButton>
           <MenuList>
-            <MenuItem>
-              <NavLink to="/app">DevZone</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/">HOME</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/app/news">NEWS</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/app/search">SEARCH</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/app/playground">PLAYGROUND</NavLink>
-            </MenuItem>
-            <CloseButton />
+            <NavLink to="/">
+              <MenuItem>Home</MenuItem>
+            </NavLink>
+            <NavLink to="/app/news">
+              <MenuItem>News</MenuItem>
+            </NavLink>
+            <NavLink to="/app/search">
+              <MenuItem>Search</MenuItem>
+            </NavLink>
+            <NavLink to="/app/playground-js">
+              <MenuItem>Javascript</MenuItem>
+            </NavLink>
+            <NavLink to="/app/playground-html">
+              <MenuItem>HTML</MenuItem>
+            </NavLink>
+            <NavLink to="/contact">
+              <MenuItem>Contact</MenuItem>
+            </NavLink>
           </MenuList>
         </Menu>
+      </Box>
 
-        {/* DESTKOP & GRAND ECRAN */}
-        <Menu>
-          <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
-            <NavLink to="/">HOME</NavLink>
-          </Button>
-          <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
-            <NavLink to="/app">APP</NavLink>
-          </Button>
-        </Menu>
-      </Flex>
-      <Button w="100%" h="70px">
+      {/* DESTKOP & GRAND ECRAN --- BurgerMenu */}
+      <Box display={{ base: 'none', md: 'block' }}>
         <NavLink to="/app">
-          <Img src={logodevzoneblack} h="70px" display={{ base: 'none', md: 'block' }} />
-          <Img src={logodz} h="70px" display={{ base: 'block', md: 'none' }} />
+          <Button bg="gray.400" rightIcon={<BsBoxArrowInRight />}>
+            App
+          </Button>
         </NavLink>
-      </Button>
+      </Box>
+      <Spacer />
+      <NavLink to="/">
+        <Img src={logodevzoneblack} h="60px" display={{ base: 'none', md: 'block' }} />
+        <Img src={logodz} h="60px" display={{ base: 'block', md: 'none' }} />
+      </NavLink>
 
-      {/* MOBILE & TABLETTE */}
-
+      <Spacer />
+      {/* MOBILE & TABLETTE -  Profile */}
       {user ? (
         <Menu>
           <MenuButton
-            aria-label="User menu"
             display={{ base: 'block', md: 'none' }}
-            w="100%"
-            h="70px"
+            as={IconButton}
+            rounded="full"
+            variant="link"
+            cursor="pointer"
+            minW={0}
           >
-            <Center>{user}</Center>
+            <Avatar size="md" name={user} src="" />
           </MenuButton>
           <MenuList>
-            <MenuItem>
-              <NavLink to="/profile">Profile</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/logout">LogOut</NavLink>
-            </MenuItem>
+            <NavLink to="/profile">
+              <MenuItem>Profile</MenuItem>
+            </NavLink>
+            <NavLink to="/login">
+              <MenuItem onClick={handleClick}>LogOut</MenuItem>
+            </NavLink>
           </MenuList>
         </Menu>
       ) : (
-        <Menu>
+        <Menu p="2">
           <MenuButton
             as={IconButton}
             aria-label="Menu application"
             display={{ base: 'block', md: 'none' }}
-            w="100%"
-            h="70px"
           >
             <Center>
               <RxPerson size="2rem" />
             </Center>
           </MenuButton>
           <MenuList>
-            <MenuItem>
-              <NavLink to="/app">DevZone</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/login">LOGIN</NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink to="/signup">SIGNUP</NavLink>
-            </MenuItem>
-            <CloseButton />
+            <NavLink to="/login">
+              <MenuItem>Sign in</MenuItem>
+            </NavLink>
+            <NavLink to="/signup">
+              <MenuItem>Sign up</MenuItem>
+            </NavLink>
           </MenuList>
         </Menu>
       )}
-
-      {/* DESTKOP & GRAND ECRAN */}
+      {/* DESTKOP & GRAND ECRAN --- Profile */}
 
       {user ? (
         <Menu>
-          <MenuButton
-            aria-label="User menu"
-            minW="300px"
-            w="100%"
-            h="70px"
-            display={{ base: 'none', md: 'block' }}
-          >
-            <Center>Welcome {user} !</Center>
+          <MenuButton display={{ base: 'none', md: 'block' }} rounded="full" variant="link">
+            <Avatar size="md" name={user} src="" />
           </MenuButton>
           <MenuList>
-            <MenuItem>
-              <NavLink to="/profile">Profile</NavLink>
-            </MenuItem>
-            <MenuItem onClick={handleClick}>LogOut</MenuItem>
+            <NavLink to="/profile">
+              <MenuItem>Profile</MenuItem>
+            </NavLink>
+            <NavLink to="/login">
+              <MenuItem onClick={handleClick}>LogOut</MenuItem>
+            </NavLink>
           </MenuList>
         </Menu>
       ) : (
-        <Menu>
-          <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
-            <NavLink to="/login">LOGIN</NavLink>
+        <HStack spacing={6}>
+          <Button
+            as="a"
+            display={{ base: 'none', md: 'inline-flex' }}
+            fontSize="sm"
+            fontWeight={400}
+            variant="link"
+            color="white"
+          >
+            <NavLink to="/login">Sign In</NavLink>
           </Button>
-          <Button w="100%" h="70px" display={{ base: 'none', md: 'block' }}>
-            <NavLink to="/signup">SIGNUP</NavLink>
-          </Button>
-        </Menu>
+          <NavLink to="/signup">
+            <Button
+              as="a"
+              display={{ base: 'none', md: 'inline-flex' }}
+              fontSize="sm"
+              fontWeight={600}
+              color="white"
+              bg="pink.400"
+              _hover={{
+                bg: 'pink.300',
+              }}
+            >
+              Sign Up
+            </Button>
+          </NavLink>
+        </HStack>
       )}
     </Flex>
   );

@@ -15,18 +15,20 @@ function Profile() {
 
   const user = useSelector((state) => state.user);
 
-  const userCategories = useSelector((state) => state.user.categories.categories);
+  const userCategories = useSelector((state) => state.user.categories);
 
   const categoriesWithTools = useSelector((state) => state.tools.categories);
 
   useEffect(() => {
-    dispatch(thunkGetUserCategories());
+    dispatch(thunkGetUserCategories({ userId }));
     dispatch(thunkCategoriesWithTools());
     if (userId === null) {
       // if no userID is registered in localStorage, we redirect to the login page
       navigate('/login');
     }
-  }, []);
+    console.log('user', userCategories);
+    console.log('all', categoriesWithTools);
+  }, [userId]);
 
   return (
     <Flex textAlign="center" flexDirection={{ base: 'column', md: 'row' }}>

@@ -1,9 +1,12 @@
+/* eslint-disable react/forbid-prop-types */
 import { Flex, FormLabel, Img, Switch, Text, VStack } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 function ToolSelector({ tool, userCategory }) {
   const dispatch = useDispatch();
+
+  const userCategories = useSelector((state) => state.user.categories.categories);
 
   if (typeof userCategory.tools === 'undefined') {
     return null;
@@ -27,6 +30,17 @@ function ToolSelector({ tool, userCategory }) {
     console.log('je change');
   };
 
+  function isCategories() {
+    if (typeof userCategories === 'undefined') {
+      return <Switch onChange={handleSwitchChange} value={tool.id} defaultChecked />;
+    }
+    return findTools ? (
+      <Switch onChange={handleSwitchChange} value={tool.id} defaultChecked />
+    ) : (
+      <Switch onChange={handleSwitchChange} value={tool.id} isInvalid />
+    );
+  }
+
   return (
     <VStack>
       <Flex justifyContent="space-between" w="300px" p="0.5rem">
@@ -34,11 +48,7 @@ function ToolSelector({ tool, userCategory }) {
         <FormLabel value={tool.id} marginBottom="0">
           {tool.name}
         </FormLabel>
-        {findTools ? (
-          <Switch onChange={handleSwitchChange} value={tool.id} defaultChecked />
-        ) : (
-          <Switch onChange={handleSwitchChange} value={tool.id} isInvalid />
-        )}
+        {isCategories()}
       </Flex>
       <Text margin="0" fontSize="0.8rem">
         {tool.description}
@@ -49,7 +59,7 @@ function ToolSelector({ tool, userCategory }) {
 
 ToolSelector.propTypes = {
   userCategory: PropTypes.shape({
-    tools: PropTypes.arrayOf(PropTypes.string),
+    tools: PropTypes.arrayOf(PropTypes.object),
   }),
   tool: PropTypes.shape({
     id: PropTypes.number,

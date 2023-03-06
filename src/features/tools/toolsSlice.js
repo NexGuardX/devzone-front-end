@@ -30,6 +30,6 @@ export const thunkCategoriesWithTools = () => async (dispatch) => {
     const response = await axios.get(`${REACT_APP_API_URL}/categories`);
     dispatch(setCategoriesWithTools(response.data));
   } catch (error) {
-    console.log(error);
+    throw new Error();
   }
 };

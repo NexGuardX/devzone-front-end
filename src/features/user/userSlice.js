@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 // eslint-disable-next-line import/no-named-as-default-member
 import authHeader from '../../common/helpers/authHeader';
-import userCategories from '../../data/userTools';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -40,6 +39,9 @@ export const userSlice = createSlice({
     setCategoriesUser: (state, action) => {
       state.categories = action.payload;
     },
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
     removeToolsUser: (state, action) => {
       state.tools = action.payload;
     },
@@ -47,6 +49,9 @@ export const userSlice = createSlice({
       state.SignupForm = action.payload;
     },
     logout: () => ({}),
+    setFetchResponse: (state, action) => {
+      state.response = action.payload;
+    },
   },
 });
 
@@ -64,6 +69,7 @@ export const {
   setId,
   setDescription,
   logout,
+  setFetchResponse,
 } = userSlice.actions;
 
 const thunkLogin =
@@ -83,9 +89,12 @@ const thunkLogin =
       dispatch(setLastname(response.data.user.lastname));
       dispatch(setEmail(response.data.user.email));
       dispatch(setUsername(response.data.user.username));
-      console.log(response.data);
+
+      dispatch(setFetchResponse(response.status));
+
+      console.log(response);
     } catch (error) {
-      console.log(error);
+      dispatch(setFetchResponse(error.response.data));
     }
   };
 export { thunkLogin };
@@ -102,9 +111,9 @@ export const thunkSignup =
         password,
         confirmedPassword,
       });
-      console.log(response);
+      dispatch(setFetchResponse(response.statusText));
     } catch (error) {
-      console.log(error);
+      dispatch(setFetchResponse(error.response.data.message));
     }
   };
 
@@ -150,6 +159,14 @@ export const thunkGetUser =
     }
   };
 
-export const thunkGetUserCategories = () => (dispatch) => {
-  dispatch(setCategoriesUser(userCategories));
-};
+export const thunkGetUserCategories =
+  ({ userId }) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.get(`${REACT_APP_API_URL}/categories/user/${userId}`);
+      dispatch(setCategoriesUser(response.data));
+      console.log('userCateories', response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
