@@ -31,7 +31,7 @@ function Login() {
   };
 
   useEffect(() => {
-    if (fetchResponse === 201) {
+    if (fetchResponse === 200) {
       setEmail('');
       setPassword('');
       navigate('/');
