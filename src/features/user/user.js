@@ -47,9 +47,6 @@ export const userSlice = createSlice({
     setFetchResponse: (state, action) => {
       state.response = action.payload;
     },
-    setEmailOrUsername: (state, action) => {
-      state.emailOrUsername = action.payload;
-    },
   },
 });
 
@@ -72,17 +69,12 @@ export const {
 } = userSlice.actions;
 
 export const thunkLogin =
-  ({ emailOrUsername, password }) =>
+  ({ username, email, password }) =>
     async (dispatch) => {
       try {
-        let loginInput;
-        if (emailOrUsername.includes('@')) {
-          loginInput = { email: emailOrUsername };
-        } else {
-          loginInput = { username: emailOrUsername };
-        }
         const response = await axios.post(`http://localhost:8080/login`, {
-          ...loginInput,
+          username,
+          email,
           password,
         });
         dispatch(setId(response.data.user.id));
