@@ -45,6 +45,7 @@ function UserInformations({ user }) {
   // TODO: Factoriser le handleSubmit et le userSlice
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(form);
     const id = event.target[0].value;
     dispatch(thunkUpdateProfil(form, id));
     dispatch(setUsername(event.target[1].value));

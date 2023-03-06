@@ -10,7 +10,6 @@ function ToolSelector({ tool, userCategory }) {
   }
 
   const userTools = userCategory.tools;
-  console.log('userCategory', userCategory);
 
   // search if user have active tools
   const findTools = userTools.find((userTool) => userTool.id === tool.id);
@@ -30,16 +29,18 @@ function ToolSelector({ tool, userCategory }) {
 
   return (
     <VStack>
-      <Flex justifyContent="space-between" p="0.5rem 2rem" w={{ base: '100%', md: '60%' }}>
+      <Flex justifyContent="space-between" w="300px" p="0.5rem">
         <Img src={tool.icon} w={{ base: '30px', md: '40px' }} />
-        <FormLabel value={tool.id}>{tool.name}</FormLabel>
+        <FormLabel value={tool.id} marginBottom="0">
+          {tool.name}
+        </FormLabel>
         {findTools ? (
           <Switch onChange={handleSwitchChange} value={tool.id} defaultChecked />
         ) : (
           <Switch onChange={handleSwitchChange} value={tool.id} isInvalid />
         )}
       </Flex>
-      <Text marginBottom="0.5rem" fontSize="0.8rem">
+      <Text margin="0" fontSize="0.8rem">
         {tool.description}
       </Text>
     </VStack>
