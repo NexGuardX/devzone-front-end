@@ -161,7 +161,6 @@ function NavBar() {
       ) : (
         <HStack spacing={6}>
           <Button
-            as="a"
             display={{ base: 'none', md: 'inline-flex' }}
             fontSize="sm"
             fontWeight={400}
@@ -172,7 +171,6 @@ function NavBar() {
           </Button>
           <NavLink to="/signup">
             <Button
-              as="a"
               display={{ base: 'none', md: 'inline-flex' }}
               fontSize="sm"
               fontWeight={600}

@@ -7,7 +7,7 @@ const initialState = {
   search: '',
   results: [],
   isOpen: false,
-  isLoaded: false,
+  isLoaded: true,
   searchTools: '',
 };
 

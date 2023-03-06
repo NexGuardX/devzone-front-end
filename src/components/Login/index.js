@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { thunkLogin } from '../../features/user/userSlice';
 
 function Login() {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -24,14 +25,14 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(thunkLogin({ email, password }));
+    dispatch(thunkLogin({ username, email, password }));
 
     setEmail('');
     setPassword('');
     navigate('/');
   };
+  const handleUsernameInput = (e) => setUsername(e.target.value);
   const handleEmailInput = (e) => setEmail(e.target.value);
-
   const handlePasswordInput = (e) => setPassword(e.target.value);
 
   return (
@@ -48,8 +49,8 @@ function Login() {
         <Box rounded="lg" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
           <form onSubmit={handleSubmit} spacing={4}>
             <FormControl isRequired>
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" onChange={handleEmailInput} />
+              <FormLabel>Email address / Username</FormLabel>
+              <Input type="text" onChange={handleEmailInput} />
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Password</FormLabel>

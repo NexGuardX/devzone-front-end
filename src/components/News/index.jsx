@@ -13,12 +13,12 @@ const { REACT_APP_APIEXT_URL } = process.env;
  */
 const RSS_LIST = [
   'https://www.freecodecamp.org/news/rss',
-  'https://rss.app/feeds/rlIgUQu1yZMkJPSr.xml', // CSS tricks
-  'https://rss.app/feeds/ozZVa9oz323O11W4.xml', // dev.to
-  'https://rss.app/feeds/rBjanTnSHUwMc2vm.xml', // LogRocket
-  'https://rss.app/feeds/XXKIuLS9Zof1Hf1R.xml', // sitepoint
-  'https://rss.app/feeds/5O5NpvuF9es9Ne6W.xml', // smashingmagazine.com
-  'https://rss.app/feeds/XwYF0hX2DMrNhzog.xml', // web.dev
+  // 'https://rss.app/feeds/rlIgUQu1yZMkJPSr.xml', // CSS tricks
+  // 'https://rss.app/feeds/ozZVa9oz323O11W4.xml', // dev.to
+  // // 'https://rss.app/feeds/rBjanTnSHUwMc2vm.xml', // LogRocket
+  // 'https://rss.app/feeds/XXKIuLS9Zof1Hf1R.xml', // sitepoint
+  // 'https://rss.app/feeds/5O5NpvuF9es9Ne6W.xml', // smashingmagazine.com
+  // 'https://rss.app/feeds/XwYF0hX2DMrNhzog.xml', // web.dev
   'https://www.youtube.com/feeds/videos.xml?channel_id=UCY38RvRIxYODO4penyxUwTg', // https://www.youtube.com/@DaveGrayTeachesCode
   'https://www.youtube.com/feeds/videos.xml?channel_id=UClb90NQQcskPUGDIXsQEz5Q', // developped by Ed
   'https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA', // Fireship
