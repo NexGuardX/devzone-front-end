@@ -2,6 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 // eslint-disable-next-line import/no-named-as-default-member
+import authHeader from '../../common/helpers/authHeader';
 import userCategories from '../../data/userTools';
 
 const { REACT_APP_API_URL } = process.env;
@@ -131,23 +132,23 @@ export const thunkUpdateProfil = (form, id) => async (dispatch) => {
   }
 };
 
-// export const thunkGetUser =
-//   ({ userId }) =>
-//   async (dispatch) => {
-//     try {
-//       const response = await axios.get(`${REACT_APP_API_URL}/user/${userId}`, {
-//         headers: authHeader(),
-//       });
-//       dispatch(setUsername(response.data.username));
-//       dispatch(setEmail(response.data.email));
-//       dispatch(setFirstname(response.data.firstname));
-//       dispatch(setLastname(response.data.lastname));
-//       dispatch(setWebsite(response.data.website));
-//       console.log(response.data);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
+export const thunkGetUser =
+  ({ userId }) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.get(`${REACT_APP_API_URL}/user/${userId}`, {
+        headers: authHeader(),
+      });
+      dispatch(setUsername(response.data.username));
+      dispatch(setEmail(response.data.email));
+      dispatch(setFirstname(response.data.firstname));
+      dispatch(setLastname(response.data.lastname));
+      dispatch(setWebsite(response.data.website));
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 export const thunkGetUserCategories = () => (dispatch) => {
   dispatch(setCategoriesUser(userCategories));

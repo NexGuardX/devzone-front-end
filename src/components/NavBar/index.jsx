@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import logodevzoneblack from '../../assets/images/devzoneblack.png';
 import logodz from '../../assets/images/logo-dz.png';
-import { logout } from '../../features/user/userSlice';
+import { logout, thunkGetUser } from '../../features/user/userSlice';
 
 function NavBar() {
   const navigate = useNavigate();
@@ -24,8 +24,9 @@ function NavBar() {
 
   const userId = localStorage.getItem('userId');
 
+  // if userId in localstorage, find the user in db to maintain the connection
   if (userId) {
-    // dispatch(thunkGetUser({ userId }));
+    dispatch(thunkGetUser({ userId }));
   }
 
   const handleClick = () => {
