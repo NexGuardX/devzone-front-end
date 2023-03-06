@@ -47,6 +47,9 @@ export const userSlice = createSlice({
     setFetchResponse: (state, action) => {
       state.response = action.payload;
     },
+    setEmailOrUsername: (state, action) => {
+      state.emailOrUsername = action.payload;
+    },
   },
 });
 
@@ -68,41 +71,46 @@ export const {
   setFetchResponse,
 } = userSlice.actions;
 
-const thunkLogin =
-  ({ email, password }) =>
-  async (dispatch) => {
-    try {
-      const response = await axios.post(`http://localhost:8080/login`, {
-        email,
-        password,
-      });
-      dispatch(setId(response.data.user.id));
-      dispatch(setFirstname(response.data.user.firstname));
-      dispatch(setLastname(response.data.user.lastname));
-      dispatch(setEmail(response.data.user.email));
-      dispatch(setUsername(response.data.user.username));
-      dispatch(setToken(response.data.token.accessToken));
-      dispatch(setFetchResponse(response.status));
-    } catch (error) {
-      dispatch(setFetchResponse(error.response.data));
-    }
-  };
-export { thunkLogin };
+export const thunkLogin =
+  ({ emailOrUsername, password }) =>
+    async (dispatch) => {
+      try {
+        let loginInput;
+        if (emailOrUsername.includes('@')) {
+          loginInput = { email: emailOrUsername };
+        } else {
+          loginInput = { username: emailOrUsername };
+        }
+        const response = await axios.post(`http://localhost:8080/login`, {
+          ...loginInput,
+          password,
+        });
+        dispatch(setId(response.data.user.id));
+        dispatch(setFirstname(response.data.user.firstname));
+        dispatch(setLastname(response.data.user.lastname));
+        dispatch(setEmail(response.data.user.email));
+        dispatch(setUsername(response.data.user.username));
+        dispatch(setToken(response.data.token.accessToken));
+        dispatch(setFetchResponse(response.status));
+      } catch (error) {
+        dispatch(setFetchResponse(error.response.data));
+      }
+    };
 
 export const thunkSignup =
   ({ username, email, password, confirmedPassword }) =>
-  async (dispatch) => {
-    const SignupForm = { username, email, password, confirmedPassword };
-    dispatch(setSignupForm(SignupForm));
-    try {
-      const response = await axios.post(`http://localhost:8080/signup`, {
-        username,
-        email,
-        password,
-        confirmedPassword,
-      });
-      dispatch(setFetchResponse(response.statusText));
-    } catch (error) {
-      dispatch(setFetchResponse(error.response.data.message));
-    }
-  };
+    async (dispatch) => {
+      const SignupForm = { username, email, password, confirmedPassword };
+      dispatch(setSignupForm(SignupForm));
+      try {
+        const response = await axios.post(`http://localhost:8080/signup`, {
+          username,
+          email,
+          password,
+          confirmedPassword,
+        });
+        dispatch(setFetchResponse(response.statusText));
+      } catch (error) {
+        dispatch(setFetchResponse(error.response.data.message));
+      }
+    };

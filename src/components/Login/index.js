@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
   // eslint-disable-next-line prettier/prettier
-  useColorModeValue,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +17,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { thunkLogin } from '../../features/user/userSlice';
 
 function Login() {
-  const [email, setEmail] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState('');
+
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,18 +28,18 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(thunkLogin({ email, password }));
+    dispatch(thunkLogin({ emailOrUsername, password }));
   };
 
   useEffect(() => {
     if (fetchResponse === 200) {
-      setEmail('');
+      setEmailOrUsername('');
       setPassword('');
-      navigate('/');
+      navigate('/app');
     }
   }, [fetchResponse]);
 
-  const handleEmailInput = (e) => setEmail(e.target.value);
+  const handleEmailOrUsernameInput = (e) => setEmailOrUsername(e.target.value);
 
   const handlePasswordInput = (e) => setPassword(e.target.value);
 
@@ -67,8 +68,8 @@ function Login() {
 
           <form onSubmit={handleSubmit} spacing={4}>
             <FormControl isRequired>
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" onChange={handleEmailInput} />
+              <FormLabel>Email address or Username</FormLabel>
+              <Input type="text" onChange={handleEmailOrUsernameInput} />
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Password</FormLabel>
