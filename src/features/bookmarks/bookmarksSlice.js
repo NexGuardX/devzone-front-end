@@ -25,7 +25,8 @@ export const bookmarksSlice = createSlice({
 export default bookmarksSlice.reducer;
 export const { setCurrentToolId, setList } = bookmarksSlice.actions;
 
-export const thunkBookmark = (data) => async (dispatch, getState) => {
+export const thunkAddBookmark = (data) => async (dispatch, getState) => {
+  console.log('⏩ ~ thunkAddBookmark ~ data:', data);
   const { token } = getState().user;
   const response = await axios({
     config: {

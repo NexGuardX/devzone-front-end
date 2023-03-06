@@ -88,6 +88,7 @@ export const thunkLogin =
         username,
         password,
       });
+      console.log('⏩ ~ response:', response.data);
       dispatch(setUserInfos(response.data.user));
       dispatch(setToken(response.data.token.accessToken));
     } catch (error) {

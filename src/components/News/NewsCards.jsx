@@ -19,8 +19,7 @@ import { BsStar } from 'react-icons/bs';
 import { FaPlay } from 'react-icons/fa';
 import { HiOutlineExternalLink } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
-import youtubeLogo from '../../assets/images/youtube.png';
-import { thunkBookmark } from '../../features/bookmarks/bookmarksSlice';
+import { thunkAddBookmark } from '../../features/bookmarks/bookmarksSlice';
 
 /**
  * React Component that Displays News Cards
@@ -31,9 +30,9 @@ export default function NewsCards({ entries }) {
   const username = useSelector((state) => state.user.username);
   const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
-  const handleBookmark = (item) => () => {
-    const { title: name, link } = item;
-    dispatch(thunkBookmark({ name, link, toolId, userId }));
+  const handleClickBookmark = (item) => () => {
+    const { title: name, link, image: imgLink } = item;
+    dispatch(thunkAddBookmark({ name, link, imgLink, toolId, userId }));
   };
   return (
     <>
@@ -79,12 +78,12 @@ export default function NewsCards({ entries }) {
           <Flex justifyContent="space-between" alignItems="center">
             <Box pt="0.5rem">
               <HStack>
-                <Avatar size="xs" name={item.author} src={item.logo || youtubeLogo} />
+                <Avatar size="xs" name={item.author} src={item.logo} />
                 <Text fontWeight="bold">{item.author}</Text>
               </HStack>
             </Box>
             {username ? (
-              <IconButton variant="ghost" icon={<BsStar />} onClick={handleBookmark(item)} />
+              <IconButton variant="ghost" icon={<BsStar />} onClick={handleClickBookmark(item)} />
             ) : null}
           </Flex>
         </Card>
