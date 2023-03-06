@@ -58,6 +58,7 @@ function UserInformations({ user }) {
   return (
     <Box
       margin="1rem"
+      maxH="70vh"
       w={{ base: '100%', md: '300px', lg: '400px' }}
       p={{ base: 'none', lg: '1.5rem' }}
       paddingTop="0"

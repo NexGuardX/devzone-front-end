@@ -14,19 +14,19 @@ function Profile() {
   const userId = localStorage.getItem('userId');
 
   const user = useSelector((state) => state.user);
-  // const tools = useSelector((state) => state.tools.tools);
 
-  const userCategories = useSelector((state) => state.user.tools);
-  dispatch(thunkGetUserCategories());
+  const userCategories = useSelector((state) => state.user.categories.categories);
 
   const categoriesWithTools = useSelector((state) => state.tools.categories);
-  dispatch(thunkCategoriesWithTools());
+
   useEffect(() => {
+    dispatch(thunkGetUserCategories());
+    dispatch(thunkCategoriesWithTools());
     if (userId === null) {
       // if no userID is registered in localStorage, we redirect to the login page
       navigate('/login');
     }
-  }, [categoriesWithTools, userCategories]);
+  }, []);
 
   return (
     <Flex textAlign="center" flexDirection={{ base: 'column', md: 'row' }}>
@@ -46,13 +46,11 @@ function Profile() {
             My tools
           </Heading>
         </Flex>
-        {categoriesWithTools.map((category) => (
-          <CategoryItem key={category.id} category={category} userCategories={userCategories} />
-        ))}
-
-        {/* {tools.map((tool) => (
-          <ToolSelector key={tool.id} tool={tool} userTools={user.tools} />
-        ))} */}
+        {categoriesWithTools.map((category) =>
+          category.tools[0] === null ? null : (
+            <CategoryItem key={category.id} category={category} userCategories={userCategories} />
+          )
+        )}
       </Flex>
     </Flex>
   );

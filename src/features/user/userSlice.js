@@ -7,9 +7,8 @@ import userCategories from '../../data/userTools';
 const { REACT_APP_API_URL } = process.env;
 
 const initialState = {
-  id: 35,
-  username: 'Jojo',
-  email: 'jojo@jojo.fr',
+  username: '',
+  categories: [],
 };
 
 export const userSlice = createSlice({
@@ -37,8 +36,8 @@ export const userSlice = createSlice({
     setId: (state, action) => {
       state.id = action.payload;
     },
-    setToolsUser: (state, action) => {
-      state.tools = action.payload;
+    setCategoriesUser: (state, action) => {
+      state.categories = action.payload;
     },
     removeToolsUser: (state, action) => {
       state.tools = action.payload;
@@ -55,7 +54,7 @@ export default userSlice.reducer;
 export const {
   setSignupForm,
   setUsername,
-  setToolsUser,
+  setCategoriesUser,
   removeToolsUser,
   setLastname,
   setFirstname,
@@ -151,5 +150,5 @@ export const thunkUpdateProfil = (form, id) => async (dispatch) => {
 //   };
 
 export const thunkGetUserCategories = () => (dispatch) => {
-  dispatch(setToolsUser(userCategories));
+  dispatch(setCategoriesUser(userCategories));
 };

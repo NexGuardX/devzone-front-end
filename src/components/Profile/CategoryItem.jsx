@@ -17,10 +17,10 @@ function CategoryItem({ category, userCategories }) {
       <Heading fontSize="1.5rem" as="h3">
         {name}
       </Heading>
-      <Text>{description}</Text>
-      {tools.map((tool) => (
-        <ToolSelector key={tool.id} tool={tool} userCategory={findCategoryUser} />
-      ))}
+      <Text fontSize="0.8rem">{description}</Text>
+      {tools.map((tool) =>
+        tool ? <ToolSelector key={tool.name} tool={tool} userCategory={findCategoryUser} /> : null
+      )}
     </VStack>
   );
 }
@@ -32,7 +32,11 @@ CategoryItem.propTypes = {
     description: PropTypes.string,
     tools: PropTypes.arrayOf([PropTypes.object]).isRequired,
   }).isRequired,
-  userCategories: PropTypes.arrayOf([PropTypes.object]).isRequired,
+  userCategories: PropTypes.arrayOf([PropTypes.object]),
+};
+
+CategoryItem.defaultProps = {
+  userCategories: [],
 };
 
 export default CategoryItem;
