@@ -13,7 +13,6 @@ export default function NewsSkeleton({ isLoaded }) {
         .map((skeleton, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <VStack p="1rem" boxShadow="xl" display={isLoaded && 'none'} key={index}>
-            <SkeletonCircle isLoaded={isLoaded} size="10" fadeDuration={1} />
             <Skeleton height="200px" isLoaded={isLoaded} fadeDuration={1} />
             <SkeletonText
               isLoaded={isLoaded}
@@ -23,6 +22,7 @@ export default function NewsSkeleton({ isLoaded }) {
               skeletonHeight="4"
               fadeDuration={1}
             />
+            <SkeletonCircle isLoaded={isLoaded} size="10" fadeDuration={1} />
           </VStack>
         ))}
     </>

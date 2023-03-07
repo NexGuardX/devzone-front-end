@@ -1,14 +1,35 @@
+import youtubeLogo from '../../assets/images/youtube.png';
+
+/**
+ * Return Logo for JSON : logo url in Json OR specified logo
+ * @param {any} json
+ * @returns {any} Logo source
+ */
+const getLogoFromJson = (json) => {
+  const logo = {
+    'www.youtube.com': youtubeLogo,
+    'dev.to': 'https://d2fltix0v2e0sb.cloudfront.net/dev-black.png',
+  };
+
+  // Extract domain from json link
+  const domain = json.link.replace(/^https?:\/\/(.*?)\/.*/g, '$1');
+  return json?.image?.url || logo[domain] || null;
+};
+
 /**
  * Extract entries (unique by title) from json (fetch)
  * @param {object} json Retrieved from fetch
  * @returns {array} Entries
  */
 export const getEntriesFromRssJson = (json) => {
+  if (!json) {
+    return [];
+  }
   let entries = json?.entry || json?.item;
   entries = entries
     .map((entry) => ({
       ...entry,
-      logo: json?.image?.url,
+      logo: getLogoFromJson(json),
     }))
     .filter(
       (entry, index, array) => array.findIndex((item) => item.title === entry.title) === index
@@ -21,20 +42,35 @@ export const getEntriesFromRssJson = (json) => {
  * @param {object} entry Entry object with author key to find
  * @returns {string} author
  */
-export const getAuthorFromEntry = (entry) => entry['dc:creator'] || entry.author.name;
+export const getAuthorFromEntry = (entry) =>
+  entry['dc:creator'] ||
+  entry.author.name ||
+  entry.author.replace('hello@smashingmagazine.com', '');
 
 /**
  * Description
  * @param {object} entry Entry object with image key to find
  * @returns {string} image link
  */
-export const getImageFromEntry = (entry) =>
-  (entry['media:content'] && entry['media:content']['@_url']) ||
-  (entry['media:group'] &&
-    entry['media:group']['media:thumbnail'] &&
-    entry['media:group']['media:thumbnail']['@_url']) ||
-  (entry?.enclosure && entry?.enclosure['@_url']) ||
-  null;
+export const getImageFromEntry = (entry) => {
+  let image =
+    (entry['media:content'] && entry['media:content']['@_url']) ||
+    (entry['media:group'] &&
+      entry['media:group']['media:thumbnail'] &&
+      entry['media:group']['media:thumbnail']['@_url']) ||
+    (entry?.enclosure && entry?.enclosure['@_url']) ||
+    null;
+
+  if (!image) {
+    const regexp = /.*?<img src=\\"(.*?)\\".*/;
+    const findImageInDescription = JSON.stringify(
+      entry['content:encoded'] || entry.content || entry.description || ''
+    ).replace(regexp, '$1');
+    image = findImageInDescription.match('<') ? null : findImageInDescription;
+  }
+
+  return image;
+};
 
 /**
  * Description
