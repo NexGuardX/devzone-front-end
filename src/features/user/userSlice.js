@@ -18,6 +18,9 @@ export const userSlice = createSlice({
     setUsername: (state, action) => {
       state.username = action.payload;
     },
+    setId: (state, action) => {
+      state.id = action.payload;
+    },
     setLastname: (state, action) => {
       state.lastname = action.payload;
     },
@@ -33,9 +36,6 @@ export const userSlice = createSlice({
     setDescription: (state, action) => {
       state.description = action.payload;
     },
-    setId: (state, action) => {
-      state.id = action.payload;
-    },
     setCategoriesUser: (state, action) => {
       state.categories = action.payload;
     },
@@ -48,7 +48,7 @@ export const userSlice = createSlice({
     setSignupForm: (state, action) => {
       state.SignupForm = action.payload;
     },
-    logout: () => ({}),
+    logout: () => initialState,
     setFetchResponse: (state, action) => {
       state.response = action.payload;
     },
@@ -61,31 +61,32 @@ export const userSlice = createSlice({
 export default userSlice.reducer;
 
 export const {
+  removeToolsUser,
   setSignupForm,
   setUsername,
   setCategoriesUser,
-  removeToolsUser,
   setLastname,
   setFirstname,
+  setId,
   setWebsite,
   setEmail,
-  setId,
   setDescription,
+  setUserInfos,
+  setToken,
   logout,
   setFetchResponse,
 } = userSlice.actions;
-
 
 const thunkLogin =
   ({ emailOrUsername, password }) =>
   async (dispatch) => {
     try {
-    let loginInput;
-        if (emailOrUsername.includes('@')) {
-          loginInput = { email: emailOrUsername };
-        } else {
-          loginInput = { username: emailOrUsername };
-        }
+      let loginInput;
+      if (emailOrUsername.includes('@')) {
+        loginInput = { email: emailOrUsername };
+      } else {
+        loginInput = { username: emailOrUsername };
+      }
       const response = await axios.post(`${REACT_APP_API_URL}/login`, {
         ...loginInput,
         password,
@@ -104,6 +105,7 @@ const thunkLogin =
 
       console.log(response);
     } catch (error) {
+      console.log('⏩ ~ error:', error);
       dispatch(setFetchResponse(error.response.data));
     }
   };
@@ -126,8 +128,6 @@ export const thunkSignup =
       dispatch(setFetchResponse(error.response.data.message));
     }
   };
-  
-
 
 export const thunkUpdateProfil = (form, id) => async (dispatch) => {
   const { username, email, firstname, lastname, website, password } = form;
@@ -163,7 +163,8 @@ export const thunkGetUser =
       dispatch(setFirstname(response.data.firstname));
       dispatch(setLastname(response.data.lastname));
       dispatch(setWebsite(response.data.website));
-      console.log(response.data);
+      dispatch(setId(response.data.id));
+      // console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -180,4 +181,3 @@ export const thunkGetUserCategories =
       console.log(error);
     }
   };
-
