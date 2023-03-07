@@ -1,9 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { api } from '../../common/helpers/api';
 import { setToastMessage } from '../application/applicationSlice';
-
-const { REACT_APP_API_URL } = process.env;
 
 const initialState = {
   currentToolId: 0,
@@ -35,12 +33,10 @@ export const thunkFetchUserBookmarks = () => async (dispatch, getState) => {
   const { token } = getState().user;
 
   try {
-    const response = await axios({
+    const response = await api.get(`/bookmarks/user/${id}`, {
       config: {
         headers: { Authorization: `Bearer ${token}` },
       },
-      method: 'GET',
-      url: `${REACT_APP_API_URL}/bookmarks/user/${id}`,
     });
     dispatch(setListGroupedByTools(response.data));
   } catch (error) {
@@ -56,12 +52,11 @@ export const thunkAddBookmark = (data) => async (dispatch, getState) => {
   const toolData = listGroupedByTools[toolDataIndex];
 
   try {
-    const response = await axios({
+    const response = await api('/bookmark', {
       config: {
         headers: { Authorization: `Bearer ${token}` },
       },
       method: 'POST',
-      url: `${REACT_APP_API_URL}/bookmark`,
       data,
     });
 
@@ -88,12 +83,11 @@ export const thunkDeleteBookmark = (id) => async (dispatch, getState) => {
   const { listGroupedByTools } = getState().bookmarks;
 
   try {
-    await axios({
+    await api(`/bookmark/${id}`, {
       config: {
         headers: { Authorization: `Bearer ${token}` },
       },
       method: 'DELETE',
-      url: `${REACT_APP_API_URL}/bookmark/${id}`,
     });
 
     // Remove bookmark with ID from Redux State
