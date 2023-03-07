@@ -47,13 +47,13 @@ function Search() {
     dispatch(setIsLoaded(false));
     onClose();
     dispatch(setOpenModal(false));
-    if (searchTools === 'SOF') {
+    if (searchTools === 'Stack OverFlow') {
       dispatch(thunkSOFSearch(searchValue));
     }
     if (searchTools === 'NPM') {
       dispatch(thunkNPMSearch(searchValue));
     }
-    if (searchTools === 'GH') {
+    if (searchTools === 'GitHub') {
       dispatch(thunkGHSearch(searchValue));
     }
   };
@@ -89,13 +89,19 @@ function Search() {
           </InputGroup>
         </FormControl>
         <Flex width="100%" display={{ base: 'flex', md: 'none' }}>
-          <Button onClick={handleClick} type="submit" fontSize="2rem" width="100%" value="SOF">
+          <Button
+            onClick={handleClick}
+            type="submit"
+            fontSize="2rem"
+            width="100%"
+            value="Stack OverFlow"
+          >
             <FaStackOverflow />
           </Button>
           <Button onClick={handleClick} type="submit" fontSize="2rem" width="100%" value="NPM">
             <FaNpm />
           </Button>
-          <Button onClick={handleClick} type="submit" fontSize="2rem" width="100%" value="GH">
+          <Button onClick={handleClick} type="submit" fontSize="2rem" width="100%" value="GitHub">
             <FaGithub />
           </Button>
         </Flex>
@@ -125,7 +131,7 @@ function Search() {
                 type="submit"
                 fontSize="1.5rem"
                 width="100%"
-                value="SOF"
+                value="Stack OverFlow"
               >
                 <FaStackOverflow padding="0.3rem" /> Stack Overflow
               </Button>
@@ -139,7 +145,13 @@ function Search() {
               >
                 <FaNpm padding="0.3rem" /> NPM
               </Button>
-              <Button onClick={handleClick} type="submit" fontSize="1.5rem" width="100%" value="GH">
+              <Button
+                onClick={handleClick}
+                type="submit"
+                fontSize="1.5rem"
+                width="100%"
+                value="GitHub"
+              >
                 <FaGithub /> GitHub
               </Button>
             </Flex>
