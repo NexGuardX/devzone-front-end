@@ -1,11 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { categories, userCategories } from '../../common/data/categories';
 
-const initialState = {
-  sidebarCategoriesAndTools: [],
-};
+const initialState = {};
 
 export const userSlice = createSlice({
   name: 'user',
@@ -50,10 +47,6 @@ export const userSlice = createSlice({
       });
     },
 
-    setSidebarCategoriesAndTools: (state, action) => {
-      state.sidebarCategoriesAndTools = action.payload;
-    },
-
     logout: () => initialState,
   },
 });
@@ -73,7 +66,6 @@ export const {
   setDescription,
   setUserInfos,
   setToken,
-  setSidebarCategoriesAndTools,
   logout,
 } = userSlice.actions;
 
@@ -111,27 +103,3 @@ export const thunkSignup =
       console.log(error);
     }
   };
-
-export const thunkFetchSidebarCategoriesAndTools = () => async (dispatch, getState) => {
-  const { username } = getState().user;
-  if (!username) {
-    try {
-      // const response = await axios(`${REACT_APP_API_URL}/categories`);
-      // const categories = response.data;
-      dispatch(setSidebarCategoriesAndTools(categories));
-    } catch (error) {
-      console.error(error);
-    }
-    return;
-  }
-
-  // if not login
-  try {
-    // eslint-disable-next-line consistent-return
-    // const response = await axios(`${REACT_APP_API_URL}/categories/userID`);
-    // const categories = response.data;
-    dispatch(setSidebarCategoriesAndTools(userCategories));
-  } catch (error) {
-    console.error(error);
-  }
-};

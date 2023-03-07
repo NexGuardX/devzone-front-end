@@ -15,6 +15,7 @@ import Profile from '../components/Profile';
 import Search from '../components/Search';
 import SideBar from '../components/SideBar';
 import SignUp from '../components/SignUp';
+import { thunkFetchSidebarCategoriesAndTools } from '../features/application/applicationSlice';
 import { thunkFetchUserBookmarks } from '../features/bookmarks/bookmarksSlice';
 import './App.css';
 
@@ -39,6 +40,7 @@ function App() {
     if (username) {
       dispatch(thunkFetchUserBookmarks());
     }
+    dispatch(thunkFetchSidebarCategoriesAndTools());
   }, [username]);
 
   return (

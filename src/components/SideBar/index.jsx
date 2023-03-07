@@ -1,5 +1,5 @@
-import { Flex, VStack } from '@chakra-ui/react';
-import { Fragment, useEffect } from 'react';
+import { Box, Flex, VStack } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { BsStar } from 'react-icons/bs';
 import {
   RiHomeSmileLine,
@@ -11,19 +11,16 @@ import {
 import { SiJavascript } from 'react-icons/si';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenModal } from '../../features/search/searchSlice';
-import { thunkFetchSidebarCategoriesAndTools } from '../../features/user/userSlice';
 import SideBarItem from './SideBarItem';
 import SideBarTitle from './SideBarTitle';
 
-const { REACT_APP_API_URL } = process.env;
-
 function SideBar() {
   const username = useSelector((state) => state.user.username);
-  const categoriesAndTools = useSelector((state) => state.user.sidebarCategoriesAndTools);
+  const categoriesAndTools = useSelector((state) => state.application.sidebarCategoriesAndTools);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(thunkFetchSidebarCategoriesAndTools());
+    // dispatch(thunkFetchSidebarCategoriesAndTools());
   }, [username]);
 
   const handleSearchModal = () => {
@@ -51,8 +48,7 @@ function SideBar() {
       display={{ base: 'none', md: 'flex' }}
       flexDirection="column"
       justifyContent="space-between"
-      ps="1rem"
-      pe={{ base: '1rem', lg: '3rem' }}
+      px="1rem"
       py="2rem"
       borderRight="1px solid gray"
     >
@@ -60,21 +56,24 @@ function SideBar() {
       <VStack align="left">
         {username ? <SideBarItem icon={BsStar} text="Bookmarks" to="/app/bookmarks" /> : null}
         {categoriesAndTools.map((category) => (
-          <Fragment key={category.name}>
+          <Box key={category.name} mb="1rem">
             <SideBarTitle text={category.name} />
-            {category.tools.map((tool) => (
-              <SideBarItem
-                key={tool.id}
-                icon={toolsMap[tool.link.toLocaleLowerCase().split('/').reverse()[0]]?.icon}
-                text={tool.name}
-                to={tool.link}
-                toolId={tool.id}
-                openSearchModal={
-                  toolsMap[tool.link.toLocaleLowerCase().split('/').reverse()[0]]?.openSearchModal
-                }
-              />
-            ))}
-          </Fragment>
+            {!category.tools.length || !category.tools[0]
+              ? null
+              : category.tools.map((tool) => (
+                  <SideBarItem
+                    key={tool?.id}
+                    icon={toolsMap[tool?.link?.toLocaleLowerCase().split('/').reverse()[0]]?.icon}
+                    text={tool?.name}
+                    to={tool?.link}
+                    toolId={tool?.id}
+                    openSearchModal={
+                      toolsMap[tool?.link?.toLocaleLowerCase().split('/').reverse()[0]]
+                        ?.openSearchModal
+                    }
+                  />
+                ))}
+          </Box>
         ))}
       </VStack>
       {/* Bottom sidebar menu */}

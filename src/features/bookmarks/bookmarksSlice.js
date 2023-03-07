@@ -22,7 +22,7 @@ export const bookmarksSlice = createSlice({
 });
 
 export default bookmarksSlice.reducer;
-export const { setCurrentToolId, setListGroupedByTools, setMessage } = bookmarksSlice.actions;
+export const { setCurrentToolId, setListGroupedByTools } = bookmarksSlice.actions;
 
 /** ********************************************* * */
 /** *************** THUNKS ********************** * */
@@ -30,14 +30,9 @@ export const { setCurrentToolId, setListGroupedByTools, setMessage } = bookmarks
 
 export const thunkFetchUserBookmarks = () => async (dispatch, getState) => {
   const { id } = getState().user;
-  const { token } = getState().user;
 
   try {
-    const response = await api.get(`/bookmarks/user/${id}`, {
-      config: {
-        headers: { Authorization: `Bearer ${token}` },
-      },
-    });
+    const response = await api.get(`/bookmarks/user/${id}`);
     dispatch(setListGroupedByTools(response.data));
   } catch (error) {
     dispatch(setToastMessage({ title: 'Error loading bookmarks', status: 'error' }));
@@ -45,22 +40,17 @@ export const thunkFetchUserBookmarks = () => async (dispatch, getState) => {
 };
 
 export const thunkAddBookmark = (data) => async (dispatch, getState) => {
-  const { token } = getState().user;
   const { listGroupedByTools } = getState().bookmarks;
   // Find informations for tool with tool ID
   const toolDataIndex = listGroupedByTools.findIndex((tool) => tool.toolId === data.toolId);
   const toolData = listGroupedByTools[toolDataIndex];
 
   try {
-    const response = await api('/bookmark', {
-      config: {
-        headers: { Authorization: `Bearer ${token}` },
-      },
-      method: 'POST',
-      data,
-    });
+    const response = await api.post('/bookmark', data);
 
     if (!toolData) {
+      // First time, there is no bookmarks at all
+      // Must call API to retrieve array structure of bookmarks
       dispatch(thunkFetchUserBookmarks());
     } else {
       const newListGroupedByTools = [...listGroupedByTools];
@@ -71,24 +61,18 @@ export const thunkAddBookmark = (data) => async (dispatch, getState) => {
 
       newListGroupedByTools[toolDataIndex] = newToolData;
       dispatch(setListGroupedByTools(newListGroupedByTools));
-      dispatch(setToastMessage({ title: 'Bookmark added', status: 'success' }));
     }
+    dispatch(setToastMessage({ title: 'Bookmark added', status: 'success' }));
   } catch (error) {
     dispatch(setToastMessage({ title: 'Error', status: 'error' }));
   }
 };
 
 export const thunkDeleteBookmark = (id) => async (dispatch, getState) => {
-  const { token } = getState().user;
   const { listGroupedByTools } = getState().bookmarks;
 
   try {
-    await api(`/bookmark/${id}`, {
-      config: {
-        headers: { Authorization: `Bearer ${token}` },
-      },
-      method: 'DELETE',
-    });
+    await api.delete(`/bookmark/${id}`);
 
     // Remove bookmark with ID from Redux State
     const newListGroupedByTools = listGroupedByTools.map((tool) => ({
@@ -97,9 +81,6 @@ export const thunkDeleteBookmark = (id) => async (dispatch, getState) => {
     }));
     dispatch(setListGroupedByTools(newListGroupedByTools));
     dispatch(setToastMessage({ title: 'Bookmark deleted', status: 'warning' }));
-    // const { toast } = createStandaloneToast({ defaultOptions: { status: 'error' } });
-
-    // toast({ title: 'Toast' });
   } catch (error) {
     dispatch(setToastMessage({ title: 'Error', status: 'error' }));
   }
