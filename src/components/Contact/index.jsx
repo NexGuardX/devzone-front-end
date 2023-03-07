@@ -11,9 +11,12 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { GrSend } from 'react-icons/gr';
 import Reaptcha from 'reaptcha';
+
+const { REACT_APP_API_URL } = process.env;
 
 const { REACT_APP_RECAPTCHA_V2_KEY } = process.env;
 const initContactForm = () => ({
@@ -51,6 +54,13 @@ export default function Contact() {
         isClosable: true,
       });
     }
+
+    // Send email using Axios
+    axios.post(`${REACT_APP_API_URL}/contact`, {
+      email: form.email,
+      subject: form.subject,
+      message: form.message,
+    });
     // Reset Form
     setForm(initContactForm());
 
