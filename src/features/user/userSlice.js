@@ -52,6 +52,9 @@ export const userSlice = createSlice({
     setFetchResponse: (state, action) => {
       state.response = action.payload;
     },
+    setEmailOrUsername: (state, action) => {
+      state.emailOrUsername = action.payload;
+    },
   },
 });
 
@@ -72,12 +75,19 @@ export const {
   setFetchResponse,
 } = userSlice.actions;
 
+
 const thunkLogin =
-  ({ email, password }) =>
+  ({ emailOrUsername, password }) =>
   async (dispatch) => {
     try {
+    let loginInput;
+        if (emailOrUsername.includes('@')) {
+          loginInput = { email: emailOrUsername };
+        } else {
+          loginInput = { username: emailOrUsername };
+        }
       const response = await axios.post(`${REACT_APP_API_URL}/login`, {
-        email,
+        ...loginInput,
         password,
       });
       // saving id and token in the localstorage to persist the connection
@@ -116,6 +126,8 @@ export const thunkSignup =
       dispatch(setFetchResponse(error.response.data.message));
     }
   };
+  
+
 
 export const thunkUpdateProfil = (form, id) => async (dispatch) => {
   const { username, email, firstname, lastname, website, password } = form;
@@ -168,3 +180,4 @@ export const thunkGetUserCategories =
       console.log(error);
     }
   };
+
