@@ -14,7 +14,7 @@ import {
   Spacer,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsBoxArrowInRight } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr';
 import { RxHamburgerMenu, RxPerson } from 'react-icons/rx';
@@ -22,15 +22,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import logodevzoneblack from '../../assets/images/devzoneblack.png';
 import logodz from '../../assets/images/logo-dz.png';
-import { logout } from '../../features/user/userSlice';
+import { logout, thunkGetUser } from '../../features/user/userSlice';
 
 function NavBar() {
-  const navigate = useNavigate();
   const user = useSelector((state) => state.user.username);
   const dispatch = useDispatch();
+
+  const userId = localStorage.getItem('userId');
+
+  // if userId in localstorage, find the user in db to maintain the connection
+  useEffect(() => {
+    if (userId) {
+      dispatch(thunkGetUser({ userId }));
+    }
+  }, [userId]);
+
   const [burgerMenu, setBurgerMenu] = useState();
+
   const handleClick = () => {
-    navigate('/');
+    // remove accessToken & userId from localstorage
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userId');
     dispatch(logout());
   };
 
@@ -116,7 +128,7 @@ function NavBar() {
             <NavLink to="/profile">
               <MenuItem>Profile</MenuItem>
             </NavLink>
-            <NavLink>
+            <NavLink to="/login">
               <MenuItem onClick={handleClick}>LogOut</MenuItem>
             </NavLink>
           </MenuList>
@@ -153,7 +165,7 @@ function NavBar() {
             <NavLink to="/profile">
               <MenuItem>Profile</MenuItem>
             </NavLink>
-            <NavLink>
+            <NavLink to="/login">
               <MenuItem onClick={handleClick}>LogOut</MenuItem>
             </NavLink>
           </MenuList>

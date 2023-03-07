@@ -1,9 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+// eslint-disable-next-line import/no-named-as-default-member
+import authHeader from '../../common/helpers/authHeader';
+
+const { REACT_APP_API_URL } = process.env;
 
 const initialState = {
   username: '',
+  categories: [],
 };
 
 export const userSlice = createSlice({
@@ -31,8 +36,8 @@ export const userSlice = createSlice({
     setId: (state, action) => {
       state.id = action.payload;
     },
-    setToolsUser: (state, action) => {
-      state.tools = action.payload;
+    setCategoriesUser: (state, action) => {
+      state.categories = action.payload;
     },
     setToken: (state, action) => {
       state.token = action.payload;
@@ -58,59 +63,121 @@ export default userSlice.reducer;
 export const {
   setSignupForm,
   setUsername,
-  setToolsUser,
+  setCategoriesUser,
   removeToolsUser,
   setLastname,
   setFirstname,
   setWebsite,
   setEmail,
   setId,
-  setToken,
   setDescription,
   logout,
   setFetchResponse,
 } = userSlice.actions;
 
-export const thunkLogin =
+
+const thunkLogin =
   ({ emailOrUsername, password }) =>
-    async (dispatch) => {
-      try {
-        let loginInput;
+  async (dispatch) => {
+    try {
+    let loginInput;
         if (emailOrUsername.includes('@')) {
           loginInput = { email: emailOrUsername };
         } else {
           loginInput = { username: emailOrUsername };
         }
-        const response = await axios.post(`http://localhost:8080/login`, {
-          ...loginInput,
-          password,
-        });
-        dispatch(setId(response.data.user.id));
-        dispatch(setFirstname(response.data.user.firstname));
-        dispatch(setLastname(response.data.user.lastname));
-        dispatch(setEmail(response.data.user.email));
-        dispatch(setUsername(response.data.user.username));
-        dispatch(setToken(response.data.token.accessToken));
-        dispatch(setFetchResponse(response.status));
-      } catch (error) {
-        dispatch(setFetchResponse(error.response.data));
-      }
-    };
+      const response = await axios.post(`${REACT_APP_API_URL}/login`, {
+        ...loginInput,
+        password,
+      });
+      // saving id and token in the localstorage to persist the connection
+      localStorage.setItem('userToken', JSON.stringify(response.data.token.accessToken));
+      localStorage.setItem('userId', response.data.user.id);
+
+      dispatch(setId(response.data.user.id));
+      dispatch(setFirstname(response.data.user.firstname));
+      dispatch(setLastname(response.data.user.lastname));
+      dispatch(setEmail(response.data.user.email));
+      dispatch(setUsername(response.data.user.username));
+
+      dispatch(setFetchResponse(response.status));
+
+      console.log(response);
+    } catch (error) {
+      dispatch(setFetchResponse(error.response.data));
+    }
+  };
+export { thunkLogin };
 
 export const thunkSignup =
   ({ username, email, password, confirmedPassword }) =>
-    async (dispatch) => {
-      const SignupForm = { username, email, password, confirmedPassword };
-      dispatch(setSignupForm(SignupForm));
-      try {
-        const response = await axios.post(`http://localhost:8080/signup`, {
-          username,
-          email,
-          password,
-          confirmedPassword,
-        });
-        dispatch(setFetchResponse(response.statusText));
-      } catch (error) {
-        dispatch(setFetchResponse(error.response.data.message));
-      }
-    };
+  async (dispatch) => {
+    const SignupForm = { username, email, password, confirmedPassword };
+    dispatch(setSignupForm(SignupForm));
+    try {
+      const response = await axios.post(`${REACT_APP_API_URL}/signup`, {
+        username,
+        email,
+        password,
+        confirmedPassword,
+      });
+      dispatch(setFetchResponse(response.statusText));
+    } catch (error) {
+      dispatch(setFetchResponse(error.response.data.message));
+    }
+  };
+  
+
+
+export const thunkUpdateProfil = (form, id) => async (dispatch) => {
+  const { username, email, firstname, lastname, website, password } = form;
+  try {
+    const response = await axios.patch(`${REACT_APP_API_URL}/user/${id}`, {
+      username,
+      email,
+      firstname,
+      lastname,
+      website,
+      password,
+    });
+
+    dispatch(setFirstname(response.data.user.firstname));
+    dispatch(setLastname(response.data.user.lastname));
+    dispatch(setEmail(response.data.user.email));
+    dispatch(setUsername(response.data.user.username));
+    dispatch(setWebsite(response.data.user.website));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const thunkGetUser =
+  ({ userId }) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.get(`${REACT_APP_API_URL}/user/${userId}`, {
+        headers: authHeader(),
+      });
+      dispatch(setUsername(response.data.username));
+      dispatch(setEmail(response.data.email));
+      dispatch(setFirstname(response.data.firstname));
+      dispatch(setLastname(response.data.lastname));
+      dispatch(setWebsite(response.data.website));
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+export const thunkGetUserCategories =
+  ({ userId }) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.get(`${REACT_APP_API_URL}/categories/user/${userId}`);
+      dispatch(setCategoriesUser(response.data));
+      console.log('userCateories', response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
