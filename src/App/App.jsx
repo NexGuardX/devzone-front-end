@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, useToast } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, Route, Routes } from 'react-router-dom';
@@ -25,6 +25,15 @@ import './App.css';
 function App() {
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
+
+  const toastMessage = useSelector((state) => state.application.toastMessage);
+  const toast = useToast();
+
+  useEffect(() => {
+    if (toastMessage) {
+      toast(toastMessage);
+    }
+  }, [toastMessage]);
 
   useEffect(() => {
     if (username) {

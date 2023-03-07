@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { setToastMessage } from '../application/applicationSlice';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -23,7 +24,11 @@ export const bookmarksSlice = createSlice({
 });
 
 export default bookmarksSlice.reducer;
-export const { setCurrentToolId, setListGroupedByTools } = bookmarksSlice.actions;
+export const { setCurrentToolId, setListGroupedByTools, setMessage } = bookmarksSlice.actions;
+
+/** ********************************************* * */
+/** *************** THUNKS ********************** * */
+/** ********************************************* * */
 
 export const thunkFetchUserBookmarks = () => async (dispatch, getState) => {
   const { id } = getState().user;
@@ -39,7 +44,7 @@ export const thunkFetchUserBookmarks = () => async (dispatch, getState) => {
     });
     dispatch(setListGroupedByTools(response.data));
   } catch (error) {
-    console.error(error);
+    dispatch(setToastMessage({ title: 'Error loading bookmarks', status: 'error' }));
   }
 };
 
@@ -71,11 +76,10 @@ export const thunkAddBookmark = (data) => async (dispatch, getState) => {
 
       newListGroupedByTools[toolDataIndex] = newToolData;
       dispatch(setListGroupedByTools(newListGroupedByTools));
+      dispatch(setToastMessage({ title: 'Bookmark added', status: 'success' }));
     }
-    return true;
   } catch (error) {
-    console.error(error);
-    return false;
+    dispatch(setToastMessage({ title: 'Error', status: 'error' }));
   }
 };
 
@@ -84,7 +88,7 @@ export const thunkDeleteBookmark = (id) => async (dispatch, getState) => {
   const { listGroupedByTools } = getState().bookmarks;
 
   try {
-    const response = await axios({
+    await axios({
       config: {
         headers: { Authorization: `Bearer ${token}` },
       },
@@ -98,7 +102,11 @@ export const thunkDeleteBookmark = (id) => async (dispatch, getState) => {
       bookmarks: tool.bookmarks.filter((bookmark) => bookmark.id !== id),
     }));
     dispatch(setListGroupedByTools(newListGroupedByTools));
+    dispatch(setToastMessage({ title: 'Bookmark deleted', status: 'warning' }));
+    // const { toast } = createStandaloneToast({ defaultOptions: { status: 'error' } });
+
+    // toast({ title: 'Toast' });
   } catch (error) {
-    console.error(error);
+    dispatch(setToastMessage({ title: 'Error', status: 'error' }));
   }
 };
