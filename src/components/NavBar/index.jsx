@@ -19,7 +19,7 @@ import { BsBoxArrowInRight } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr';
 import { RxHamburgerMenu, RxPerson } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logodevzoneblack from '../../assets/images/devzoneblack.png';
 import logodz from '../../assets/images/logo-dz.png';
 import { logout, thunkGetUser } from '../../features/user/userSlice';
@@ -48,8 +48,7 @@ function NavBar() {
 
   return (
     <Flex
-      position="sticky"
-      top="0"
+      width="100%"
       bg={useColorModeValue('blue.900', 'blue.800')}
       minH="60px"
       py={{ base: 2 }}
@@ -71,7 +70,7 @@ function NavBar() {
             onClick={() => setBurgerMenu((burgerMenu) => !burgerMenu)}
           >
             <Center>
-              {burgerMenu ? <RxHamburgerMenu size="2rem" /> : <GrClose size="2rem" />}
+              {burgerMenu ? <GrClose size="2rem" /> : <RxHamburgerMenu size="2rem" />}
             </Center>
           </MenuButton>
           <MenuList>
@@ -174,7 +173,6 @@ function NavBar() {
       ) : (
         <HStack spacing={6}>
           <Button
-            as="a"
             display={{ base: 'none', md: 'inline-flex' }}
             fontSize="sm"
             fontWeight={400}
@@ -185,7 +183,6 @@ function NavBar() {
           </Button>
           <NavLink to="/signup">
             <Button
-              as="a"
               display={{ base: 'none', md: 'inline-flex' }}
               fontSize="sm"
               fontWeight={600}
