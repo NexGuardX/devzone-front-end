@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { thunkCategoriesWithTools } from '../../features/tools/toolsSlice';
 import { thunkGetUserCategories } from '../../features/user/userSlice';
-import CategoryItem from './CategoryItem';
 import UserInformations from './UserInformations';
 
 function Profile() {
@@ -48,11 +47,11 @@ function Profile() {
             My tools
           </Heading>
         </Flex>
-        {categoriesWithTools.map((category) =>
+        {/* {categoriesWithTools.map((category) =>
           category.tools[0] === null ? null : (
             <CategoryItem key={category.id} category={category} userCategories={userCategories} />
           )
-        )}
+        )} */}
       </Flex>
     </Flex>
   );
