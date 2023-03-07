@@ -1,8 +1,15 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+// eslint-disable-next-line import/no-named-as-default-member
+import authHeader from '../../common/helpers/authHeader';
 
-const initialState = {};
+const { REACT_APP_API_URL } = process.env;
+
+const initialState = {
+  username: '',
+  categories: [],
+};
 
 export const userSlice = createSlice({
   name: 'user',
@@ -29,8 +36,8 @@ export const userSlice = createSlice({
     setDescription: (state, action) => {
       state.description = action.payload;
     },
-    setToolsUser: (state, action) => {
-      state.tools = action.payload;
+    setCategoriesUser: (state, action) => {
+      state.categories = action.payload;
     },
     setToken: (state, action) => {
       state.token = action.payload;
@@ -41,13 +48,13 @@ export const userSlice = createSlice({
     setSignupForm: (state, action) => {
       state.SignupForm = action.payload;
     },
-    setUserInfos: (state, action) => {
-      Object.entries(action.payload).forEach(([key, value]) => {
-        state[key] = value;
-      });
-    },
-
     logout: () => initialState,
+    setFetchResponse: (state, action) => {
+      state.response = action.payload;
+    },
+    setEmailOrUsername: (state, action) => {
+      state.emailOrUsername = action.payload;
+    },
   },
 });
 
@@ -57,7 +64,7 @@ export const {
   removeToolsUser,
   setSignupForm,
   setUsername,
-  setToolsUser,
+  setCategoriesUser,
   setLastname,
   setFirstname,
   setId,
@@ -67,25 +74,42 @@ export const {
   setUserInfos,
   setToken,
   logout,
+  setFetchResponse,
 } = userSlice.actions;
 
-const { REACT_APP_API_URL } = process.env;
-
-export const thunkLogin =
-  ({ username, email, password }) =>
+const thunkLogin =
+  ({ emailOrUsername, password }) =>
   async (dispatch) => {
     try {
+      let loginInput;
+      if (emailOrUsername.includes('@')) {
+        loginInput = { email: emailOrUsername };
+      } else {
+        loginInput = { username: emailOrUsername };
+      }
       const response = await axios.post(`${REACT_APP_API_URL}/login`, {
-        email,
-        username,
+        ...loginInput,
         password,
       });
-      dispatch(setUserInfos(response.data.user));
-      dispatch(setToken(response.data.token.accessToken));
+      // saving id and token in the localstorage to persist the connection
+      localStorage.setItem('userToken', JSON.stringify(response.data.token.accessToken));
+      localStorage.setItem('userId', response.data.user.id);
+
+      dispatch(setId(response.data.user.id));
+      dispatch(setFirstname(response.data.user.firstname));
+      dispatch(setLastname(response.data.user.lastname));
+      dispatch(setEmail(response.data.user.email));
+      dispatch(setUsername(response.data.user.username));
+
+      dispatch(setFetchResponse(response.status));
+
+      console.log(response);
     } catch (error) {
-      console.log(error);
+      console.log('⏩ ~ error:', error);
+      dispatch(setFetchResponse(error.response.data));
     }
   };
+export { thunkLogin };
 
 export const thunkSignup =
   ({ username, email, password, confirmedPassword }) =>
@@ -99,6 +123,60 @@ export const thunkSignup =
         password,
         confirmedPassword,
       });
+      dispatch(setFetchResponse(response.statusText));
+    } catch (error) {
+      dispatch(setFetchResponse(error.response.data.message));
+    }
+  };
+
+export const thunkUpdateProfil = (form, id) => async (dispatch) => {
+  const { username, email, firstname, lastname, website, password } = form;
+  try {
+    const response = await axios.patch(`${REACT_APP_API_URL}/user/${id}`, {
+      username,
+      email,
+      firstname,
+      lastname,
+      website,
+      password,
+    });
+
+    dispatch(setFirstname(response.data.user.firstname));
+    dispatch(setLastname(response.data.user.lastname));
+    dispatch(setEmail(response.data.user.email));
+    dispatch(setUsername(response.data.user.username));
+    dispatch(setWebsite(response.data.user.website));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const thunkGetUser =
+  ({ userId }) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.get(`${REACT_APP_API_URL}/user/${userId}`, {
+        headers: authHeader(),
+      });
+      dispatch(setUsername(response.data.username));
+      dispatch(setEmail(response.data.email));
+      dispatch(setFirstname(response.data.firstname));
+      dispatch(setLastname(response.data.lastname));
+      dispatch(setWebsite(response.data.website));
+      dispatch(setId(response.data.id));
+      // console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+export const thunkGetUserCategories =
+  ({ userId }) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.get(`${REACT_APP_API_URL}/categories/user/${userId}`);
+      dispatch(setCategoriesUser(response.data));
+      console.log('userCateories', response.data);
     } catch (error) {
       console.log(error);
     }

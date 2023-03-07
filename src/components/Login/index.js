@@ -7,30 +7,40 @@ import {
   Heading,
   Input,
   Stack,
+  Text,
   // eslint-disable-next-line prettier/prettier
   useColorModeValue
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { thunkLogin } from '../../features/user/userSlice';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const [emailOrUsername, setEmailOrUsername] = useState('');
 
+  const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
+
+  const fetchResponse = useSelector((state) => state.user.response);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(thunkLogin({ email, password }));
-
-    setEmail('');
-    setPassword('');
-    navigate('/');
+    dispatch(thunkLogin({ emailOrUsername, password }));
   };
-  const handleEmailInput = (e) => setEmail(e.target.value);
+
+  useEffect(() => {
+    if (fetchResponse === 200) {
+      setEmailOrUsername('');
+      setPassword('');
+      navigate('/app');
+    }
+  }, [fetchResponse]);
+
+  const handleEmailOrUsernameInput = (e) => setEmailOrUsername(e.target.value);
 
   const handlePasswordInput = (e) => setPassword(e.target.value);
 
@@ -46,10 +56,21 @@ function Login() {
           <Heading fontSize="4xl">Sign in to your account</Heading>
         </Stack>
         <Box rounded="lg" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
+          {location.state?.message && (
+            <Text color="green" align="center">
+              {location.state?.message}
+            </Text>
+          )}
+          {fetchResponse !== 'Created' && (
+            <Text color="red" align="center">
+              {fetchResponse}
+            </Text>
+          )}
+
           <form onSubmit={handleSubmit} spacing={4}>
             <FormControl isRequired>
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" onChange={handleEmailInput} />
+              <FormLabel>Email address or Username</FormLabel>
+              <Input type="text" onChange={handleEmailOrUsernameInput} />
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Password</FormLabel>
