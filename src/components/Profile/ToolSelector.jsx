@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 function ToolSelector({ tool, userCategory }) {
   const dispatch = useDispatch();
 
-  const userCategories = useSelector((state) => state.user.categories.categories);
+  const userCategories = useSelector((state) => state.user.categories);
+  console.log(userCategories);
 
   if (typeof userCategory.tools === 'undefined') {
     return null;
@@ -31,7 +32,7 @@ function ToolSelector({ tool, userCategory }) {
   };
 
   function isCategories() {
-    if (typeof userCategories === 'undefined') {
+    if (typeof userCategories.tools === 'undefined') {
       return <Switch onChange={handleSwitchChange} value={tool.id} defaultChecked />;
     }
     return findTools ? (

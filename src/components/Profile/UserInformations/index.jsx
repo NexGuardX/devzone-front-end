@@ -35,6 +35,7 @@ function UserInformations({ user }) {
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
+  const userId = localStorage.getItem('userId');
 
   const [form, setForm] = useState('');
 
@@ -45,9 +46,7 @@ function UserInformations({ user }) {
   // TODO: Factoriser le handleSubmit et le userSlice
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(form);
-    const id = event.target[0].value;
-    dispatch(thunkUpdateProfil(form, id));
+    dispatch(thunkUpdateProfil(form, userId));
     dispatch(setUsername(event.target[1].value));
     dispatch(setFirstname(event.target[2].value));
     dispatch(setLastname(event.target[3].value));

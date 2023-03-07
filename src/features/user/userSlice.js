@@ -134,8 +134,6 @@ export const thunkUpdateProfil = (form, id) => async (dispatch) => {
     dispatch(setEmail(response.data.user.email));
     dispatch(setUsername(response.data.user.username));
     dispatch(setWebsite(response.data.user.website));
-
-    console.log(response);
   } catch (error) {
     console.log(error);
   }
