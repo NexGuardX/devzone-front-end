@@ -1,4 +1,15 @@
-import { Box, Button, Card, CardBody, Heading, HStack, Stack, Tag, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  Flex,
+  Heading,
+  HStack,
+  Stack,
+  Tag,
+  Text,
+} from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { AiOutlineStar } from 'react-icons/ai';
 import { FaGithub, FaNpm } from 'react-icons/fa';
@@ -11,12 +22,13 @@ function NPMCardResult({ result }) {
   return (
     <Card
       margin="auto"
-      direction="row"
-      variant="elevated"
+      boxShadow="xl"
       width={{ base: '100%', md: '90%' }}
-      minW="350px"
+      border="1px solid lightgray"
     >
-      {/* <VStack justifyContent="space-around" padding="0.5rem">
+      <Flex direction="row" justifyContent="space-between">
+        <Link to={links.npm} target="_blank">
+          {/* <VStack justifyContent="space-around" padding="0.5rem">
         <Image
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/2560px-Npm-logo.svg.png"
           alt="NPM"
@@ -26,52 +38,51 @@ function NPMCardResult({ result }) {
       </VStack>
       <Divider orientation="vertical" /> */}
 
-      <CardBody direction="row" padding="0.4rem">
-        <Box>
-          <Heading size="md">
-            <Link to={links.npm} target="_blank">
-              {name}
-            </Link>
-          </Heading>
-          <Text wordBreak="break-all" overflow="hidden">
-            {description}
-          </Text>
-          <Text>Version : {version}</Text>
-        </Box>
+          <CardBody direction="row" padding="0.4rem">
+            <Box>
+              <Heading size="md">{name}</Heading>
+              <Text wordBreak="break-all" overflow="hidden">
+                {description}
+              </Text>
+              <Text>Version : {version}</Text>
+            </Box>
 
-        <Box display={{ base: 'none', lg: 'block' }} maxH="110px" overflowY="auto">
-          {keywords
-            ? keywords.map((keyword) => (
-                <Tag key={keyword} margin="0.3rem">
-                  {keyword}
-                </Tag>
-              ))
-            : null}
-        </Box>
-      </CardBody>
+            <Box display={{ base: 'none', lg: 'block' }} maxH="110px" overflowY="auto">
+              {keywords
+                ? keywords.map((keyword) => (
+                    <Tag key={keyword} margin="0.3rem">
+                      {keyword}
+                    </Tag>
+                  ))
+                : null}
+            </Box>
+          </CardBody>
 
-      <Stack direction="column" justifyContent="space-around" padding="0.2rem">
-        <HStack display={{ base: 'none', md: 'flex' }} justifyContent="space-around">
-          <Link to={links.npm} target="_blank">
-            <Button>
-              <FaNpm size="2rem" />
-            </Button>
-          </Link>
-          <Link to={links.homepage} target="_blank">
-            <Button>Home</Button>
-          </Link>
-        </HStack>
-        <HStack justifyContent="space-around">
-          <Link to={links.repository} target="_blank">
-            <Button display={{ base: 'none', md: 'block' }}>
-              <FaGithub size="1.6rem" />
-            </Button>
-          </Link>
-          <Button>
-            <AiOutlineStar size="1.3rem" />
-          </Button>
-        </HStack>
-      </Stack>
+          <Stack direction="column" justifyContent="space-around" padding="0.2rem">
+            <HStack display={{ base: 'none', md: 'flex' }} justifyContent="space-around">
+              <Link to={links.npm} target="_blank">
+                <Button>
+                  <FaNpm size="2rem" />
+                </Button>
+              </Link>
+              <Link to={links.homepage} target="_blank">
+                <Button>Home</Button>
+              </Link>
+            </HStack>
+
+            <HStack justifyContent="space-around">
+              <Link to={links.repository} target="_blank">
+                <Button display={{ base: 'none', md: 'block' }}>
+                  <FaGithub size="1.6rem" />
+                </Button>
+              </Link>
+              <Button>
+                <AiOutlineStar size="1.3rem" />
+              </Button>
+            </HStack>
+          </Stack>
+        </Link>
+      </Flex>
     </Card>
   );
 }

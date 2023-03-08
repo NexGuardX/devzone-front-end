@@ -35,10 +35,9 @@ function GHCardResult({ result }) {
   return (
     <Card
       margin="auto"
-      direction="row"
-      variant="elevated"
+      boxShadow="xl"
       width={{ base: '100%', md: '90%' }}
-      minW="350px"
+      border="1px solid lightgray"
     >
       {/* <HStack padding="0.5rem" justifyContent="space-evenly">
         <Image
@@ -52,50 +51,44 @@ function GHCardResult({ result }) {
         </Button>
       </HStack> */}
 
-      <CardBody>
-        <Flex margin="0.5rem 0">
-          <Box>
-            <HStack>
-              <Heading size="md">
-                <Link to={html_url} target="_blank">
-                  {name}
-                </Link>
-              </Heading>
-              <Button padding="0.3rem" fontSize="0.8rem" size="xs" onClick={handleCopy}>
-                SSH Key
-                <FaClipboard />
-              </Button>
-            </HStack>
-
-            <Text>{description}</Text>
-
-            <Text fontSize="0.8rem">Language : {language}</Text>
-          </Box>
-        </Flex>
-
-        <HStack>
-          <Image src={owner.avatar_url} width="1.5rem" borderRadius="full" />
-          <Text>{owner.login}</Text>
-        </HStack>
-      </CardBody>
-
-      <VStack margin="0.5rem" justifyContent="space-evenly">
+      <Flex direction="row" justifyContent="space-between">
         <Link to={html_url} target="_blank">
-          <Button display={{ base: 'none', md: 'flex' }}>
-            <FaGithub size="1.6rem" /> See on GitHub
-          </Button>
+          <CardBody>
+            <Flex margin="0.5rem 0">
+              <Box>
+                <HStack>
+                  <Heading size="md">{name}</Heading>
+                </HStack>
+
+                <Text>{description}</Text>
+
+                <Text fontSize="0.8rem">Language : {language}</Text>
+              </Box>
+            </Flex>
+
+            <HStack>
+              <Image src={owner.avatar_url} width="1.5rem" borderRadius="full" />
+              <Text>{owner.login}</Text>
+            </HStack>
+          </CardBody>
         </Link>
+        <VStack margin="0.5rem" justifyContent="space-evenly">
+          <Button padding="0.3rem" fontSize="1rem" onClick={handleCopy}>
+            SSH
+            <FaClipboard />
+          </Button>
 
-        {homepage ? (
-          <Link to={homepage} target="_blank">
-            <Button display={{ base: 'none', md: 'flex' }}>Home</Button>
+          <Link to={html_url} target="_blank">
+            <Button display={{ base: 'none', md: 'flex' }}>
+              <FaGithub size="1.6rem" />
+            </Button>
           </Link>
-        ) : null}
 
-        <Button>
-          <AiOutlineStar size="1.3rem" />
-        </Button>
-      </VStack>
+          <Button>
+            <AiOutlineStar size="1.3rem" />
+          </Button>
+        </VStack>
+      </Flex>
     </Card>
   );
 }
