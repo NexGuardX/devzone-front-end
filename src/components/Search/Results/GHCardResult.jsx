@@ -29,7 +29,7 @@ function GHCardResult({ result }) {
   const toast = useToast();
 
   const dispatch = useDispatch();
-  const toolId = useSelector((state) => state.bookmarks.currentToolId);
+  const toolId = useSelector((state) => state.application.currentToolId);
   const username = useSelector((state) => state.user.username);
   const userId = useSelector((state) => state.user.id);
   const bookmarksGroupedByTools = useSelector((state) => state.bookmarks.listGroupedByTools);

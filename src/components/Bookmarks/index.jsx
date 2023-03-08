@@ -21,6 +21,7 @@ import PageTitle from '../PageTitle';
 export default function Bookmarks() {
   const dispatch = useDispatch();
   const bookmarksGroupedByTools = useSelector((state) => state.bookmarks.listGroupedByTools);
+  const totalBookmarks = useSelector((state) => state.bookmarks.total);
 
   const handleClickDeleteBookmark = (id) => (e) => {
     e.preventDefault();
@@ -30,7 +31,7 @@ export default function Bookmarks() {
   return (
     <Box p="2rem">
       <PageTitle text="Bookmarks" />
-      {!bookmarksGroupedByTools.length ? (
+      {!totalBookmarks ? (
         'No bookmarks yet...'
       ) : (
         <Tabs>
