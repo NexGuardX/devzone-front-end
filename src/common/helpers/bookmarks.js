@@ -5,7 +5,7 @@
  * @returns {array} Array of bookmarks
  */
 export const getToolBookmarks = (toolId, bookmarks) =>
-  bookmarks.length ? bookmarks.find((tool) => tool.toolId === toolId).bookmarks : [];
+  bookmarks.length ? bookmarks.find((tool) => tool.toolId === toolId)?.bookmarks : [];
 
 /**
  * Check if url is already in bookmarks array of bookmarks (for a specific tool)
@@ -21,6 +21,7 @@ export const isBookmarked = (url, toolId, bookmarks) => {
 
   // Get array of bookmarks for toolID
   const toolBookmarks = getToolBookmarks(toolId, bookmarks);
+  console.log('⏩ ~ isBookmarked ~ toolBookmarks:', toolBookmarks);
 
   // Get only links and put them in an array
   const bookmarksLinks = toolBookmarks.reduce((acc, bookmark) => {
