@@ -72,9 +72,6 @@ export const thunkFetchSidebarCategoriesAndTools = () => async (dispatch, getSta
 export const thunkContactForm = (form) => async (dispatch) => {
   try {
     const response = await axios.post(`${REACT_APP_API_URL}/contact`, form);
-    // dispatch(setForm(response.data));
-    // eslint-disable-next-line no-undef
-    console.log(response);
     dispatch(
       setToastMessage({ title: 'Your message has been sent successfully', status: 'success' })
     );
