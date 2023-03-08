@@ -4,7 +4,6 @@ import { api } from '../../common/helpers/api';
 import { setToastMessage } from '../application/applicationSlice';
 
 const initialState = {
-  currentToolId: 0,
   listGroupedByTools: [],
 };
 
@@ -12,9 +11,6 @@ export const bookmarksSlice = createSlice({
   name: 'bookmarks',
   initialState,
   reducers: {
-    setCurrentToolId: (state, action) => {
-      state.currentToolId = action.payload;
-    },
     setListGroupedByTools: (state, action) => {
       state.listGroupedByTools = action.payload;
     },
@@ -22,7 +18,7 @@ export const bookmarksSlice = createSlice({
 });
 
 export default bookmarksSlice.reducer;
-export const { setCurrentToolId, setListGroupedByTools } = bookmarksSlice.actions;
+export const { setListGroupedByTools } = bookmarksSlice.actions;
 
 /** ********************************************* * */
 /** *************** THUNKS ********************** * */

@@ -1,7 +1,8 @@
-import { Box, Flex, useToast } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import AppToolLayout from '../components/AppToolLayout/index';
 import Bookmarks from '../components/Bookmarks';
 import Contact from '../components/Contact/index';
 import Home from '../components/Home';
@@ -13,9 +14,11 @@ import PlaygroundHtml from '../components/PlaygroundHtml/index';
 import PlaygroundJs from '../components/PlaygroundJs';
 import Profile from '../components/Profile';
 import Search from '../components/Search';
-import SideBar from '../components/SideBar';
 import SignUp from '../components/SignUp';
-import { thunkFetchSidebarCategoriesAndTools } from '../features/application/applicationSlice';
+import {
+  thunkFetchSidebarCategoriesAndTools,
+  thunkFetchTools,
+} from '../features/application/applicationSlice';
 import { thunkFetchUserBookmarks } from '../features/bookmarks/bookmarksSlice';
 import './App.css';
 
@@ -26,7 +29,6 @@ import './App.css';
 function App() {
   const dispatch = useDispatch();
   const username = useSelector((state) => state.user.username);
-
   const toastMessage = useSelector((state) => state.application.toastMessage);
   const toast = useToast();
 
@@ -41,6 +43,7 @@ function App() {
       dispatch(thunkFetchUserBookmarks());
     }
     dispatch(thunkFetchSidebarCategoriesAndTools());
+    dispatch(thunkFetchTools());
   }, [username]);
 
   return (
@@ -53,18 +56,9 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/signup" element={<SignUp />} />
 
-        <Route
-          path="/app"
-          element={
-            <Flex minH="calc(100dvh - 70px)" maxH="calc(100dvh - 70px)">
-              <SideBar />
-              <Box flexGrow="1" overflowY="auto">
-                <Outlet />
-              </Box>
-            </Flex>
-          }
-        >
-          <Route index element={<Bookmarks />} />
+        <Route path="/app" element={<AppToolLayout />}>
+          {/* use Navigate instead of element to go to path and not only dislay element (for setting toolId) */}
+          <Route index element={<Navigate to="/app/news" />} />
           <Route path="bookmarks" element={<Bookmarks />} />
           <Route path="news" element={<News />} />
           <Route path="search" element={<Search />} />
