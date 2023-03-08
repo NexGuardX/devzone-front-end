@@ -181,3 +181,34 @@ export const thunkGetUserCategories =
       console.log(error);
     }
   };
+
+export const thunkAddToolsToUser =
+  ({ userId, toolId }) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.post(`${REACT_APP_API_URL}/tools/user/${userId}`, {
+        toolId,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log({ error });
+      // throw new Error();
+    }
+  };
+
+export const thunkRemoveToolsToUser =
+  ({ userId, toolId }) =>
+  async (dispatch) => {
+    try {
+      console.log("j'essaie de fetch");
+      const response = await axios.delete(`${REACT_APP_API_URL}/tools/user/${userId}`, {
+        data: {
+          toolId,
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      // throw new Error();
+      console.log(error);
+    }
+  };

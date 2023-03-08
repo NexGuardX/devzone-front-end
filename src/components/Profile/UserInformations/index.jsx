@@ -121,7 +121,6 @@ function UserInformations({ user }) {
                   <Input
                     id="firstname"
                     onChange={handleChange}
-                    ref={initialRef}
                     type="text"
                     name="firstname"
                     defaultValue={user.firstname}
@@ -152,7 +151,7 @@ function UserInformations({ user }) {
                     onChange={handleChange}
                     type="text"
                     name="website"
-                    defaultValue={user.website}
+                    defaultValue={user.website ? user.website : 'http://'}
                     placeholder="Website"
                   />
                 </FormLabel>
