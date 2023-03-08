@@ -17,18 +17,17 @@ function Results() {
   function randomID() {
     return new Date() * Math.random();
   }
-  console.log(results);
 
   // Choose which card will be rendered according to the tool
   function switchRender(tool) {
     switch (tool) {
-      case 'SOF':
+      case 'Stack OverFlow':
         return results.map((result) => <SOFCardResult key={randomID()} result={result} />);
 
       case 'NPM':
         return results.map((result) => <NPMCardResult key={randomID()} result={result.package} />);
 
-      case 'GH':
+      case 'GitHub':
         return results.map((result) => <GHCardResult key={result.id} result={result} />);
 
       default:
@@ -42,7 +41,8 @@ function Results() {
         {results.length > 0 ? (
           <Alert status="success" variant="left-accent" marginTop="1rem" width="100%">
             <AlertIcon />
-            There are {numberOfresults} results for your search : &quot; {searchValue} &quot;
+            There are {numberOfresults} results for your search : &quot; {searchValue} &quot; on{' '}
+            {searchTool}
           </Alert>
         ) : (
           <Alert status="warning" variant="left-accent" marginTop="1rem" width="100%">

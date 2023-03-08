@@ -20,6 +20,7 @@ export const isBookmarked = (url, toolId, bookmarks) => {
   }
 
   // Get array of bookmarks for toolID
+
   const toolBookmarks = getToolBookmarks(toolId, bookmarks);
   if (!toolBookmarks) {
     return false;

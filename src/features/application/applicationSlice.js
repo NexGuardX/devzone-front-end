@@ -1,7 +1,10 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 import { userCategories } from '../../common/data/categories';
 import { api } from '../../common/helpers/api';
+
+const { REACT_APP_API_URL } = process.env;
 
 const initialState = {
   currentToolId: 0,
@@ -78,5 +81,16 @@ export const thunkFetchTools = () => async (dispatch) => {
     dispatch(setTools(tools));
   } catch (error) {
     dispatch(setToastMessage({ title: 'Error fetching Tools', status: 'error' }));
+  }
+};
+
+export const thunkContactForm = (form) => async (dispatch) => {
+  try {
+    await axios.post(`${REACT_APP_API_URL}/contact`, form);
+    dispatch(
+      setToastMessage({ title: 'Your message has been sent successfully', status: 'success' })
+    );
+  } catch (error) {
+    dispatch(setToastMessage({ title: 'Error sending message', status: 'error' }));
   }
 };

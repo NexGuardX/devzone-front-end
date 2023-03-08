@@ -6,6 +6,7 @@ import {
   FormLabel,
   Heading,
   Input,
+  Select,
   Spinner,
   Textarea,
   useToast,
@@ -13,13 +14,16 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 import { GrSend } from 'react-icons/gr';
+import { useDispatch } from 'react-redux';
 import Reaptcha from 'reaptcha';
+import { thunkContactForm } from '../../features/application/applicationSlice';
 
 const { REACT_APP_RECAPTCHA_V2_KEY } = process.env;
 const initContactForm = () => ({
   email: '',
   subject: '',
   message: '',
+  type: '',
 });
 
 export default function Contact() {
@@ -30,6 +34,7 @@ export default function Contact() {
   const captchaRef = useRef();
   const toast = useToast();
 
+  const dispatch = useDispatch();
   // Focus on first form input at first render of component
   useEffect(() => {
     focusRef.current.focus();
@@ -51,20 +56,15 @@ export default function Contact() {
         isClosable: true,
       });
     }
+
     // Reset Form
     setForm(initContactForm());
 
     // Reset Captcha
     captchaRef.current.reset();
+    dispatch(thunkContactForm(form));
 
-    return toast({
-      title: 'TODO...',
-      description: 'Your message has (not) been sent yet',
-      status: 'error',
-      duration: 5000,
-      position: 'top',
-      isClosable: true,
-    });
+    return null;
   };
 
   const handleCaptcha = (value) => {
@@ -85,6 +85,13 @@ export default function Contact() {
                 value={form?.email}
                 onChange={handleChange}
               />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel position="left">Type</FormLabel>
+              <Select name="type" placeholder="Select option" onChange={handleChange}>
+                <option value={form?.issue}>Report an issue</option>
+                <option value={form?.other}>Other</option>
+              </Select>
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Subject</FormLabel>
