@@ -13,7 +13,7 @@ import {
   Stack,
   Text,
   // eslint-disable-next-line prettier/prettier
-  useColorModeValue,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
