@@ -1,4 +1,24 @@
 /**
+ * Total Bookmarks count
+ * @param {array} bookmarks Array of bookmarks grouped by tool
+ * @returns {integer} total bookmarks
+ */
+export const getTotalBookmarks = (bookmarks) => {
+  if (!bookmarks.length) {
+    return 0;
+  }
+
+  // Get total bookmarks
+  const totalBookmarks = bookmarks.reduce(
+    (acc, bookmark) => acc + (bookmark.bookmarks.length || 0),
+    0
+  );
+
+  // Return boolean
+  return totalBookmarks;
+};
+
+/**
  * Get bookmarks array for a specific tool with toolId parameter
  * @param {id} toolId Id of the tool
  * @param {array} bookmarks Array of bookmarks grouped by tool
