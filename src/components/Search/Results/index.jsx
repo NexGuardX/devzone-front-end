@@ -17,7 +17,6 @@ function Results() {
   function randomID() {
     return new Date() * Math.random();
   }
-  console.log(results);
 
   // Choose which card will be rendered according to the tool
   function switchRender(tool) {

@@ -4,19 +4,17 @@ import {
   Button,
   Card,
   CardBody,
-  Flex,
+  Divider,
   Heading,
   HStack,
   Image,
   Text,
   useClipboard,
   useToast,
-  VStack,
 } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { AiOutlineStar } from 'react-icons/ai';
 import { FaClipboard, FaGithub } from 'react-icons/fa';
-
 import { Link } from 'react-router-dom';
 
 function GHCardResult({ result }) {
@@ -33,14 +31,8 @@ function GHCardResult({ result }) {
   };
 
   return (
-    <Card
-      margin="auto"
-      direction="row"
-      variant="elevated"
-      width={{ base: '100%', md: '90%' }}
-      minW="350px"
-    >
-      {/* <HStack padding="0.5rem" justifyContent="space-evenly">
+    <Card width="350px" margin="auto" height="500px">
+      <HStack padding="0.5rem" justifyContent="space-evenly">
         <Image
           src="https://logos-marques.com/wp-content/uploads/2021/03/GitHub-Logo.png"
           alt="GitHub"
@@ -50,52 +42,43 @@ function GHCardResult({ result }) {
         <Button>
           <AiOutlineStar />
         </Button>
-      </HStack> */}
+      </HStack>
+      <Divider />
 
       <CardBody>
-        <Flex margin="0.5rem 0">
-          <Box>
-            <HStack>
-              <Heading size="md">
-                <Link to={html_url} target="_blank">
-                  {name}
-                </Link>
-              </Heading>
-              <Button padding="0.3rem" fontSize="0.8rem" size="xs" onClick={handleCopy}>
-                SSH Key
-                <FaClipboard />
-              </Button>
-            </HStack>
-
+        <Box mt="6" spacing="3">
+          <HStack justifyContent="space-between" marginBottom="1.5rem">
+            <Heading size="md">{name}</Heading>
+            <Button onClick={handleCopy} minWidth="110px">
+              SSH Key <FaClipboard />
+            </Button>
+          </HStack>
+          <Box marginTop="2rem">
             <Text>{description}</Text>
 
-            <Text fontSize="0.8rem">Language : {language}</Text>
+            <Text marginTop="1rem">Language : {language}</Text>
           </Box>
-        </Flex>
 
-        <HStack>
-          <Image src={owner.avatar_url} width="1.5rem" borderRadius="full" />
-          <Text>{owner.login}</Text>
-        </HStack>
+          <HStack position="absolute" bottom="100px">
+            <Image src={owner.avatar_url} width="4rem" borderRadius="full" />
+            <Text>{owner.login}</Text>
+          </HStack>
+        </Box>
       </CardBody>
-
-      <VStack margin="0.5rem" justifyContent="space-evenly">
-        <Link to={html_url} target="_blank">
-          <Button display={{ base: 'none', md: 'flex' }}>
-            <FaGithub size="1.6rem" /> See on GitHub
-          </Button>
-        </Link>
-
+      <Divider />
+      <HStack justifyContent="space-evenly">
         {homepage ? (
           <Link to={homepage} target="_blank">
-            <Button display={{ base: 'none', md: 'flex' }}>Home</Button>
+            <Button margin="0.5rem">Home</Button>
           </Link>
         ) : null}
 
-        <Button>
-          <AiOutlineStar size="1.3rem" />
-        </Button>
-      </VStack>
+        <Link to={html_url} target="_blank">
+          <Button margin="0.5rem">
+            <FaGithub size="1.6rem" /> See on GitHub
+          </Button>
+        </Link>
+      </HStack>
     </Card>
   );
 }

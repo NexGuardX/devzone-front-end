@@ -13,7 +13,6 @@ function NPMCardResult({ result }) {
       margin="auto"
       direction="row"
       variant="elevated"
-      maxHeight="150px"
       width={{ base: '100%', md: '90%' }}
       minW="350px"
     >
@@ -30,7 +29,9 @@ function NPMCardResult({ result }) {
       <CardBody direction="row" padding="0.4rem">
         <Box>
           <Heading size="md">
-            <Link to={links.npm}>{name}</Link>
+            <Link to={links.npm} target="_blank">
+              {name}
+            </Link>
           </Heading>
           <Text wordBreak="break-all" overflow="hidden">
             {description}
