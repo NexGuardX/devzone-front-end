@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import AppToolLayout from '../components/AppToolLayout/index';
+import AuthRoute from '../components/AuthRoute';
 import Bookmarks from '../components/Bookmarks';
 import Contact from '../components/Contact/index';
 import Home from '../components/Home';
@@ -53,17 +54,31 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/profile"
+          element={
+            <AuthRoute>
+              <Profile />
+            </AuthRoute>
+          }
+        />
         <Route path="/signup" element={<SignUp />} />
 
         <Route path="/app" element={<AppToolLayout />}>
           {/* use Navigate instead of element to go to path and not only dislay element (for setting toolId) */}
           <Route index element={<Navigate to="/app/news" />} />
-          <Route path="bookmarks" element={<Bookmarks />} />
           <Route path="news" element={<News />} />
           <Route path="search" element={<Search />} />
           <Route path="playground-js" element={<PlaygroundJs />} />
           <Route path="playground-html" element={<PlaygroundHtml />} />
+          <Route
+            path="bookmarks"
+            element={
+              <AuthRoute>
+                <Bookmarks />
+              </AuthRoute>
+            }
+          />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
