@@ -85,43 +85,42 @@ function NPMCardResult({ result }) {
                 : null}
             </Box>
           </CardBody>
-
-          <Stack direction="column" justifyContent="space-around" padding="0.2rem">
-            <HStack display={{ base: 'none', md: 'flex' }} justifyContent="space-around">
-              <Link to={links.npm} target="_blank">
-                <Button>
-                  <FaNpm size="2rem" />
-                </Button>
-              </Link>
-              <Link to={links.homepage} target="_blank">
-                <Button>Home</Button>
-              </Link>
-            </HStack>
-
-            <HStack justifyContent="space-around">
-              <Link to={links.repository} target="_blank">
-                <Button display={{ base: 'none', md: 'block' }}>
-                  <FaGithub size="1.6rem" />
-                </Button>
-              </Link>
-              {username ? (
-                <IconButton
-                  variant="ghost"
-                  icon={
-                    isBookmarked(result.links.npm, toolId, bookmarksGroupedByTools) ? (
-                      <BsStarFill
-                        style={{ color: '#FDCC0D' }}
-                        onClick={handleClickUnstar(result.links.npm, toolId)}
-                      />
-                    ) : (
-                      <BsStar onClick={handleClickStar(result)} />
-                    )
-                  }
-                />
-              ) : null}
-            </HStack>
-          </Stack>
         </Link>
+        <Stack direction="column" justifyContent="space-around" padding="0.2rem">
+          <HStack display={{ base: 'none', md: 'flex' }} justifyContent="space-around">
+            <Link to={links.npm} target="_blank">
+              <Button>
+                <FaNpm size="2rem" />
+              </Button>
+            </Link>
+            <Link to={links.homepage} target="_blank">
+              <Button>Home</Button>
+            </Link>
+          </HStack>
+
+          <HStack justifyContent="space-around">
+            <Link to={links.repository} target="_blank">
+              <Button display={{ base: 'none', md: 'block' }}>
+                <FaGithub size="1.6rem" />
+              </Button>
+            </Link>
+            {username ? (
+              <IconButton
+                variant="ghost"
+                icon={
+                  isBookmarked(result.links.npm, toolId, bookmarksGroupedByTools) ? (
+                    <BsStarFill
+                      style={{ color: '#FDCC0D' }}
+                      onClick={handleClickUnstar(result.links.npm, toolId)}
+                    />
+                  ) : (
+                    <BsStar onClick={handleClickStar(result)} />
+                  )
+                }
+              />
+            ) : null}
+          </HStack>
+        </Stack>
       </Flex>
     </Card>
   );
