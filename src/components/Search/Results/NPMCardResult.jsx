@@ -1,12 +1,50 @@
-import { Box, Button, Card, CardBody, Heading, HStack, Stack, Tag, Text } from '@chakra-ui/react';
+/* eslint-disable no-shadow */
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  Heading,
+  HStack,
+  IconButton,
+  Stack,
+  Tag,
+  Text,
+} from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import { AiOutlineStar } from 'react-icons/ai';
+import { BsStar, BsStarFill } from 'react-icons/bs';
 import { FaGithub, FaNpm } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Link } from 'react-router-dom';
+import { getToolBookmarks, isBookmarked } from '../../../common/helpers/bookmarks';
+import { thunkAddBookmark, thunkDeleteBookmark } from '../../../features/bookmarks/bookmarksSlice';
 
 function NPMCardResult({ result }) {
   const { description, keywords, links, name, version } = result;
+
+  const dispatch = useDispatch();
+  const toolId = useSelector((state) => state.bookmarks.currentToolId);
+  const username = useSelector((state) => state.user.username);
+  const userId = useSelector((state) => state.user.id);
+  const bookmarksGroupedByTools = useSelector((state) => state.bookmarks.listGroupedByTools);
+
+  const handleClickStar = (item) => () => {
+    const link = item.links.npm;
+    const imgLink =
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/2560px-Npm-logo.svg.png';
+    const { name } = item;
+    dispatch(thunkAddBookmark({ name, link, imgLink, toolId, userId }));
+  };
+
+  const handleClickUnstar = (link, bookmarkToolId) => () => {
+    // Get array of bookmarks for toolID
+    const toolBookmarks = getToolBookmarks(bookmarkToolId, bookmarksGroupedByTools);
+
+    // Find id to delete with link url
+    const bookmarkIdToDelete = toolBookmarks.find((bookmark) => bookmark.link === link).id;
+    dispatch(thunkDeleteBookmark(bookmarkIdToDelete));
+  };
 
   return (
     <Card
@@ -67,9 +105,21 @@ function NPMCardResult({ result }) {
               <FaGithub size="1.6rem" />
             </Button>
           </Link>
-          <Button>
-            <AiOutlineStar size="1.3rem" />
-          </Button>
+          {username ? (
+            <IconButton
+              variant="ghost"
+              icon={
+                isBookmarked(result.links.npm, toolId, bookmarksGroupedByTools) ? (
+                  <BsStarFill
+                    style={{ color: '#FDCC0D' }}
+                    onClick={handleClickUnstar(result.links.npm, toolId)}
+                  />
+                ) : (
+                  <BsStar onClick={handleClickStar(result)} />
+                )
+              }
+            />
+          ) : null}
         </HStack>
       </Stack>
     </Card>
