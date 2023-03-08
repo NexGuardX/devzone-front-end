@@ -1,5 +1,4 @@
 import { Box, Flex, VStack } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import { BsStar } from 'react-icons/bs';
 import {
   RiHomeSmileLine,
@@ -18,10 +17,6 @@ function SideBar() {
   const username = useSelector((state) => state.user.username);
   const categoriesAndTools = useSelector((state) => state.application.sidebarCategoriesAndTools);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    // dispatch(thunkFetchSidebarCategoriesAndTools());
-  }, [username]);
 
   const handleSearchModal = () => {
     dispatch(setOpenModal(true));
@@ -66,7 +61,6 @@ function SideBar() {
                     icon={toolsMap[tool?.link?.toLocaleLowerCase().split('/').reverse()[0]]?.icon}
                     text={tool?.name}
                     to={tool?.link}
-                    toolId={tool?.id}
                     openSearchModal={
                       toolsMap[tool?.link?.toLocaleLowerCase().split('/').reverse()[0]]
                         ?.openSearchModal

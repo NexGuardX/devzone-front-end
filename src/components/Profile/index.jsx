@@ -2,13 +2,11 @@ import { Flex, Heading } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { BsGear } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { thunkCategoriesWithTools } from '../../features/tools/toolsSlice';
 import { thunkGetUserCategories } from '../../features/user/userSlice';
 import UserInformations from './UserInformations';
 
 function Profile() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userId = localStorage.getItem('userId');
 
@@ -21,12 +19,6 @@ function Profile() {
   useEffect(() => {
     dispatch(thunkGetUserCategories({ userId }));
     dispatch(thunkCategoriesWithTools());
-    if (userId === null) {
-      // if no userID is registered in localStorage, we redirect to the login page
-      navigate('/login');
-    }
-    console.log('user', userCategories);
-    console.log('all', categoriesWithTools);
   }, [userId]);
 
   return (

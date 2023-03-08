@@ -25,6 +25,7 @@ export const isBookmarked = (url, toolId, bookmarks) => {
   if (!toolBookmarks) {
     return false;
   }
+
   // Get only links and put them in an array
   const bookmarksLinks = toolBookmarks.reduce((acc, bookmark) => {
     if (!acc.includes(bookmark.link)) {
