@@ -20,7 +20,7 @@ import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
-import profilePicture from '../../../assets/images/4500_3_04.jpg';
+import defaultProfilePicture from '../../../assets/images/4500_3_04.jpg';
 import {
   setEmail,
   setFirstname,
@@ -75,7 +75,7 @@ function UserInformations({ user }) {
         maxW="300px"
         rounded="full"
         border="3px solid black"
-        src={profilePicture}
+        src={user.avatar ? user.avatar : defaultProfilePicture}
       />
       <Stack marginTop="0.5rem">
         <Text>Pseudo</Text>
