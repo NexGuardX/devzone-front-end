@@ -147,7 +147,7 @@ export const thunkUpdateProfil = (form, id) => async (dispatch) => {
     dispatch(setUsername(response.data.user.username));
     dispatch(setWebsite(response.data.user.website));
   } catch (error) {
-    console.log(error);
+    throw new Error();
   }
 };
 
@@ -166,7 +166,7 @@ export const thunkGetUser =
       dispatch(setId(response.data.id));
       // console.log(response.data);
     } catch (error) {
-      console.log(error);
+      throw new Error();
     }
   };
 
@@ -176,39 +176,36 @@ export const thunkGetUserCategories =
     try {
       const response = await axios.get(`${REACT_APP_API_URL}/categories/user/${userId}`);
       dispatch(setCategoriesUser(response.data));
-      console.log('userCateories', response.data);
     } catch (error) {
-      console.log(error);
+      throw new Error();
     }
   };
 
-export const thunkAddToolsToUser =
+export const thunkAddToolToUser =
   ({ userId, toolId }) =>
   async (dispatch) => {
     try {
       const response = await axios.post(`${REACT_APP_API_URL}/tools/user/${userId}`, {
         toolId,
       });
-      console.log(response);
+      dispatch(thunkGetUserCategories({ userId }));
     } catch (error) {
-      console.log({ error });
-      // throw new Error();
+      throw new Error();
     }
   };
 
-export const thunkRemoveToolsToUser =
+export const thunkRemoveToolToUser =
   ({ userId, toolId }) =>
   async (dispatch) => {
     try {
-      console.log("j'essaie de fetch");
       const response = await axios.delete(`${REACT_APP_API_URL}/tools/user/${userId}`, {
         data: {
           toolId,
         },
       });
-      console.log(response);
+
+      dispatch(thunkGetUserCategories({ userId }));
     } catch (error) {
-      // throw new Error();
-      console.log(error);
+      throw new Error();
     }
   };

@@ -26,8 +26,6 @@ function Profile() {
       // if no userID is registered in localStorage, we redirect to the login page
       navigate('/login');
     }
-    console.log('userCategories', userCategories);
-    console.log('categoriesWithTools', categoriesWithTools);
   }, [userId]);
 
   return (
