@@ -50,7 +50,6 @@ function NavBar() {
     <Flex
       width="100%"
       bg={useColorModeValue('blue.900', 'blue.800')}
-      minH="60px"
       py={{ base: 2 }}
       px={{ base: 4 }}
       borderBottom={1}
