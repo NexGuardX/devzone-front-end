@@ -6,6 +6,7 @@ import AppToolLayout from '../components/AppToolLayout/index';
 import AuthRoute from '../components/AuthRoute';
 import Bookmarks from '../components/Bookmarks';
 import Contact from '../components/Contact/index';
+import GithubCallback from '../components/GithubCallBack/index';
 import Home from '../components/Home';
 import Login from '../components/Login';
 import NavBar from '../components/NavBar';
@@ -54,6 +55,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/auth/github" element={<GithubCallback />} />
         <Route
           path="/profile"
           element={
@@ -62,7 +65,6 @@ function App() {
             </AuthRoute>
           }
         />
-        <Route path="/signup" element={<SignUp />} />
 
         <Route path="/app" element={<AppToolLayout />}>
           {/* use Navigate instead of element to go to path and not only dislay element (for setting toolId) */}

@@ -26,6 +26,7 @@ import { logout, thunkGetUser } from '../../features/user/userSlice';
 
 function NavBar() {
   const user = useSelector((state) => state.user.username);
+  const avatar = useSelector((state) => state.user.avatar);
   const dispatch = useDispatch();
 
   const userId = localStorage.getItem('userId');
@@ -122,7 +123,7 @@ function NavBar() {
             cursor="pointer"
             minW={0}
           >
-            <Avatar size="md" name={user} src="" />
+            <Avatar size="md" name={user} src={avatar} />
           </MenuButton>
           <MenuList>
             <NavLink to="/profile">
@@ -159,7 +160,7 @@ function NavBar() {
       {user ? (
         <Menu>
           <MenuButton display={{ base: 'none', md: 'block' }} rounded="full" variant="link">
-            <Avatar size="md" name={user} src="" />
+            <Avatar size="md" name={user} src={avatar} />
           </MenuButton>
           <MenuList>
             <NavLink to="/profile">
@@ -176,10 +177,10 @@ function NavBar() {
             display={{ base: 'none', md: 'inline-flex' }}
             fontSize="sm"
             fontWeight={400}
-            variant="link"
-            color="white"
+            variant="outline"
+            colorScheme="whiteAlpha"
           >
-            <NavLink to="/login">Sign In</NavLink>
+            <NavLink to="/login">Login</NavLink>
           </Button>
           <NavLink to="/signup">
             <Button

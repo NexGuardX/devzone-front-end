@@ -55,6 +55,11 @@ export const userSlice = createSlice({
     setEmailOrUsername: (state, action) => {
       state.emailOrUsername = action.payload;
     },
+    setUserInfos: (state, action) => {
+      Object.entries(action.payload).forEach(([key, value]) => {
+        state[key] = value;
+      });
+    },
   },
 });
 

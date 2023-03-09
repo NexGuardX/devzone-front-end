@@ -9,12 +9,13 @@ import {
   Stack,
   Text,
   // eslint-disable-next-line prettier/prettier
-  useColorModeValue
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { thunkLogin } from '../../features/user/userSlice';
+import GithubButton from '../GithubButton';
 
 function Login() {
   const [emailOrUsername, setEmailOrUsername] = useState('');
@@ -92,6 +93,7 @@ function Login() {
               >
                 Sign in
               </Button>
+              <GithubButton />
             </Stack>
           </form>
         </Box>
