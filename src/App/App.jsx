@@ -6,6 +6,7 @@ import AppToolLayout from '../components/AppToolLayout/index';
 import AuthRoute from '../components/AuthRoute';
 import Bookmarks from '../components/Bookmarks';
 import Contact from '../components/Contact/index';
+import Dashboard from '../components/Dashboard';
 import GithubCallback from '../components/GithubCallBack/index';
 import Home from '../components/Home';
 import Login from '../components/Login';
@@ -78,6 +79,14 @@ function App() {
             element={
               <AuthRoute>
                 <Bookmarks />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="dashboard"
+            element={
+              <AuthRoute>
+                <Dashboard />
               </AuthRoute>
             }
           />

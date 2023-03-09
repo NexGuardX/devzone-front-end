@@ -20,7 +20,7 @@ export default function GithubCallback() {
     try {
       const response = await api.post('/auth/github', data);
       dispatch(setUserInfos(response.data));
-      navigate('/app');
+      navigate('/app/dashboard');
     } catch (error) {
       console.error(error);
     }
