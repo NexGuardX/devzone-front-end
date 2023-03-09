@@ -5,6 +5,7 @@ import {
   Center,
   Flex,
   HStack,
+  Icon,
   IconButton,
   Img,
   Menu,
@@ -12,15 +13,19 @@ import {
   MenuItem,
   MenuList,
   Spacer,
+  Text,
+  useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { BsBoxArrowInRight } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr';
+import { HiOutlineLogout, HiOutlineUserCircle } from 'react-icons/hi';
+import { MdOutlineDarkMode, MdOutlineWbSunny } from 'react-icons/md';
 import { RxHamburgerMenu, RxPerson } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import logodevzoneblack from '../../assets/images/devzoneblack.png';
+import logodevzoneblack from '../../assets/images/devzonewhite.png';
 import logodz from '../../assets/images/logo-dz.png';
 import { logout, thunkGetUser } from '../../features/user/userSlice';
 
@@ -28,6 +33,7 @@ function NavBar() {
   const user = useSelector((state) => state.user.username);
   const avatar = useSelector((state) => state.user.avatar);
   const dispatch = useDispatch();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const userId = localStorage.getItem('userId');
 
@@ -51,7 +57,6 @@ function NavBar() {
     <Flex
       width="100%"
       bg={useColorModeValue('blue.900', 'blue.800')}
-      minH="60px"
       py={{ base: 2 }}
       px={{ base: 4 }}
       borderBottom={1}
@@ -127,10 +132,26 @@ function NavBar() {
           </MenuButton>
           <MenuList>
             <NavLink to="/profile">
-              <MenuItem>Profile</MenuItem>
+              <MenuItem>
+                <HStack>
+                  <Icon as={HiOutlineUserCircle} />
+                  <Text>Profile</Text>
+                </HStack>
+              </MenuItem>
             </NavLink>
+            <MenuItem onClick={toggleColorMode}>
+              <HStack>
+                <Icon as={colorMode === 'light' ? MdOutlineDarkMode : MdOutlineWbSunny} />
+                <Text>{colorMode === 'light' ? 'Dark' : 'Light'} Mode</Text>
+              </HStack>
+            </MenuItem>
             <NavLink to="/login">
-              <MenuItem onClick={handleClick}>LogOut</MenuItem>
+              <MenuItem onClick={handleClick}>
+                <HStack>
+                  <Icon as={HiOutlineLogout} />
+                  <Text>Logout</Text>
+                </HStack>
+              </MenuItem>
             </NavLink>
           </MenuList>
         </Menu>
@@ -147,7 +168,7 @@ function NavBar() {
           </MenuButton>
           <MenuList>
             <NavLink to="/login">
-              <MenuItem>Sign in</MenuItem>
+              <MenuItem>Login</MenuItem>
             </NavLink>
             <NavLink to="/signup">
               <MenuItem>Sign up</MenuItem>
@@ -164,21 +185,39 @@ function NavBar() {
           </MenuButton>
           <MenuList>
             <NavLink to="/profile">
-              <MenuItem>Profile</MenuItem>
+              <MenuItem>
+                <HStack>
+                  <Icon as={HiOutlineUserCircle} />
+                  <Text>Profile</Text>
+                </HStack>
+              </MenuItem>
             </NavLink>
+            <MenuItem onClick={toggleColorMode}>
+              <HStack>
+                <Icon as={colorMode === 'light' ? MdOutlineDarkMode : MdOutlineWbSunny} />
+                <Text>{colorMode === 'light' ? 'Dark' : 'Light'} Mode</Text>
+              </HStack>
+            </MenuItem>
             <NavLink to="/login">
-              <MenuItem onClick={handleClick}>LogOut</MenuItem>
+              <MenuItem onClick={handleClick}>
+                <HStack>
+                  <Icon as={HiOutlineLogout} />
+                  <Text>Logout</Text>
+                </HStack>
+              </MenuItem>
             </NavLink>
           </MenuList>
         </Menu>
       ) : (
-        <HStack spacing={6}>
+        <HStack spacing={6} color="white">
           <Button
             display={{ base: 'none', md: 'inline-flex' }}
             fontSize="sm"
             fontWeight={400}
             variant="outline"
-            colorScheme="whiteAlpha"
+            _hover={{
+              bg: 'whiteAlpha.300',
+            }}
           >
             <NavLink to="/login">Login</NavLink>
           </Button>
@@ -187,7 +226,6 @@ function NavBar() {
               display={{ base: 'none', md: 'inline-flex' }}
               fontSize="sm"
               fontWeight={600}
-              color="white"
               bg="pink.400"
               _hover={{
                 bg: 'pink.300',

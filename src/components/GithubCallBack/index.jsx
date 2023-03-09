@@ -10,17 +10,17 @@ const { REACT_APP_GITHUB_OAUTH_REDIRECT_URI: REDIRECT_URI } = process.env;
 
 export default function GithubCallback() {
   const [searchParams] = useSearchParams();
-  const dispatch = useDispatch();
   const code = searchParams.get('code');
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  // DEV Strictmode
+  // Because of DEV Strictmode
   const executedOnce = useRef(false);
 
   const getGithubToken = async (data) => {
     try {
       const response = await api.post('/auth/github', data);
       dispatch(setUserInfos(response.data));
-      navigate('/');
+      navigate('/app');
     } catch (error) {
       console.error(error);
     }
@@ -37,7 +37,7 @@ export default function GithubCallback() {
   return (
     <Flex width="100%" height="80dvh" justifyContent="center" alignItems="center">
       <VStack>
-        <HStack fontSize="2rem">
+        <HStack fontSize={{ md: '2rem' }}>
           <Icon as={GoMarkGithub} />
           <Text>Github Authentication</Text>
           <Spinner size="lg" />
