@@ -3,11 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 // eslint-disable-next-line import/no-named-as-default-member
 import authHeader from '../../common/helpers/authHeader';
+import { thunkFetchSidebarCategoriesAndTools } from '../application/applicationSlice';
 
 const { REACT_APP_API_URL } = process.env;
 
 const initialState = {
   username: '',
+  // avatar: profilePicture,
   categories: [],
 };
 
@@ -92,7 +94,7 @@ const thunkLogin =
       } else {
         loginInput = { username: emailOrUsername };
       }
-      const response = await axios.post(`${REACT_APP_API_URL}/login`, {
+      const response = await axios.post(`${REACT_APP_API_URL}/auth/login`, {
         ...loginInput,
         password,
       });
@@ -107,10 +109,7 @@ const thunkLogin =
       dispatch(setUsername(response.data.user.username));
 
       dispatch(setFetchResponse(response.status));
-
-      console.log(response);
     } catch (error) {
-      console.log('⏩ ~ error:', error);
       dispatch(setFetchResponse(error.response.data));
     }
   };
@@ -122,7 +121,7 @@ export const thunkSignup =
     const SignupForm = { username, email, password, confirmedPassword };
     dispatch(setSignupForm(SignupForm));
     try {
-      const response = await axios.post(`${REACT_APP_API_URL}/signup`, {
+      const response = await axios.post(`${REACT_APP_API_URL}/auth/signup`, {
         username,
         email,
         password,
@@ -152,7 +151,7 @@ export const thunkUpdateProfil = (form, id) => async (dispatch) => {
     dispatch(setUsername(response.data.user.username));
     dispatch(setWebsite(response.data.user.website));
   } catch (error) {
-    console.log(error);
+    throw new Error();
   }
 };
 
@@ -169,9 +168,8 @@ export const thunkGetUser =
       dispatch(setLastname(response.data.lastname));
       dispatch(setWebsite(response.data.website));
       dispatch(setId(response.data.id));
-      // console.log(response.data);
     } catch (error) {
-      console.log(error);
+      throw new Error();
     }
   };
 
@@ -181,8 +179,39 @@ export const thunkGetUserCategories =
     try {
       const response = await axios.get(`${REACT_APP_API_URL}/categories/user/${userId}`);
       dispatch(setCategoriesUser(response.data));
-      console.log('userCateories', response.data);
     } catch (error) {
-      console.log(error);
+      throw new Error();
+    }
+  };
+
+export const thunkAddToolToUser =
+  ({ userId, toolId }) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.post(`${REACT_APP_API_URL}/tools/user/${userId}`, {
+        toolId,
+      });
+      // TODO mettre a jour le state dynamiquement
+
+      dispatch(thunkFetchSidebarCategoriesAndTools());
+    } catch (error) {
+      throw new Error();
+    }
+  };
+
+export const thunkRemoveToolToUser =
+  ({ userId, toolId }) =>
+  async (dispatch) => {
+    try {
+      const response = await axios.delete(`${REACT_APP_API_URL}/tools/user/${userId}`, {
+        data: {
+          toolId,
+        },
+      });
+      // TODO mettre a jour le state dynamiquement
+
+      dispatch(thunkFetchSidebarCategoriesAndTools());
+    } catch (error) {
+      throw new Error();
     }
   };

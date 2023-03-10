@@ -1,55 +1,56 @@
 /* eslint-disable react/forbid-prop-types */
-import { Flex, FormLabel, Img, Switch, Text, VStack } from '@chakra-ui/react';
+import { Flex, FormLabel, Icon, Switch, Text, VStack } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { thunkAddToolToUser, thunkRemoveToolToUser } from '../../features/user/userSlice';
 
-function ToolSelector({ tool, userCategory }) {
+function ToolSelector({ tool, icon, isCheck }) {
   const dispatch = useDispatch();
+  const userId = localStorage.getItem('userId');
+  const userCategoriesWithTools = useSelector(
+    (state) => state.application.sidebarCategoriesAndTools
+  );
 
-  const userCategories = useSelector((state) => state.user.categories);
-  console.log(userCategories);
+  const [isChecked, setIsChecked] = useState(isCheck);
 
-  if (typeof userCategory.tools === 'undefined') {
-    return null;
-  }
-
-  const userTools = userCategory.tools;
-
-  // search if user have active tools
-  const findTools = userTools.find((userTool) => userTool.id === tool.id);
-
-  const handleSwitchChange = () => {
-    // if (findTools) {
-    //   // if the tool is found in the user's state, filter makes new array without the selected tool
-    //   const newTools = userTools.filter((userTool) => userTool.id !== tool.id);
-    //   dispatch(removeToolsUser(newTools));
-    // } else if (!findTools) {
-    //   // if tool is not in the user's state, add it
-    //   const newTools = [...userTools, tool];
-    //   dispatch(setToolsUser(newTools));
-    // }
-    console.log('je change');
+  const numberActiveTools = () => {
+    const totalTools = userCategoriesWithTools.reduce(
+      (acc, categories) => acc + (categories.tools.length || 0),
+      0
+    );
+    return totalTools;
   };
 
-  function isCategories() {
-    if (typeof userCategories.tools === 'undefined') {
-      return <Switch onChange={handleSwitchChange} value={tool.id} defaultChecked />;
+  // eslint-disable-next-line consistent-return
+  const handleSwitchChange = (event) => {
+    const toolId = event.target.value;
+    const newIsChecked = !isChecked;
+    setIsChecked(newIsChecked);
+    if (newIsChecked === false) {
+      // if (numberActiveTools() < 2) {
+      //   return dispatch(setToastMessage({ title: 'Test' }));
+      // }
+
+      return dispatch(thunkRemoveToolToUser({ userId, toolId }));
     }
-    return findTools ? (
-      <Switch onChange={handleSwitchChange} value={tool.id} defaultChecked />
-    ) : (
-      <Switch onChange={handleSwitchChange} value={tool.id} isInvalid />
-    );
-  }
+
+    dispatch(thunkAddToolToUser({ userId, toolId }));
+    // setIsChecked(newIsChecked);
+  };
+
+  useEffect(() => {
+    setIsChecked(isCheck);
+  }, [isCheck]);
 
   return (
     <VStack>
-      <Flex justifyContent="space-between" w="300px" p="0.5rem">
-        <Img src={tool.icon} w={{ base: '30px', md: '40px' }} />
+      <Flex justifyContent="space-between" alignItems="center" w="300px" p="0.5rem">
+        <Icon as={icon} boxSize={{ base: 7 }} />
         <FormLabel value={tool.id} marginBottom="0">
           {tool.name}
         </FormLabel>
-        {isCategories()}
+        <Switch onChange={handleSwitchChange} isChecked={isCheck} value={tool.id} />
       </Flex>
       <Text margin="0" fontSize="0.8rem">
         {tool.description}
@@ -59,21 +60,13 @@ function ToolSelector({ tool, userCategory }) {
 }
 
 ToolSelector.propTypes = {
-  userCategory: PropTypes.shape({
-    tools: PropTypes.arrayOf(PropTypes.object),
-  }),
   tool: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
-    icon: PropTypes.string,
     description: PropTypes.string,
   }).isRequired,
-};
-
-ToolSelector.defaultProps = {
-  userCategory: {
-    tools: [],
-  },
+  icon: PropTypes.func.isRequired,
+  isCheck: PropTypes.bool.isRequired,
 };
 
 export default ToolSelector;
