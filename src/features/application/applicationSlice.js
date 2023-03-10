@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import { userCategories } from '../../common/data/categories';
 import { api } from '../../common/helpers/api';
 
 const initialState = {
@@ -38,7 +37,7 @@ export const { setSidebarCategoriesAndTools, setToastMessage } = applicationSlic
 /** ********************************************* * */
 
 export const thunkFetchSidebarCategoriesAndTools = () => async (dispatch, getState) => {
-  const { username } = getState().user;
+  const { username, id: userId } = getState().user;
   if (!username) {
     try {
       const response = await api.get('/categories');
@@ -50,13 +49,13 @@ export const thunkFetchSidebarCategoriesAndTools = () => async (dispatch, getSta
     return;
   }
 
-  // if not login
+  // if login
   // TODO Waiting for API ROUTES
   try {
     // eslint-disable-next-line consistent-return
-    // const response = await axios(`${REACT_APP_API_URL}/categories/userID`);
-    // const categories = response.data;
-    dispatch(setSidebarCategoriesAndTools(userCategories));
+    const response = await api.get(`/categories/user/${userId}`);
+    const categories = response.data;
+    dispatch(setSidebarCategoriesAndTools(categories));
   } catch (error) {
     dispatch(setToastMessage({ title: 'Error fetching sidebar', status: 'error' }));
   }

@@ -3,11 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 // eslint-disable-next-line import/no-named-as-default-member
 import authHeader from '../../common/helpers/authHeader';
+import { thunkFetchSidebarCategoriesAndTools } from '../application/applicationSlice';
 
 const { REACT_APP_API_URL } = process.env;
 
 const initialState = {
   username: '',
+  // avatar: profilePicture,
   categories: [],
 };
 
@@ -102,10 +104,7 @@ const thunkLogin =
       dispatch(setUsername(response.data.user.username));
 
       dispatch(setFetchResponse(response.status));
-
-      console.log(response);
     } catch (error) {
-      console.log('⏩ ~ error:', error);
       dispatch(setFetchResponse(error.response.data));
     }
   };
@@ -164,7 +163,6 @@ export const thunkGetUser =
       dispatch(setLastname(response.data.lastname));
       dispatch(setWebsite(response.data.website));
       dispatch(setId(response.data.id));
-      // console.log(response.data);
     } catch (error) {
       throw new Error();
     }
@@ -188,7 +186,9 @@ export const thunkAddToolToUser =
       const response = await axios.post(`${REACT_APP_API_URL}/tools/user/${userId}`, {
         toolId,
       });
-      dispatch(thunkGetUserCategories({ userId }));
+      // TODO mettre a jour le state dynamiquement
+
+      dispatch(thunkFetchSidebarCategoriesAndTools());
     } catch (error) {
       throw new Error();
     }
@@ -203,8 +203,9 @@ export const thunkRemoveToolToUser =
           toolId,
         },
       });
+      // TODO mettre a jour le state dynamiquement
 
-      dispatch(thunkGetUserCategories({ userId }));
+      dispatch(thunkFetchSidebarCategoriesAndTools());
     } catch (error) {
       throw new Error();
     }
