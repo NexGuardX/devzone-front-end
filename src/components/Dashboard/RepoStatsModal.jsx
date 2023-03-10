@@ -10,22 +10,64 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
+import {
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+} from 'chart.js';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Line } from 'react-chartjs-2';
 import { ImStatsDots } from 'react-icons/im';
+import { useSelector } from 'react-redux';
 import { getGithubData } from '../../common/helpers/github';
 
-export default function RepoStatsModal({ repo }) {
-  const { owner: repoOwner, name: repoName } = repo;
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
+export default function RepoStatsModal({ repo }) {
+  const [repoStats, setRepoStats] = useState([]);
+
+  const { owner: repoOwner, name: repoName } = repo;
   const path = `/repos/${repoOwner.login}/${repoName}/stats/commit_activity`;
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const token = useSelector((state) => state.user.githubToken);
 
   useEffect(() => {
-    getGithubData({ path }).then((res) => {
-      console.log('⏩ ~ useEffect ~ res:', res);
+    getGithubData({ path, token }).then((res) => {
+      if (res.length) {
+        // console.log('⏩ ~ getGithubData ~ res.length:', res.length);
+        setRepoStats(res);
+      }
     });
   }, []);
+
+  const weeklyCommits = !repoStats.length
+    ? []
+    : repoStats.reduce((acc, stat) => {
+        acc.push(stat.total);
+        return acc;
+      }, []);
+
+  const labels = weeklyCommits.map(() => '');
+  const datasets = [
+    {
+      label: 'Commits',
+      data: weeklyCommits,
+      borderColor: 'rgb(255, 99, 132)',
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      borderWidth: 1,
+    },
+  ];
+
+  const chartData = {
+    labels,
+    datasets,
+  };
 
   return (
     <>
@@ -35,7 +77,10 @@ export default function RepoStatsModal({ repo }) {
         <ModalContent>
           <ModalHeader>{repo.name}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{repo.name}</ModalBody>
+          <ModalBody>
+            Weekly Commits
+            <Line data={chartData} />
+          </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>Close</Button>
           </ModalFooter>
@@ -48,6 +93,8 @@ export default function RepoStatsModal({ repo }) {
 RepoStatsModal.propTypes = {
   repo: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    owner: PropTypes.string.isRequired,
+    owner: PropTypes.shape({
+      login: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 };
