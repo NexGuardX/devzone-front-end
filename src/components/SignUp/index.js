@@ -6,20 +6,25 @@ import {
   FormControl,
   FormLabel,
   Heading,
-  HStack,
   Input,
   InputGroup,
   InputRightElement,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Stack,
   Text,
   // eslint-disable-next-line prettier/prettier
-  useColorModeValue,
+  useColorModeValue, useDisclosure
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { thunkSignup } from '../../features/user/userSlice';
+import { NavLink } from 'react-router-dom';
+import { setFetchResponse, thunkSignup } from '../../features/user/userSlice';
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +32,8 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
-  const [isError, setIsError] = useState('');
+  const [Error, setError] = useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleUsernameInput = (e) => setUsername(e.target.value);
   const handleEmailInput = (e) => setEmail(e.target.value);
@@ -37,27 +43,39 @@ export default function SignUp() {
   const fetchResponse = useSelector((state) => state.user.response);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
+  function validatePassword(password) {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+  }
+  // eslint-disable-next-line consistent-return
   const handleSubmit = (e) => {
     e.preventDefault();
     const isPasswordMatch = password === confirmedPassword;
     if (!isPasswordMatch) {
-      setIsError('Confirm password should match password');
-      return;
+      return setError('Confirm password should match password');
     }
+    const isValidPassword = validatePassword(password);
 
+    if (!isValidPassword) {
+      return setError(
+        'Password must contain 8 characters, at least one letter, one number and a special character.'
+      );
+    }
+    setError('');
     dispatch(thunkSignup({ username, email, password, confirmedPassword }));
   };
 
   useEffect(() => {
     if (fetchResponse === 'Created') {
-      navigate('/login', {
-        state: {
-          message:
-            'An email has been sent to you, click on the link and you will be able to connect',
-        },
-      });
+      // navigate('/login', {
+      //   state: {
+      //     message:
+      //       'An email has been sent to you, click on the link and you will be able to connect',
+      //   },
+      // });
+      onOpen();
+      dispatch(setFetchResponse(''));
       setUsername('');
       setEmail('');
       setPassword('');
@@ -66,12 +84,7 @@ export default function SignUp() {
   }, [fetchResponse]);
 
   return (
-    <Flex
-      minH="100vh"
-      align="center"
-      justify="center"
-      bg={useColorModeValue('gray.50', 'gray.800')}
-    >
+    <Flex minH="80vh" align="center" justify="center" bg={useColorModeValue('bleu.50', 'gray.800')}>
       <Stack spacing={8} mx="auto" maxW="lg" py={12} px={6}>
         <Stack align="center">
           <Heading fontSize="4xl" textAlign="center">
@@ -86,12 +99,10 @@ export default function SignUp() {
           )}
 
           <form onSubmit={handleSubmit} spacing={4}>
-            <HStack>
-              <FormControl isRequired>
-                <FormLabel>Username</FormLabel>
-                <Input type="text" onChange={handleUsernameInput} />
-              </FormControl>
-            </HStack>
+            <FormControl isRequired>
+              <FormLabel>Username</FormLabel>
+              <Input type="text" minlength="2" onChange={handleUsernameInput} />
+            </FormControl>
             <FormControl isRequired>
               <FormLabel>Email address</FormLabel>
               <Input type="email" onChange={handleEmailInput} />
@@ -126,10 +137,10 @@ export default function SignUp() {
                   </Button>
                 </InputRightElement>
               </InputGroup>
+              <Text color="red" align="center">
+                {Error}
+              </Text>
             </FormControl>
-            <Text color="red" align="center">
-              {isError}
-            </Text>
             <Stack spacing={10} pt={2}>
               <Button
                 type="submit"
@@ -154,6 +165,36 @@ export default function SignUp() {
             </Stack>
           </form>
         </Box>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay backdropFilter="blur(2px)" />
+          <ModalContent>
+            <ModalHeader fontSize="4xl">Congratulations</ModalHeader>
+            <ModalBody>
+              <Text fontWeight="bold" mb="1rem" fontSize="xl">
+                We have sent you a verification e-mail.
+              </Text>
+              <Text>
+                Please verify your account via the link in the e-mail and complete registration.
+              </Text>
+              <br />
+              <Text>
+                If you don&apos;t receive an email from us, please check your spam folder or
+              </Text>
+              <br />
+              <Text fontWeight="bold">
+                <NavLink to="/contact">contact customer support.</NavLink>
+              </Text>
+            </ModalBody>
+
+            <ModalFooter>
+              <NavLink to="/login">
+                <Button colorScheme="blue" mr={3} onClick={onClose}>
+                  Sign In
+                </Button>
+              </NavLink>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Stack>
     </Flex>
   );

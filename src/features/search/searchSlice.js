@@ -66,7 +66,9 @@ const thunkNPMSearch = (searchValue) => async (dispatch) => {
     dispatch(setResults(response.data.results));
     dispatch(setNumberOfResults(response.data.total));
     dispatch(setIsLoaded(true));
+    console.log(response);
   } catch (error) {
+    console.log(error);
     throw new Error();
   }
 };
