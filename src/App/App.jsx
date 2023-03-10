@@ -7,6 +7,10 @@ import AuthRoute from '../components/AuthRoute';
 import Bookmarks from '../components/Bookmarks';
 import Contact from '../components/Contact/index';
 import Home from '../components/Home';
+import LegalNotice from '../components/LegalNotice';
+import LegalNoticeEn from '../components/LegalNotice/LegalNoticeEn';
+import RgpdEn from '../components/LegalNotice/RgpdEn';
+import RgpdFr from '../components/LegalNotice/RgpdFr';
 import Login from '../components/Login';
 import NavBar from '../components/NavBar';
 import News from '../components/News';
@@ -80,6 +84,10 @@ function App() {
             }
           />
         </Route>
+        <Route path="legal-notice" element={<LegalNotice />} />
+        <Route path="legal-notice-en" element={<LegalNoticeEn />} />
+        <Route path="rgpd-fr" element={<RgpdFr />} />
+        <Route path="rgpd-en" element={<RgpdEn />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
