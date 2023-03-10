@@ -10,6 +10,7 @@ import UserInformations from './UserInformations';
 function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const userId = localStorage.getItem('userId');
 
   const user = useSelector((state) => state.user);

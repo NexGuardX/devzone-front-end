@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { RiHtml5Line, RiNewspaperLine, RiSearchLine } from 'react-icons/ri';
 import { SiJavascript } from 'react-icons/si';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { thunkAddToolToUser } from '../../features/user/userSlice';
 import ToolSelector from './ToolSelector';
 
@@ -12,6 +12,8 @@ function CategoryItem({ category, userCategories }) {
   const dispatch = useDispatch();
 
   const userId = localStorage.getItem('userId');
+
+  const isCategoriesUserLoaded = useSelector((state) => state.application.isCategoriesUserLoaded);
 
   const { name, description, tools, id } = category;
   const findUserCategory = userCategories.find((userCategory) => userCategory.id === id);
@@ -29,7 +31,7 @@ function CategoryItem({ category, userCategories }) {
   }
 
   useEffect(() => {
-    if (userCategories.length === 0) {
+    if (isCategoriesUserLoaded && userCategories.length === 0) {
       tools.map((tool) => {
         const toolId = tool.id;
         return dispatch(thunkAddToolToUser({ userId, toolId }));
