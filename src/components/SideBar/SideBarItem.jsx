@@ -5,7 +5,13 @@ import { NavLink } from 'react-router-dom';
 export default function SideBarItem({ icon, text, to, openSearchModal }) {
   return (
     <NavLink to={to}>
-      <Box ps="1rem" pe={{ base: '1rem', lg: '3rem' }} py="0.5rem" _hover={{ bg: 'lightgray' }}>
+      <Box
+        ps="1rem"
+        pe={{ base: '1rem', lg: '3rem' }}
+        py="0.5rem"
+        borderRadius="4px"
+        _hover={{ outline: '1px solid' }}
+      >
         <Tooltip label={text} placement="right" display={{ md: 'initial', lg: 'none' }}>
           <HStack onClick={openSearchModal}>
             <Icon boxSize={{ md: 10, lg: 5 }} as={icon} />

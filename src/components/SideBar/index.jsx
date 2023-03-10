@@ -1,5 +1,6 @@
 import { Box, Flex, VStack } from '@chakra-ui/react';
 import { BsStar } from 'react-icons/bs';
+import { GoRepo } from 'react-icons/go';
 import {
   RiHomeSmileLine,
   RiHtml5Line,
@@ -8,6 +9,7 @@ import {
   RiSearchLine,
 } from 'react-icons/ri';
 import { SiJavascript } from 'react-icons/si';
+import { SlOrganization } from 'react-icons/sl';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenModal } from '../../features/search/searchSlice';
 import SideBarItem from './SideBarItem';
@@ -15,6 +17,7 @@ import SideBarTitle from './SideBarTitle';
 
 function SideBar() {
   const username = useSelector((state) => state.user.username);
+  const githubUsername = useSelector((state) => state.user.githubUsername);
   const categoriesAndTools = useSelector((state) => state.application.sidebarCategoriesAndTools);
   const dispatch = useDispatch();
 
@@ -69,6 +72,13 @@ function SideBar() {
                 ))}
           </Box>
         ))}
+        {!githubUsername ? null : (
+          <>
+            <SideBarTitle text="Github" />
+            <SideBarItem icon={GoRepo} text="Repositories" to="/app/github-repos" />
+            <SideBarItem icon={SlOrganization} text="Organizations" to="/app/github-orgs" />
+          </>
+        )}
       </VStack>
       {/* Bottom sidebar menu */}
       <VStack align="left">

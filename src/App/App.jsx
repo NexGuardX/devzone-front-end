@@ -6,8 +6,9 @@ import AppToolLayout from '../components/AppToolLayout/index';
 import AuthRoute from '../components/AuthRoute';
 import Bookmarks from '../components/Bookmarks';
 import Contact from '../components/Contact/index';
-import Dashboard from '../components/Dashboard';
 import GithubCallback from '../components/GithubCallBack/index';
+import GithubOrgs from '../components/GithubOrgs/index';
+import GithubRepos from '../components/GithubRepos';
 import Home from '../components/Home';
 import Login from '../components/Login';
 import NavBar from '../components/NavBar';
@@ -83,10 +84,18 @@ function App() {
             }
           />
           <Route
-            path="dashboard"
+            path="github-repos"
             element={
               <AuthRoute>
-                <Dashboard />
+                <GithubRepos />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="github-orgs"
+            element={
+              <AuthRoute>
+                <GithubOrgs />
               </AuthRoute>
             }
           />

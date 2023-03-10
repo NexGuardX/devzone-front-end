@@ -4,8 +4,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
-    "source.organizeImports": true,
-    "source.addMissingImports": true
+    "source.organizeImports": true
   },
   "files.autoSave": "off",
   // ESLINT
