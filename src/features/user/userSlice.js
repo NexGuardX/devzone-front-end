@@ -2,8 +2,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 // eslint-disable-next-line import/no-named-as-default-member
+import { api } from '../../common/helpers/api';
 import authHeader from '../../common/helpers/authHeader';
-import { thunkFetchSidebarCategoriesAndTools } from '../application/applicationSlice';
+import {
+  setToastMessage,
+  thunkFetchSidebarCategoriesAndTools,
+} from '../application/applicationSlice';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -215,3 +219,19 @@ export const thunkRemoveToolToUser =
       throw new Error();
     }
   };
+
+/**
+ * Auth with Github
+ * @param { code, redirectUri } data
+ * @returns {any}
+ */
+export const thunkAuthWithGithub = (data) => async (dispatch) => {
+  try {
+    const response = await api.post('/auth/github', data);
+    dispatch(setUserInfos(response.data));
+    dispatch(setToastMessage({ title: 'Github Auth Success', status: 'success' }));
+  } catch (error) {
+    dispatch(setToastMessage({ title: 'Github Auth Error', status: 'error' }));
+    throw new Error();
+  }
+};

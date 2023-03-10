@@ -3,8 +3,7 @@ import { useEffect, useRef } from 'react';
 import { GoMarkGithub } from 'react-icons/go';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { api } from '../../common/helpers/api';
-import { setUserInfos } from '../../features/user/userSlice';
+import { thunkAuthWithGithub } from '../../features/user/userSlice';
 
 const { REACT_APP_GITHUB_OAUTH_REDIRECT_URI: REDIRECT_URI } = process.env;
 
@@ -16,20 +15,11 @@ export default function GithubCallback() {
   // Because of DEV Strictmode
   const executedOnce = useRef(false);
 
-  const getGithubToken = async (data) => {
-    try {
-      const response = await api.post('/auth/github', data);
-      dispatch(setUserInfos(response.data));
-      navigate('/app/dashboard');
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     if (!executedOnce.current) {
-      const redirectUri = `${REDIRECT_URI}`;
-      getGithubToken({ code, redirectUri });
+      dispatch(thunkAuthWithGithub({ code, redirectUri: REDIRECT_URI }))
+        .then(() => navigate('/app/github-repos'))
+        .catch(() => navigate('/login'));
     }
     executedOnce.current = true;
   }, []);

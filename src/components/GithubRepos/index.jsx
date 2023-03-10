@@ -1,18 +1,17 @@
 import { Box, Card, HStack, Link, Tag, Text } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getGithubData } from '../../common/helpers/github';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { thunkFetchUserRepos } from '../../features/github/githubSlice';
 import PageTitle from '../PageTitle';
 import RepoStatsModal from './RepoStatsModal';
 
 export default function GithubRepos() {
-  const [repos, setRepos] = useState([]);
-  console.log('⏩ ~ Dashboard ~ repos:', repos);
+  const dispatch = useDispatch();
+  const repos = useSelector((state) => state.github.repos);
   const token = useSelector((state) => state.user.githubToken);
-  // const username = useSelector((state) => state.user.username);
 
   useEffect(() => {
-    getGithubData({ path: '/user/repos', token }).then((res) => setRepos(res));
+    dispatch(thunkFetchUserRepos());
   }, [token]);
 
   if (!token) {

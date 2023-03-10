@@ -1,17 +1,16 @@
 import { Box, Card, HStack, Link } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getGithubData } from '../../common/helpers/github';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { thunkFetchUserOrgs } from '../../features/github/githubSlice';
 import PageTitle from '../PageTitle';
 
 export default function GithubOrgs() {
-  const [orgs, setOrgs] = useState([]);
-
+  const dispatch = useDispatch();
+  const orgs = useSelector((state) => state.github.orgs);
   const token = useSelector((state) => state.user.githubToken);
-  // const username = useSelector((state) => state.user.username);
 
   useEffect(() => {
-    getGithubData({ path: '/user/orgs', token }).then((res) => setOrgs(res));
+    dispatch(thunkFetchUserOrgs());
   }, [token]);
 
   if (!token) {
