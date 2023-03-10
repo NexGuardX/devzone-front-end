@@ -89,7 +89,7 @@ const thunkLogin =
       } else {
         loginInput = { username: emailOrUsername };
       }
-      const response = await axios.post(`${REACT_APP_API_URL}/login`, {
+      const response = await axios.post(`${REACT_APP_API_URL}/auth/login`, {
         ...loginInput,
         password,
       });
@@ -116,7 +116,7 @@ export const thunkSignup =
     const SignupForm = { username, email, password, confirmedPassword };
     dispatch(setSignupForm(SignupForm));
     try {
-      const response = await axios.post(`${REACT_APP_API_URL}/signup`, {
+      const response = await axios.post(`${REACT_APP_API_URL}/auth/signup`, {
         username,
         email,
         password,

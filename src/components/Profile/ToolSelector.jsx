@@ -39,8 +39,6 @@ function ToolSelector({ tool, icon, isCheck }) {
     // setIsChecked(newIsChecked);
   };
 
-  console.log(numberActiveTools());
-
   useEffect(() => {
     setIsChecked(isCheck);
   }, [isCheck]);
