@@ -57,11 +57,13 @@ function UserInformations({ user }) {
 
   return (
     <Box
-      margin="1rem"
-      maxH="70vh"
-      w={{ base: '100%', md: '300px', lg: '400px' }}
+      margin="1rem auto"
+      marginLeft="1rem"
+      minH={{ base: 'auto', md: '70vh' }}
+      w={{ base: '90%', md: '300px', lg: '400px' }}
       p={{ base: 'none', lg: '1.5rem' }}
       paddingTop="0"
+      paddingBottom="1rem"
       border="1px solid #ddd"
       borderRadius="15px"
     >

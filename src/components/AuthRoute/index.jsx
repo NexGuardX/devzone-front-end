@@ -9,9 +9,11 @@ import { Navigate } from 'react-router-dom';
  * @returns {any} children component or redirection to login page
  */
 export default function AuthRoute({ children }) {
+  const userId = localStorage.getItem('userId');
+
   const username = useSelector((state) => state.user.username);
 
-  if (!username) {
+  if (!userId) {
     return <Navigate to="/login" />;
   }
 
