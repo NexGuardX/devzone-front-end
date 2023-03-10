@@ -1,33 +1,21 @@
 import { Box, Card, Heading, HStack, Link, Tag, Text } from '@chakra-ui/react';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { getGithubData } from '../../common/helpers/github';
 import PageTitle from '../PageTitle';
-
-const getGithubData = async ({ info, token }) => {
-  try {
-    const response = await axios.get(`https://api.github.com/user/${info}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    return console.log('⏩ ~ getGithubData ~ error:', error);
-  }
-};
+import RepoStatsModal from './RepoStatsModal';
 
 export default function Dashboard() {
   const [repos, setRepos] = useState([]);
-  console.log('⏩ ~ Dashboard ~ repos:', repos);
   const [orgs, setOrgs] = useState([]);
+  console.log('⏩ ~ Dashboard ~ repos:', repos);
   console.log('⏩ ~ Dashboard ~ orgs:', orgs);
   const token = useSelector((state) => state.user.githubToken);
   // const username = useSelector((state) => state.user.username);
 
   useEffect(() => {
-    getGithubData({ info: 'repos', token }).then((res) => setRepos(res));
-    getGithubData({ info: 'orgs', token }).then((res) => setOrgs(res));
+    getGithubData({ path: '/user/repos', token }).then((res) => setRepos(res));
+    getGithubData({ path: '/user/orgs', token }).then((res) => setOrgs(res));
   }, [token]);
 
   if (!token) {
@@ -51,6 +39,7 @@ export default function Dashboard() {
               </Link>
               <Tag>{repo.visibility}</Tag>
               <Text> last update {new Date(Date.parse(repo.pushed_at)).toLocaleDateString()}</Text>
+              <RepoStatsModal repo={repo} />
             </HStack>
           </Card>
         ))}
