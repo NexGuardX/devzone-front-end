@@ -10,6 +10,7 @@ const initialState = {
   toastMessage: '',
   sidebarCategoriesAndTools: [],
   tools: [],
+  isCategoriesUserLoaded: false,
 };
 
 export const applicationSlice = createSlice({
@@ -37,12 +38,20 @@ export const applicationSlice = createSlice({
     setTools: (state, action) => {
       state.tools = action.payload;
     },
+    setIsCategoriesUserLoaded: (state, action) => {
+      state.isCategoriesUserLoaded = action.payload;
+    },
   },
 });
 
 export default applicationSlice.reducer;
-export const { setCurrentToolId, setSidebarCategoriesAndTools, setToastMessage, setTools } =
-  applicationSlice.actions;
+export const {
+  setCurrentToolId,
+  setSidebarCategoriesAndTools,
+  setToastMessage,
+  setTools,
+  setIsCategoriesUserLoaded,
+} = applicationSlice.actions;
 
 /** ********************************************* * */
 /** *************** THUNKS ********************** * */
@@ -68,6 +77,7 @@ export const thunkFetchSidebarCategoriesAndTools = () => async (dispatch, getSta
     const response = await api.get(`/categories/user/${userId}`);
     const categories = response.data;
     dispatch(setSidebarCategoriesAndTools(categories));
+    dispatch(setIsCategoriesUserLoaded(true));
   } catch (error) {
     dispatch(setToastMessage({ title: 'Error fetching Sidebar', status: 'error' }));
   }

@@ -3,6 +3,7 @@ import { Flex, FormLabel, Icon, Switch, Text, VStack } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { setToastMessage } from '../../features/application/applicationSlice';
 import { thunkAddToolToUser, thunkRemoveToolToUser } from '../../features/user/userSlice';
 
 function ToolSelector({ tool, icon, isCheck }) {
@@ -22,21 +23,20 @@ function ToolSelector({ tool, icon, isCheck }) {
     return totalTools;
   };
 
-  // eslint-disable-next-line consistent-return
   const handleSwitchChange = (event) => {
     const toolId = event.target.value;
     const newIsChecked = !isChecked;
-    setIsChecked(newIsChecked);
     if (newIsChecked === false) {
-      // if (numberActiveTools() < 2) {
-      //   return dispatch(setToastMessage({ title: 'Test' }));
-      // }
-
+      if (numberActiveTools() < 2) {
+        return dispatch(
+          setToastMessage({ title: 'You must leave one tool actived', status: 'warning' })
+        );
+      }
+      setIsChecked(newIsChecked);
       return dispatch(thunkRemoveToolToUser({ userId, toolId }));
     }
-
-    dispatch(thunkAddToolToUser({ userId, toolId }));
-    // setIsChecked(newIsChecked);
+    setIsChecked(newIsChecked);
+    return dispatch(thunkAddToolToUser({ userId, toolId }));
   };
 
   useEffect(() => {
