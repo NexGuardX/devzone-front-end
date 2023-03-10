@@ -10,7 +10,7 @@ const SCOPE = 'read:user,user:email,read:org';
 const REDIRECT_PATH = '/auth/github';
 const GITHUB_REQUEST_IDENTY_URL = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=${SCOPE}&redirect_uri=${REDIRECT_URI}${REDIRECT_PATH}`;
 
-export default function GithubButton() {
+export default function GithubAuthButton() {
   const handleClick = () => {
     window.location.href = GITHUB_REQUEST_IDENTY_URL;
   };

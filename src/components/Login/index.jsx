@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { thunkLogin } from '../../features/user/userSlice';
-import GithubButton from '../GithubButton';
+import GithubAuthButton from '../GithubAuthButton/index';
 
 function Login() {
   const [emailOrUsername, setEmailOrUsername] = useState('');
@@ -91,7 +91,7 @@ function Login() {
                 Sign in
               </Button>
               <Text align="center">or</Text>
-              <GithubButton />
+              <GithubAuthButton />
             </Stack>
           </form>
         </Box>

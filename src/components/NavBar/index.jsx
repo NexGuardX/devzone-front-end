@@ -18,7 +18,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { BsBoxArrowInRight } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr';
 import { HiOutlineLogout, HiOutlineUserCircle } from 'react-icons/hi';
 import { MdOutlineDarkMode, MdOutlineWbSunny } from 'react-icons/md';
@@ -105,8 +104,16 @@ function NavBar() {
       {/* DESTKOP & GRAND ECRAN --- BurgerMenu */}
       <Box display={{ base: 'none', md: 'block' }}>
         <NavLink to="/app">
-          <Button bg="gray.400" rightIcon={<BsBoxArrowInRight />}>
-            App
+          <Button
+            display={{ base: 'none', md: 'inline-flex' }}
+            fontSize="sm"
+            fontWeight={400}
+            variant="outline"
+            _hover={{
+              bg: 'whiteAlpha.300',
+            }}
+          >
+            <Text color="white">App</Text>
           </Button>
         </NavLink>
       </Box>

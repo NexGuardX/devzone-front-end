@@ -9,6 +9,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Link,
   Modal,
   ModalBody,
   ModalContent,
@@ -102,7 +103,7 @@ export default function SignUp() {
           <form onSubmit={handleSubmit} spacing={4}>
             <FormControl isRequired>
               <FormLabel>Username</FormLabel>
-              <Input type="text" minlength="2" onChange={handleUsernameInput} />
+              <Input type="text" minLength="2" onChange={handleUsernameInput} />
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Email address</FormLabel>
@@ -157,12 +158,10 @@ export default function SignUp() {
               </Button>
             </Stack>
             <Stack pt={6}>
-              <Text align="center">
-                Already a user?
-                <NavLink to="/login">
-                  <Text color="blue.400">Login</Text>
-                </NavLink>
-              </Text>
+              <Text align="center">Already a user?</Text>
+              <Link color="blue.500" textAlign="center" as={NavLink} to="/login">
+                Login
+              </Link>
             </Stack>
           </form>
         </Box>
