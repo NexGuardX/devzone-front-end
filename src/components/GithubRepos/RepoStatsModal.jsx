@@ -24,8 +24,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { ImStatsDots } from 'react-icons/im';
-import { useSelector } from 'react-redux';
-import { getGithubData } from '../../common/helpers/github';
+import { apiGithub } from '../../common/helpers/api';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -35,17 +34,16 @@ export default function RepoStatsModal({ repo }) {
   const { owner: repoOwner, name: repoName } = repo;
   const path = `/repos/${repoOwner.login}/${repoName}/stats/commit_activity`;
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const token = useSelector((state) => state.user.githubToken);
 
   useEffect(() => {
-    getGithubData({ path, token }).then((res) => {
-      if (res.length) {
-        // console.log('⏩ ~ getGithubData ~ res.length:', res.length);
-        setRepoStats(res);
+    apiGithub.get(path).then((res) => {
+      if (res.data.length) {
+        setRepoStats(res.data);
       }
     });
   }, []);
 
+  // Creating weekly commits array from repo statistics
   const weeklyCommits = !repoStats.length
     ? []
     : repoStats.reduce((acc, stat) => {
@@ -53,6 +51,7 @@ export default function RepoStatsModal({ repo }) {
         return acc;
       }, []);
 
+  // CHART DATA
   const labels = weeklyCommits.map(() => '');
   const datasets = [
     {

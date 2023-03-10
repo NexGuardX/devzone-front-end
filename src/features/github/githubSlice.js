@@ -28,28 +28,18 @@ export const { setOrgs, setRepos } = githubSlice.actions;
 /** *************** THUNKS ********************** * */
 /** ********************************************* * */
 
-export const thunkFetchUserRepos = () => async (dispatch, getState) => {
-  const { githubToken: token } = getState().user;
+export const thunkFetchUserRepos = () => async (dispatch) => {
   try {
-    const response = await apiGithub.get('/user/repos', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await apiGithub.get('/user/repos');
     dispatch(setRepos(response.data));
   } catch (error) {
     dispatch(setToastMessage({ title: 'Error loading Github Repositories', status: 'error' }));
   }
 };
 
-export const thunkFetchUserOrgs = () => async (dispatch, getState) => {
-  const { githubToken: token } = getState().user;
+export const thunkFetchUserOrgs = () => async (dispatch) => {
   try {
-    const response = await apiGithub.get('/user/orgs', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await apiGithub.get('/user/orgs');
     dispatch(setOrgs(response.data));
   } catch (error) {
     dispatch(setToastMessage({ title: 'Error loading Github Organizations', status: 'error' }));

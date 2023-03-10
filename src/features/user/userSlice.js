@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 // eslint-disable-next-line import/no-named-as-default-member
-import { api } from '../../common/helpers/api';
+import { api, apiGithub } from '../../common/helpers/api';
 import authHeader from '../../common/helpers/authHeader';
 import {
   setToastMessage,
@@ -228,6 +228,9 @@ export const thunkRemoveToolToUser =
 export const thunkAuthWithGithub = (data) => async (dispatch) => {
   try {
     const response = await api.post('/auth/github', data);
+    // Set axios instance header
+    apiGithub.defaults.headers.authorization = `Bearer ${response.data.githubToken}`;
+    // Dispatch
     dispatch(setUserInfos(response.data));
     dispatch(setToastMessage({ title: 'Github Auth Success', status: 'success' }));
   } catch (error) {
