@@ -217,17 +217,19 @@ function NavBar() {
         </Menu>
       ) : (
         <HStack spacing={6} color="white">
-          <Button
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize="sm"
-            fontWeight={400}
-            variant="outline"
-            _hover={{
-              bg: 'whiteAlpha.300',
-            }}
-          >
-            <NavLink to="/login">Login</NavLink>
-          </Button>
+          <NavLink to="/login">
+            <Button
+              display={{ base: 'none', md: 'inline-flex' }}
+              fontSize="sm"
+              fontWeight={400}
+              variant="outline"
+              _hover={{
+                bg: 'whiteAlpha.300',
+              }}
+            >
+              Login
+            </Button>
+          </NavLink>
           <NavLink to="/signup">
             <Button
               display={{ base: 'none', md: 'inline-flex' }}

@@ -230,6 +230,9 @@ export const thunkAuthWithGithub = (data) => async (dispatch) => {
     const response = await api.post('/auth/github', data);
     // Set axios instance header
     apiGithub.defaults.headers.authorization = `Bearer ${response.data.githubToken}`;
+    localStorage.setItem('userId', response.data.id);
+    localStorage.setItem('githubToken', response.data.githubToken);
+
     // Dispatch
     dispatch(setUserInfos(response.data));
     dispatch(setToastMessage({ title: 'Github Auth Success', status: 'success' }));

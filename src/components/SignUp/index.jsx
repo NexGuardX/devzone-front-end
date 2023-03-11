@@ -27,6 +27,7 @@ import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { setFetchResponse, thunkSignup } from '../../features/user/userSlice';
+import GithubAuthButton from '../GithubAuthButton/index';
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -143,11 +144,10 @@ export default function SignUp() {
                 {Error}
               </Text>
             </FormControl>
-            <Stack spacing={10} pt={2}>
+            <Stack spacing={4} pt={2}>
               <Button
                 type="submit"
                 loadingText="Submitting"
-                size="lg"
                 bg="blue.400"
                 color="white"
                 _hover={{
@@ -156,6 +156,8 @@ export default function SignUp() {
               >
                 Sign up
               </Button>
+              <Text align="center">or</Text>
+              <GithubAuthButton />
             </Stack>
             <Stack pt={6}>
               <Text align="center">Already a user?</Text>

@@ -88,7 +88,7 @@ function Login() {
                   bg: 'blue.500',
                 }}
               >
-                Sign in
+                Login
               </Button>
               <Text align="center">or</Text>
               <GithubAuthButton />
