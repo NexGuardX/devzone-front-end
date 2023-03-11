@@ -28,7 +28,12 @@ export const { setOrgs, setRepos } = githubSlice.actions;
 /** *************** THUNKS ********************** * */
 /** ********************************************* * */
 
-export const thunkFetchUserRepos = () => async (dispatch) => {
+export const thunkFetchUserRepos = () => async (dispatch, getState) => {
+  const token = getState().user.githubToken;
+  if (!token) {
+    return;
+  }
+
   try {
     const response = await apiGithub.get('/user/repos');
     dispatch(setRepos(response.data));
@@ -37,7 +42,12 @@ export const thunkFetchUserRepos = () => async (dispatch) => {
   }
 };
 
-export const thunkFetchUserOrgs = () => async (dispatch) => {
+export const thunkFetchUserOrgs = () => async (dispatch, getState) => {
+  const token = getState().user.githubToken;
+  if (!token) {
+    return;
+  }
+
   try {
     const response = await apiGithub.get('/user/orgs');
     dispatch(setOrgs(response.data));

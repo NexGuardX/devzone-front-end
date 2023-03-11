@@ -241,3 +241,21 @@ export const thunkAuthWithGithub = (data) => async (dispatch) => {
     throw new Error();
   }
 };
+
+export const thunkRestoreLoggedInUser = (userId) => async (dispatch) => {
+  try {
+    const response = await api.get(`/user/${userId}`);
+    dispatch(setUserInfos(response.data));
+
+    const githubToken = localStorage.getItem('githubToken');
+    if (githubToken) {
+      // Set axios instance header
+      apiGithub.defaults.headers.authorization = `Bearer ${githubToken}`;
+      dispatch(setUserInfos({ githubToken }));
+    }
+    // dispatch(setToastMessage({ title: 'Logged in user restored', status: 'success' }));
+  } catch (error) {
+    dispatch(setToastMessage({ title: 'Error restoring logged in user', status: 'error' }));
+    throw new Error();
+  }
+};

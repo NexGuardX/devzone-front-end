@@ -30,10 +30,14 @@ export const { setListGroupedByTools, setTotal } = bookmarksSlice.actions;
 /** ********************************************* * */
 
 export const thunkFetchUserBookmarks = () => async (dispatch, getState) => {
-  const { id } = getState().user;
+  const { id: userId } = getState().user;
+
+  if (!userId) {
+    return;
+  }
 
   try {
-    const response = await api.get(`/bookmarks/user/${id}`);
+    const response = await api.get(`/bookmarks/user/${userId}`);
     dispatch(setListGroupedByTools(response.data));
 
     const total = getTotalBookmarks(response.data);

@@ -59,7 +59,7 @@ export const {
 
 export const thunkFetchSidebarCategoriesAndTools = () => async (dispatch, getState) => {
   const { username, id: userId } = getState().user;
-  if (!username) {
+  if (!userId) {
     try {
       const response = await api.get('/categories');
       const categories = response.data;
