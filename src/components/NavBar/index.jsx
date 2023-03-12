@@ -17,9 +17,9 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { CgClose } from 'react-icons/cg';
-import { HiOutlineLogout, HiOutlineUserCircle } from 'react-icons/hi';
+import { HiOutlineLogin, HiOutlineLogout, HiOutlineUserCircle, HiPencilAlt } from 'react-icons/hi';
 import { MdOutlineDarkMode, MdOutlineWbSunny } from 'react-icons/md';
 import { RxHamburgerMenu, RxPerson } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,8 +44,6 @@ function NavBar() {
     }
   }, [userId]);
 
-  const [burgerMenu, setBurgerMenu] = useState();
-
   const handleClick = () => {
     // remove accessToken & userId from localstorage
     localStorage.removeItem('userToken');
@@ -64,148 +62,40 @@ function NavBar() {
       borderColor={useColorModeValue('gray.200', 'gray.900')}
       align="center"
       h="70px"
+      fontSize={{ base: '2rem', md: '1rem' }}
     >
-      {/* MOBILE & TABLETTE ---- BurgerMenu */}
+      {/** ************** LEFT SIDE ******************* */}
       <Box>
-        <Menu>
-          {({ isOpen }) => (
-            <>
-              <MenuButton
-                isActive={isOpen}
-                aria-label="Menu application"
-                display={{ base: 'block', md: 'none' }}
-              >
-                <Center outline="1px solid" borderRadius="4px" p="4px" color="white">
-                  {isOpen ? <CgClose size="2rem" /> : <RxHamburgerMenu size="2rem" />}
-                </Center>
-              </MenuButton>
-              <MenuList>
-                <MenuItem bg="transparent">
-                  <SideBar />
-                </MenuItem>
-              </MenuList>
-            </>
-          )}
-        </Menu>
-      </Box>
+        {/* MOBILE */}
+        <Box display={{ base: 'block', md: 'none' }}>
+          <Menu>
+            {({ isOpen }) => (
+              <>
+                <MenuButton
+                  as={IconButton}
+                  isActive={isOpen}
+                  aria-label="Menu application"
+                  outline="1px solid"
+                  variant="ghost"
+                  color="white"
+                >
+                  <Center>
+                    {isOpen ? <CgClose size="2rem" /> : <RxHamburgerMenu size="2rem" />}
+                  </Center>
+                </MenuButton>
+                <MenuList>
+                  <MenuItem bg="transparent">
+                    <SideBar />
+                  </MenuItem>
+                </MenuList>
+              </>
+            )}
+          </Menu>
+        </Box>
 
-      {/* DESTKOP & GRAND ECRAN --- BurgerMenu */}
-      <Box display={{ base: 'none', md: 'block' }}>
-        <NavLink to="/app">
-          <Button
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize="sm"
-            fontWeight={400}
-            variant="outline"
-            _hover={{
-              bg: 'whiteAlpha.300',
-            }}
-          >
-            <Text color="white">App</Text>
-          </Button>
-        </NavLink>
-      </Box>
-      <Spacer />
-      <NavLink to="/">
-        <Img src={logodevzoneblack} h="60px" display={{ base: 'none', md: 'block' }} />
-        <Img src={logodz} h="60px" display={{ base: 'block', md: 'none' }} />
-      </NavLink>
-
-      <Spacer />
-      {/* MOBILE & TABLETTE -  Profile */}
-      {user ? (
-        <Menu>
-          <MenuButton
-            display={{ base: 'block', md: 'none' }}
-            as={IconButton}
-            rounded="full"
-            variant="link"
-            cursor="pointer"
-            minW={0}
-          >
-            <Avatar size="md" name={user} src={avatar} />
-          </MenuButton>
-          <MenuList>
-            <NavLink to="/profile">
-              <MenuItem>
-                <HStack>
-                  <Icon as={HiOutlineUserCircle} />
-                  <Text>Profile</Text>
-                </HStack>
-              </MenuItem>
-            </NavLink>
-            <MenuItem onClick={toggleColorMode}>
-              <HStack>
-                <Icon as={colorMode === 'light' ? MdOutlineDarkMode : MdOutlineWbSunny} />
-                <Text>{colorMode === 'light' ? 'Dark' : 'Light'} Mode</Text>
-              </HStack>
-            </MenuItem>
-            <NavLink to="/login">
-              <MenuItem onClick={handleClick}>
-                <HStack>
-                  <Icon as={HiOutlineLogout} />
-                  <Text>Logout</Text>
-                </HStack>
-              </MenuItem>
-            </NavLink>
-          </MenuList>
-        </Menu>
-      ) : (
-        <Menu p="2">
-          <MenuButton
-            as={IconButton}
-            aria-label="Menu application"
-            display={{ base: 'block', md: 'none' }}
-          >
-            <Center>
-              <RxPerson size="2rem" />
-            </Center>
-          </MenuButton>
-          <MenuList>
-            <NavLink to="/login">
-              <MenuItem>Login</MenuItem>
-            </NavLink>
-            <NavLink to="/signup">
-              <MenuItem>Sign up</MenuItem>
-            </NavLink>
-          </MenuList>
-        </Menu>
-      )}
-      {/* DESTKOP & GRAND ECRAN --- Profile */}
-
-      {user ? (
-        <Menu>
-          <MenuButton display={{ base: 'none', md: 'block' }} rounded="full" variant="link">
-            <Avatar size="md" name={user} src={avatar} />
-          </MenuButton>
-          <MenuList>
-            <NavLink to="/profile">
-              <MenuItem>
-                <HStack>
-                  <Icon as={HiOutlineUserCircle} />
-                  <Text>Profile</Text>
-                </HStack>
-              </MenuItem>
-            </NavLink>
-            <MenuItem onClick={toggleColorMode}>
-              <HStack>
-                <Icon as={colorMode === 'light' ? MdOutlineDarkMode : MdOutlineWbSunny} />
-                <Text>{colorMode === 'light' ? 'Dark' : 'Light'} Mode</Text>
-              </HStack>
-            </MenuItem>
-            <NavLink to="/login">
-              <MenuItem onClick={handleClick}>
-                <HStack>
-                  <Icon as={HiOutlineLogout} />
-                  <Text>Logout</Text>
-                </HStack>
-              </MenuItem>
-            </NavLink>
-          </MenuList>
-        </Menu>
-      ) : (
-        <HStack spacing={6} color="white">
-          <NavLink to="/login">
+        {/* DESTKOP & GRAND ECRAN --- BurgerMenu */}
+        <Box display={{ base: 'none', md: 'block' }}>
+          <NavLink to="/app">
             <Button
               display={{ base: 'none', md: 'inline-flex' }}
               fontSize="sm"
@@ -215,23 +105,121 @@ function NavBar() {
                 bg: 'whiteAlpha.300',
               }}
             >
-              Login
+              <Text color="white">App</Text>
             </Button>
           </NavLink>
-          <NavLink to="/signup">
-            <Button
-              display={{ base: 'none', md: 'inline-flex' }}
-              fontSize="sm"
-              fontWeight={600}
-              bg="pink.400"
-              _hover={{
-                bg: 'pink.300',
-              }}
-            >
-              Sign Up
-            </Button>
-          </NavLink>
-        </HStack>
+        </Box>
+      </Box>
+
+      <Spacer />
+
+      {/** ************** CENTER ******************* */}
+      <NavLink to="/">
+        <Img src={logodevzoneblack} h="60px" display={{ base: 'none', md: 'block' }} />
+        <Img src={logodz} h="60px" display={{ base: 'block', md: 'none' }} />
+      </NavLink>
+
+      <Spacer />
+
+      {/** ************** RIGHT SIDE ******************* */}
+      {user ? (
+        <Menu>
+          <MenuButton as={IconButton} rounded="full" variant="link" cursor="pointer" minW={0}>
+            <Avatar size="md" name={user} src={avatar} />
+          </MenuButton>
+          <MenuList>
+            <NavLink to="/profile">
+              <MenuItem>
+                <HStack>
+                  <Icon as={HiOutlineUserCircle} />
+                  <Text>Profile</Text>
+                </HStack>
+              </MenuItem>
+            </NavLink>
+            <MenuItem onClick={toggleColorMode}>
+              <HStack>
+                <Icon as={colorMode === 'light' ? MdOutlineDarkMode : MdOutlineWbSunny} />
+                <Text>{colorMode === 'light' ? 'Dark' : 'Light'} Mode</Text>
+              </HStack>
+            </MenuItem>
+            <NavLink to="/login">
+              <MenuItem onClick={handleClick}>
+                <HStack>
+                  <Icon as={HiOutlineLogout} />
+                  <Text>Logout</Text>
+                </HStack>
+              </MenuItem>
+            </NavLink>
+          </MenuList>
+        </Menu>
+      ) : (
+        <>
+          {/* MOBILE */}
+          <Box display={{ base: 'block', md: 'none' }}>
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="Menu application"
+                variant="ghost"
+                outline="1px solid"
+                bg="transparent"
+                color="white"
+              >
+                <Center>
+                  <RxPerson size="2rem" />
+                </Center>
+              </MenuButton>
+              <MenuList>
+                <NavLink to="/login">
+                  <MenuItem>
+                    <HStack>
+                      <Icon as={HiOutlineLogin} />
+                      <Text>Login</Text>
+                    </HStack>
+                  </MenuItem>
+                </NavLink>
+
+                <NavLink to="/signup">
+                  <MenuItem onClick={handleClick}>
+                    <HStack>
+                      <Icon as={HiPencilAlt} />
+                      <Text>Sign Up</Text>
+                    </HStack>
+                  </MenuItem>
+                </NavLink>
+              </MenuList>
+            </Menu>
+          </Box>
+
+          {/* DESTKOP & TABLET */}
+          <HStack spacing={6} color="white" display={{ base: 'none', md: 'inline-flex' }}>
+            <NavLink to="/login">
+              <Button
+                fontSize="sm"
+                fontWeight={400}
+                variant="outline"
+                _hover={{
+                  bg: 'whiteAlpha.300',
+                }}
+              >
+                Login
+              </Button>
+            </NavLink>
+            <NavLink to="/signup">
+              <Button
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize="sm"
+                fontWeight={600}
+                bg="pink.400"
+                _hover={{
+                  bg: 'pink.300',
+                }}
+              >
+                Sign Up
+              </Button>
+            </NavLink>
+          </HStack>
+        </>
       )}
     </Flex>
   );
