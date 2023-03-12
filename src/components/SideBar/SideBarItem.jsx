@@ -12,10 +12,19 @@ export default function SideBarItem({ icon, text, to, openSearchModal }) {
         borderRadius="4px"
         _hover={{ outline: '1px solid' }}
       >
-        <Tooltip label={text} placement="right" display={{ md: 'initial', lg: 'none' }}>
+        <Tooltip
+          label={text}
+          placement="right"
+          display={{ base: 'none', md: 'initial', lg: 'none' }}
+        >
           <HStack onClick={openSearchModal}>
-            <Icon boxSize={{ md: 10, lg: 5 }} as={icon} />
-            <Text display={{ md: 'none', lg: 'initial' }}>{text}</Text>
+            <Icon boxSize={{ base: 8, md: 10, lg: 5 }} as={icon} />
+            <Text
+              display={{ md: 'none', lg: 'initial' }}
+              fontSize={{ base: '2rem', md: 'none', lg: 'initial' }}
+            >
+              {text}
+            </Text>
           </HStack>
         </Tooltip>
       </Box>

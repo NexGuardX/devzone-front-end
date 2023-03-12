@@ -18,7 +18,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { GrClose } from 'react-icons/gr';
+import { CgClose } from 'react-icons/cg';
 import { HiOutlineLogout, HiOutlineUserCircle } from 'react-icons/hi';
 import { MdOutlineDarkMode, MdOutlineWbSunny } from 'react-icons/md';
 import { RxHamburgerMenu, RxPerson } from 'react-icons/rx';
@@ -27,6 +27,7 @@ import { NavLink } from 'react-router-dom';
 import logodevzoneblack from '../../assets/images/devzonewhite.png';
 import logodz from '../../assets/images/logo-dz.png';
 import { logout, thunkGetUser } from '../../features/user/userSlice';
+import SideBar from '../SideBar/index';
 
 function NavBar() {
   const user = useSelector((state) => state.user.username);
@@ -67,37 +68,24 @@ function NavBar() {
       {/* MOBILE & TABLETTE ---- BurgerMenu */}
       <Box>
         <Menu>
-          <MenuButton
-            as={IconButton}
-            aria-label="Menu application"
-            display={{ base: 'block', md: 'none' }}
-            // eslint-disable-next-line no-shadow
-            onClick={() => setBurgerMenu((burgerMenu) => !burgerMenu)}
-          >
-            <Center>
-              {burgerMenu ? <GrClose size="2rem" /> : <RxHamburgerMenu size="2rem" />}
-            </Center>
-          </MenuButton>
-          <MenuList>
-            <NavLink to="/">
-              <MenuItem>Home</MenuItem>
-            </NavLink>
-            <NavLink to="/app/news">
-              <MenuItem>News</MenuItem>
-            </NavLink>
-            <NavLink to="/app/search">
-              <MenuItem>Search</MenuItem>
-            </NavLink>
-            <NavLink to="/app/playground-js">
-              <MenuItem>Javascript</MenuItem>
-            </NavLink>
-            <NavLink to="/app/playground-html">
-              <MenuItem>HTML</MenuItem>
-            </NavLink>
-            <NavLink to="/contact">
-              <MenuItem>Contact</MenuItem>
-            </NavLink>
-          </MenuList>
+          {({ isOpen }) => (
+            <>
+              <MenuButton
+                isActive={isOpen}
+                aria-label="Menu application"
+                display={{ base: 'block', md: 'none' }}
+              >
+                <Center outline="1px solid" p="4px">
+                  {isOpen ? <CgClose size="2rem" /> : <RxHamburgerMenu size="2rem" />}
+                </Center>
+              </MenuButton>
+              <MenuList>
+                <MenuItem bg="transparent">
+                  <SideBar />
+                </MenuItem>
+              </MenuList>
+            </>
+          )}
         </Menu>
       </Box>
 

@@ -43,12 +43,11 @@ function SideBar() {
 
   return (
     <Flex
-      display={{ base: 'none', md: 'flex' }}
       flexDirection="column"
       justifyContent="space-between"
       px="1rem"
       py="2rem"
-      borderRight="1px solid gray"
+      borderRight={{ base: 'none', md: '1px solid gray' }}
     >
       {/* Upper sidebar menu */}
       <VStack align="left">
