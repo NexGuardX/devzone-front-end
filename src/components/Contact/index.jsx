@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Container,
   Flex,
   FormControl,
   FormLabel,
@@ -9,6 +10,8 @@ import {
   Input,
   Select,
   Spinner,
+  Stack,
+  Text,
   Textarea,
   useToast,
   VStack,
@@ -16,6 +19,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { RiMailSendLine } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import Reaptcha from 'reaptcha';
 import { thunkContactForm } from '../../features/application/applicationSlice';
 
@@ -72,7 +76,7 @@ export default function Contact() {
     setCaptcha(value);
   };
   return (
-    <Flex justify="center" alignItems="center" minH="80dvh" p="2rem 1rem">
+    <Flex justify="center" alignItems="center" p="2rem 1rem" minH="80vh" flexDirection="column">
       <Box p="2rem" border="1px solid gray" borderRadius={10} w="90%" maxW="800px">
         <form method="POST" ref={formRef} onSubmit={handleSubmit}>
           <VStack>
@@ -127,6 +131,19 @@ export default function Contact() {
             </Button>
           </VStack>
         </form>
+      </Box>
+      <Box w="100%">
+        <Container
+          as={Stack}
+          maxW="6xl"
+          py={4}
+          spacing={4}
+          align={{ base: 'center', md: 'center' }}
+        >
+          <Text>
+            © 2023 DevZone. All rights reserved. <NavLink to="/legal-notice">Legal notice</NavLink>{' '}
+          </Text>
+        </Container>
       </Box>
     </Flex>
   );
