@@ -78,6 +78,7 @@ function NavBar() {
                   outline="1px solid"
                   variant="ghost"
                   color="white"
+                  _focus={{ bg: 'transparent' }}
                 >
                   <Center>
                     {isOpen ? <CgClose size="2rem" /> : <RxHamburgerMenu size="2rem" />}
@@ -164,6 +165,7 @@ function NavBar() {
                 outline="1px solid"
                 bg="transparent"
                 color="white"
+                _focus={{ bg: 'transparent' }}
               >
                 <Center>
                   <RxPerson size="2rem" />
