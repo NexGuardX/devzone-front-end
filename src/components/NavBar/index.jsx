@@ -75,7 +75,7 @@ function NavBar() {
                 aria-label="Menu application"
                 display={{ base: 'block', md: 'none' }}
               >
-                <Center outline="1px solid" p="4px">
+                <Center outline="1px solid" borderRadius="4px" p="4px" color="white">
                   {isOpen ? <CgClose size="2rem" /> : <RxHamburgerMenu size="2rem" />}
                 </Center>
               </MenuButton>
