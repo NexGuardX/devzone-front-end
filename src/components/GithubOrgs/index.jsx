@@ -10,7 +10,6 @@ import PageTitle from '../PageTitle';
 export default function GithubOrgs() {
   const dispatch = useDispatch();
   const orgs = useSelector((state) => state.github.orgs);
-  console.log('⏩ ~ GithubOrgs ~ orgs:', orgs);
   const token = useSelector((state) => state.user.githubToken);
 
   useEffect(() => {

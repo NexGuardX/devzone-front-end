@@ -21,6 +21,10 @@ function SideBar() {
   const categoriesAndTools = useSelector((state) => state.application.sidebarCategoriesAndTools);
   const dispatch = useDispatch();
 
+  // Sort By order
+  const categoriesAndToolsToDisplay = [...categoriesAndTools];
+  categoriesAndToolsToDisplay.sort((a, b) => a.category_order - b.category_order);
+
   const handleSearchModal = () => {
     dispatch(setOpenModal(true));
   };
@@ -52,7 +56,7 @@ function SideBar() {
       {/* Upper sidebar menu */}
       <VStack align="left">
         {username ? <SideBarItem icon={BsStar} text="Bookmarks" to="/app/bookmarks" /> : null}
-        {categoriesAndTools.map((category) => (
+        {categoriesAndToolsToDisplay.map((category) => (
           <Box key={category.name} mb="1rem">
             <SideBarTitle text={category.name} />
             {!category.tools.length || !category.tools[0]
