@@ -44,7 +44,7 @@ function ToolSelector({ tool, icon, isCheck }) {
   }, [isCheck]);
 
   return (
-    <VStack>
+    <VStack borderTop="1px solid #56BAC4">
       <Flex justifyContent="space-between" alignItems="center" w="300px" p="0.5rem">
         <Icon as={icon} boxSize={{ base: 7 }} />
         <FormLabel value={tool.id} marginBottom="0">

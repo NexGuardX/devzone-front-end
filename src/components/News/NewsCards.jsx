@@ -90,7 +90,8 @@ export default function NewsCards({ entries }) {
             </Box>
             {username ? (
               <IconButton
-                variant="ghost"
+                marginTop="0.5rem"
+                // variant="ghost"
                 icon={
                   isBookmarked(item.link, toolId, bookmarksGroupedByTools) ? (
                     <BsStarFill

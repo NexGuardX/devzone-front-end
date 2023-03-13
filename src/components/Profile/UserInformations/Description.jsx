@@ -1,7 +1,5 @@
-import { Box, Flex, Heading, HStack, Text } from '@chakra-ui/react';
+import { Box, Heading, HStack, Text } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import { BsBoxArrowRight } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
 
 function Description({ user }) {
   return (
@@ -19,7 +17,7 @@ function Description({ user }) {
         </Heading>
       </HStack>
 
-      <Box m="0.3rem">
+      {/* <Box m="0.3rem">
         <Link to={user.website} target="_blank">
           <Flex
             flexDirection="row"
@@ -31,7 +29,7 @@ function Description({ user }) {
             My website <BsBoxArrowRight size="0.9rem" />
           </Flex>
         </Link>
-      </Box>
+      </Box> */}
     </Box>
   );
 }
@@ -42,7 +40,6 @@ Description.propTypes = {
     firstname: PropTypes.string,
     lastname: PropTypes.string,
     website: PropTypes.string,
-    description: PropTypes.string,
   }).isRequired,
 };
 

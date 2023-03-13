@@ -67,7 +67,6 @@ function SOFCardResult({ result }) {
         </Link>
         {username ? (
           <IconButton
-            variant="ghost"
             icon={
               isBookmarked(result.link, toolId, bookmarksGroupedByTools) ? (
                 <BsStarFill
