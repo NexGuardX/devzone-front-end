@@ -6,6 +6,7 @@ import {
   FormControl,
   FormLabel,
   Heading,
+  Icon,
   Input,
   Select,
   Spinner,
@@ -16,7 +17,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
-import { GrSend } from 'react-icons/gr';
+import { RiMailSendLine } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import Reaptcha from 'reaptcha';
@@ -125,7 +126,7 @@ export default function Contact() {
                 size="xl"
               />
             )}
-            <Button rightIcon={<GrSend />} type="submit">
+            <Button rightIcon={<Icon as={RiMailSendLine} />} type="submit">
               Send
             </Button>
           </VStack>

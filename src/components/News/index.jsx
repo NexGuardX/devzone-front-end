@@ -85,7 +85,7 @@ export default function News() {
     <Box p="2rem" maxW="1200px" margin="0 auto">
       <PageTitle text="News" />
 
-      <SimpleGrid minChildWidth="320px" gap="2rem">
+      <SimpleGrid minChildWidth="300px" gap="2rem">
         <NewsSkeleton isLoaded={isLoaded} />
         <NewsCards entries={entries} />
       </SimpleGrid>

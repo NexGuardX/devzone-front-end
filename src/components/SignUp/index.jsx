@@ -9,6 +9,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Link,
   Modal,
   ModalBody,
   ModalContent,
@@ -18,13 +19,15 @@ import {
   Stack,
   Text,
   // eslint-disable-next-line prettier/prettier
-  useColorModeValue, useDisclosure
+  useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { setFetchResponse, thunkSignup } from '../../features/user/userSlice';
+import GithubAuthButton from '../GithubAuthButton/index';
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -84,7 +87,7 @@ export default function SignUp() {
   }, [fetchResponse]);
 
   return (
-    <Flex minH="80vh" align="center" justify="center" bg={useColorModeValue('bleu.50', 'gray.800')}>
+    <Flex minH="80vh" align="center" justify="center">
       <Stack spacing={8} mx="auto" maxW="lg" py={12} px={6}>
         <Stack align="center">
           <Heading fontSize="4xl" textAlign="center">
@@ -101,7 +104,7 @@ export default function SignUp() {
           <form onSubmit={handleSubmit} spacing={4}>
             <FormControl isRequired>
               <FormLabel>Username</FormLabel>
-              <Input type="text" minlength="2" onChange={handleUsernameInput} />
+              <Input type="text" minLength="2" onChange={handleUsernameInput} />
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Email address</FormLabel>
@@ -141,11 +144,10 @@ export default function SignUp() {
                 {Error}
               </Text>
             </FormControl>
-            <Stack spacing={10} pt={2}>
+            <Stack spacing={4} pt={2}>
               <Button
                 type="submit"
                 loadingText="Submitting"
-                size="lg"
                 bg="blue.400"
                 color="white"
                 _hover={{
@@ -154,14 +156,14 @@ export default function SignUp() {
               >
                 Sign up
               </Button>
+              <Text align="center">or</Text>
+              <GithubAuthButton />
             </Stack>
             <Stack pt={6}>
-              <Text align="center">
-                Already a user?
-                <NavLink to="/login">
-                  <Text color="blue.400">Login</Text>
-                </NavLink>
-              </Text>
+              <Text align="center">Already a user?</Text>
+              <Link color="blue.500" textAlign="center" as={NavLink} to="/login">
+                Login
+              </Link>
             </Stack>
           </form>
         </Box>

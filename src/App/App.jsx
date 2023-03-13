@@ -6,6 +6,9 @@ import AppToolLayout from '../components/AppToolLayout/index';
 import AuthRoute from '../components/AuthRoute';
 import Bookmarks from '../components/Bookmarks';
 import Contact from '../components/Contact/index';
+import GithubCallback from '../components/GithubCallBack/index';
+import GithubOrgs from '../components/GithubOrgs/index';
+import GithubRepos from '../components/GithubRepos';
 import Home from '../components/Home';
 import LegalNotice from '../components/LegalNotice';
 import LegalNoticeEn from '../components/LegalNotice/LegalNoticeEn';
@@ -25,6 +28,7 @@ import {
   thunkFetchTools,
 } from '../features/application/applicationSlice';
 import { thunkFetchUserBookmarks } from '../features/bookmarks/bookmarksSlice';
+import { thunkRestoreLoggedInUser } from '../features/user/userSlice';
 import './App.css';
 
 /**
@@ -33,23 +37,29 @@ import './App.css';
  */
 function App() {
   const dispatch = useDispatch();
-  const username = useSelector((state) => state.user.username);
+  const userId = useSelector((state) => state.user.id);
   const toastMessage = useSelector((state) => state.application.toastMessage);
   const toast = useToast();
+
+  useEffect(() => {
+    // eslint-disable-next-line no-shadow
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      dispatch(thunkRestoreLoggedInUser(userId));
+    }
+  }, []);
+
+  useEffect(() => {
+    dispatch(thunkFetchTools());
+    dispatch(thunkFetchSidebarCategoriesAndTools());
+    dispatch(thunkFetchUserBookmarks());
+  }, [userId]);
 
   useEffect(() => {
     if (toastMessage) {
       toast(toastMessage);
     }
   }, [toastMessage]);
-
-  useEffect(() => {
-    if (username) {
-      dispatch(thunkFetchUserBookmarks());
-    }
-    dispatch(thunkFetchSidebarCategoriesAndTools());
-    dispatch(thunkFetchTools());
-  }, [username]);
 
   return (
     <div className="App">
@@ -58,6 +68,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/auth/github" element={<GithubCallback />} />
         <Route
           path="/profile"
           element={
@@ -66,7 +78,6 @@ function App() {
             </AuthRoute>
           }
         />
-        <Route path="/signup" element={<SignUp />} />
 
         <Route path="/app" element={<AppToolLayout />}>
           {/* use Navigate instead of element to go to path and not only dislay element (for setting toolId) */}
@@ -80,6 +91,22 @@ function App() {
             element={
               <AuthRoute>
                 <Bookmarks />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="github-repos"
+            element={
+              <AuthRoute>
+                <GithubRepos />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="github-orgs"
+            element={
+              <AuthRoute>
+                <GithubOrgs />
               </AuthRoute>
             }
           />

@@ -50,14 +50,7 @@ export default function NewsCards({ entries }) {
   return (
     <>
       {entries.map((item) => (
-        <Card
-          bg="gray.100"
-          boxShadow="xl"
-          key={item.title}
-          border="1px solid lightgray"
-          p="0.5rem"
-          mb="3"
-        >
+        <Card boxShadow="xl" key={item.title} border="1px solid lightgray" p="0.5rem" mb="3">
           <CardBody>
             <Flex height="100%" flexDirection="column" justifyContent="space-between">
               <VStack align="stretch" height="100%">

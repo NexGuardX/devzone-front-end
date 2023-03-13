@@ -24,7 +24,9 @@ export default function AppToolLayout() {
 
   return (
     <Flex minH="calc(100dvh - 70px)" maxH="calc(100dvh - 70px)">
-      <SideBar />
+      <Flex display={{ base: 'none', md: 'flex' }}>
+        <SideBar />
+      </Flex>
       <Box ref={ref} flexGrow="1" overflowY="auto">
         <Outlet />
       </Box>

@@ -1,5 +1,6 @@
 import { Box, Flex, VStack } from '@chakra-ui/react';
 import { BsStar } from 'react-icons/bs';
+import { GoRepo } from 'react-icons/go';
 import {
   RiHomeSmileLine,
   RiHtml5Line,
@@ -8,6 +9,7 @@ import {
   RiSearchLine,
 } from 'react-icons/ri';
 import { SiJavascript } from 'react-icons/si';
+import { SlOrganization } from 'react-icons/sl';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOpenModal } from '../../features/search/searchSlice';
 import SideBarItem from './SideBarItem';
@@ -15,8 +17,13 @@ import SideBarTitle from './SideBarTitle';
 
 function SideBar() {
   const username = useSelector((state) => state.user.username);
+  const githubUsername = useSelector((state) => state.user.githubUsername);
   const categoriesAndTools = useSelector((state) => state.application.sidebarCategoriesAndTools);
   const dispatch = useDispatch();
+
+  // Sort By order
+  const categoriesAndToolsToDisplay = [...categoriesAndTools];
+  categoriesAndToolsToDisplay.sort((a, b) => a.category_order - b.category_order);
 
   const handleSearchModal = () => {
     dispatch(setOpenModal(true));
@@ -40,17 +47,16 @@ function SideBar() {
 
   return (
     <Flex
-      display={{ base: 'none', md: 'flex' }}
       flexDirection="column"
       justifyContent="space-between"
       px="1rem"
       py="2rem"
-      borderRight="1px solid gray"
+      borderRight={{ base: 'none', md: '1px solid gray' }}
     >
       {/* Upper sidebar menu */}
       <VStack align="left">
         {username ? <SideBarItem icon={BsStar} text="Bookmarks" to="/app/bookmarks" /> : null}
-        {categoriesAndTools.map((category) => (
+        {categoriesAndToolsToDisplay.map((category) => (
           <Box key={category.name} mb="1rem">
             <SideBarTitle text={category.name} />
             {!category.tools.length || !category.tools[0]
@@ -69,6 +75,13 @@ function SideBar() {
                 ))}
           </Box>
         ))}
+        {!githubUsername ? null : (
+          <>
+            <SideBarTitle text="Github" />
+            <SideBarItem icon={GoRepo} text="Repositories" to="/app/github-repos" />
+            <SideBarItem icon={SlOrganization} text="Organizations" to="/app/github-orgs" />
+          </>
+        )}
       </VStack>
       {/* Bottom sidebar menu */}
       <VStack align="left">
