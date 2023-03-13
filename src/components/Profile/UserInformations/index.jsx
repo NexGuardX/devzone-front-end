@@ -153,7 +153,7 @@ function UserInformations({ user }) {
                     onChange={handleChange}
                     type="text"
                     name="website"
-                    defaultValue={user.website ? user.website : 'http://'}
+                    defaultValue={user.website}
                     placeholder="Website"
                   />
                 </FormLabel>

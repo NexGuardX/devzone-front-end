@@ -106,7 +106,6 @@ function NPMCardResult({ result }) {
             </Link>
             {username ? (
               <IconButton
-                variant="ghost"
                 icon={
                   isBookmarked(result.links.npm, toolId, bookmarksGroupedByTools) ? (
                     <BsStarFill

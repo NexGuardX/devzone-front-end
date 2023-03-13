@@ -112,7 +112,6 @@ function GHCardResult({ result }) {
 
           {username ? (
             <IconButton
-              variant="ghost"
               icon={
                 isBookmarked(result.html_url, toolId, bookmarksGroupedByTools) ? (
                   <BsStarFill
@@ -139,7 +138,7 @@ GHCardResult.propTypes = {
       avatar_url: PropTypes.string,
     }),
     name: PropTypes.string,
-    language: PropTypes.string.isRequired,
+    language: PropTypes.string,
     html_url: PropTypes.string.isRequired,
     homepage: PropTypes.string,
     ssh_url: PropTypes.string.isRequired,
@@ -149,6 +148,7 @@ GHCardResult.propTypes = {
 GHCardResult.defaultProps = {
   result: {
     homepage: null,
+    language: null,
   },
 };
 export default GHCardResult;

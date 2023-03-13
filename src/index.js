@@ -1,4 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react';
+import '@fontsource/dosis';
+import '@fontsource/jetbrains-mono';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -7,13 +9,14 @@ import App from './App/App';
 import store from './App/store';
 import './assets/styles/index.scss';
 import reportWebVitals from './reportWebVitals';
+import theme from './Theme/theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
           <App />
         </ChakraProvider>
       </Provider>
