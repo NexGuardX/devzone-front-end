@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 // eslint-disable-next-line import/no-named-as-default-member
 import { api, apiGithub } from '../../common/helpers/api';
 import authHeader from '../../common/helpers/authHeader';
@@ -98,7 +97,7 @@ const thunkLogin =
       } else {
         loginInput = { username: emailOrUsername };
       }
-      const response = await axios.post(`${REACT_APP_API_URL}/auth/login`, {
+      const response = await api.post(`/auth/login`, {
         ...loginInput,
         password,
       });
@@ -125,7 +124,7 @@ export const thunkSignup =
     const SignupForm = { username, email, password, confirmedPassword };
     dispatch(setSignupForm(SignupForm));
     try {
-      const response = await axios.post(`${REACT_APP_API_URL}/auth/signup`, {
+      const response = await api.post(`/auth/signup`, {
         username,
         email,
         password,
@@ -140,7 +139,7 @@ export const thunkSignup =
 export const thunkUpdateProfil = (form, id) => async (dispatch) => {
   const { username, email, firstname, lastname, website, password } = form;
   try {
-    const response = await axios.patch(`${REACT_APP_API_URL}/user/${id}`, {
+    const response = await api.patch(`/user/${id}`, {
       username,
       email,
       firstname,
@@ -163,7 +162,7 @@ export const thunkGetUser =
   ({ userId }) =>
   async (dispatch) => {
     try {
-      const response = await axios.get(`${REACT_APP_API_URL}/user/${userId}`, {
+      const response = await api.get(`/user/${userId}`, {
         headers: authHeader(),
       });
       dispatch(setUsername(response.data.username));
@@ -181,7 +180,7 @@ export const thunkGetUserCategories =
   ({ userId }) =>
   async (dispatch) => {
     try {
-      const response = await axios.get(`${REACT_APP_API_URL}/categories/user/${userId}`);
+      const response = await api.get(`/categories/user/${userId}`);
       dispatch(setCategoriesUser(response.data));
     } catch (error) {
       throw new Error();
@@ -192,7 +191,7 @@ export const thunkAddToolToUser =
   ({ userId, toolId }) =>
   async (dispatch) => {
     try {
-      const response = await axios.post(`${REACT_APP_API_URL}/tools/user/${userId}`, {
+      const response = await api.post(`/tools/user/${userId}`, {
         toolId,
       });
       // TODO mettre a jour le state dynamiquement
@@ -207,7 +206,7 @@ export const thunkRemoveToolToUser =
   ({ userId, toolId }) =>
   async (dispatch) => {
     try {
-      const response = await axios.delete(`${REACT_APP_API_URL}/tools/user/${userId}`, {
+      const response = await api.delete(`/tools/user/${userId}`, {
         data: {
           toolId,
         },

@@ -59,7 +59,7 @@ function CategoryItem({ category, userCategories }) {
       justifyContent="space-between"
       p="0.5rem 2rem"
       marginX="1rem"
-      borderBottom="1px solid #ddd"
+      borderBottom="1px solid #D72ED2"
       w={{ base: '100%', md: '60%' }}
     >
       <Heading fontSize="1.5rem" as="h3">

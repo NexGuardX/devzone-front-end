@@ -116,10 +116,11 @@ export default function SignUp() {
                 <Input type={showPassword ? 'text' : 'password'} onChange={handlePasswordInput} />
                 <InputRightElement h="full">
                   <Button
+                    p="0.3rem"
                     variant="ghost"
                     onClick={() => setShowPassword((showPassword) => !showPassword)}
                   >
-                    {showPassword ? <IoEyeOutline size="2rem" /> : <IoEyeOffOutline size="2rem" />}
+                    {showPassword ? <IoEyeOutline size="1rem" /> : <IoEyeOffOutline size="1rem" />}
                   </Button>
                 </InputRightElement>
               </InputGroup>
@@ -133,10 +134,11 @@ export default function SignUp() {
                 />
                 <InputRightElement h="full">
                   <Button
+                    p="0.3rem"
                     variant="ghost"
                     onClick={() => setShowPassword((showPassword) => !showPassword)}
                   >
-                    {showPassword ? <IoEyeOutline size="2rem" /> : <IoEyeOffOutline size="2rem" />}
+                    {showPassword ? <IoEyeOutline size="1rem" /> : <IoEyeOffOutline size="1rem" />}
                   </Button>
                 </InputRightElement>
               </InputGroup>
