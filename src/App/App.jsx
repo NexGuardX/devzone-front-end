@@ -31,30 +31,30 @@ import { thunkFetchUserBookmarks } from '../features/bookmarks/bookmarksSlice';
 import { thunkRestoreLoggedInUser } from '../features/user/userSlice';
 import './App.css';
 
-/**
- * Main Appliccation React Component
- * @returns {JSX.elements} React Component
- */
 function App() {
+  // Redux hooks to access store values and dispatch actions
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
   const toastMessage = useSelector((state) => state.application.toastMessage);
   const toast = useToast();
 
   useEffect(() => {
-    // eslint-disable-next-line no-shadow
+    // Check if a user is already logged in by looking for their ID in local storage
     const userId = localStorage.getItem('userId');
     if (userId) {
+      // If a user is found, restore their session
       dispatch(thunkRestoreLoggedInUser(userId));
     }
   }, []);
 
+  // Fetch tools, categories, and user bookmarks when the component is mounted or when the user ID changes
   useEffect(() => {
     dispatch(thunkFetchTools());
     dispatch(thunkFetchSidebarCategoriesAndTools());
     dispatch(thunkFetchUserBookmarks());
   }, [userId]);
 
+  // Display a toast message when the toastMessage value in the store changes
   useEffect(() => {
     if (toastMessage) {
       toast(toastMessage);
@@ -65,11 +65,13 @@ function App() {
     <div className="App">
       <NavBar />
       <Routes>
+        {/* Define routes for the different pages of the app */}
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/auth/github" element={<GithubCallback />} />
+        {/* Use the AuthRoute component to only allow authenticated users to access the Profile page */}
         <Route
           path="/profile"
           element={
@@ -79,37 +81,11 @@ function App() {
           }
         />
 
+        {/* Define routes for the different pages of the app that are nested under the AppToolLayout component */}
         <Route path="/app" element={<AppToolLayout />}>
-          {/* use Navigate instead of element to go to path and not only dislay element (for setting toolId) */}
-          <Route index element={<Navigate to="/app/news" />} />
-          <Route path="news" element={<News />} />
-          <Route path="search" element={<Search />} />
-          <Route path="playground-js" element={<PlaygroundJs />} />
-          <Route path="playground-html" element={<PlaygroundHtml />} />
-          <Route
-            path="bookmarks"
-            element={
-              <AuthRoute>
-                <Bookmarks />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path="github-repos"
-            element={
-              <AuthRoute>
-                <GithubRepos />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path="github-orgs"
-            element={
-              <AuthRoute>
-                <GithubOrgs />
-              </AuthRoute>
-            }
-          />
+          {/* Use Navigate instead of element to go to path and not only dislay element (for setting toolId) */}
+          {/* The News page is the default page to display under
+
         </Route>
         <Route path="legal-notice" element={<LegalNotice />} />
         <Route path="legal-notice-en" element={<LegalNoticeEn />} />
